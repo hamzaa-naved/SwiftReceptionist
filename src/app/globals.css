@@ -1,0 +1,179 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/*
+  Swift Receptionist design tokens.
+
+  Brand idea: speed. The palette is "workwear premium" — deep ink navy,
+  warm paper white, and a single high-energy flame orange used for the
+  speed motif and key numbers. Orange is always paired with dark text
+  (never white-on-orange) to stay WCAG AA.
+
+  The site ships as a fixed light theme: cold-outreach visitors judge
+  legitimacy in seconds, and a single deliberate theme reads more
+  premium than a system-dependent one. Dark "ink" sections are used as
+  design elements instead.
+*/
+
+:root {
+  /* Brand scales */
+  --ink-950: #0a0f1e;
+  --ink-900: #111a33;
+  --ink-800: #1b2747;
+  --ink-700: #2b3a63;
+  --ink-500: #4d5d8a;
+  --ink-300: #9aa7c7;
+  --ink-100: #e3e8f2;
+  --paper: #faf9f6;
+  --paper-warm: #f4f2ec;
+  --flame-600: #d54708;
+  --flame-500: #f4560a;
+  --flame-400: #ff7a29;
+  --flame-100: #ffe8da;
+  --flame-50: #fff4ee;
+  --success-600: #15803d;
+
+  /* shadcn/ui contract */
+  --background: var(--paper);
+  --foreground: var(--ink-950);
+  --card: #ffffff;
+  --card-foreground: var(--ink-950);
+  --popover: #ffffff;
+  --popover-foreground: var(--ink-950);
+  --primary: var(--ink-900);
+  --primary-foreground: #fdfcfa;
+  --secondary: var(--paper-warm);
+  --secondary-foreground: var(--ink-900);
+  --muted: var(--paper-warm);
+  --muted-foreground: #55617e;
+  --accent: var(--flame-50);
+  --accent-foreground: var(--flame-600);
+  --destructive: #b91c1c;
+  --destructive-foreground: #fdfcfa;
+  --border: #e5e2d9;
+  --input: #d8d4c8;
+  --ring: var(--flame-500);
+  --radius: 0.875rem;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-ink-950: var(--ink-950);
+  --color-ink-900: var(--ink-900);
+  --color-ink-800: var(--ink-800);
+  --color-ink-700: var(--ink-700);
+  --color-ink-500: var(--ink-500);
+  --color-ink-300: var(--ink-300);
+  --color-ink-100: var(--ink-100);
+  --color-paper: var(--paper);
+  --color-paper-warm: var(--paper-warm);
+  --color-flame-600: var(--flame-600);
+  --color-flame-500: var(--flame-500);
+  --color-flame-400: var(--flame-400);
+  --color-flame-100: var(--flame-100);
+  --color-flame-50: var(--flame-50);
+  --color-success-600: var(--success-600);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-bricolage), var(--font-inter), ui-sans-serif,
+    system-ui, sans-serif;
+
+  --radius-sm: calc(var(--radius) - 6px);
+  --radius-md: calc(var(--radius) - 3px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 6px);
+  --radius-2xl: calc(var(--radius) + 14px);
+
+  --shadow-card: 0 1px 2px rgb(10 15 30 / 0.05), 0 8px 24px -12px rgb(10 15 30 / 0.12);
+  --shadow-lift: 0 2px 4px rgb(10 15 30 / 0.06), 0 16px 40px -16px rgb(10 15 30 / 0.2);
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+  --animate-ring-pulse: ring-pulse 2.4s cubic-bezier(0.2, 0.6, 0.4, 1) infinite;
+  --animate-streak: streak 1.1s cubic-bezier(0.7, 0, 0.2, 1) both;
+}
+
+@keyframes accordion-down {
+  from { height: 0; }
+  to { height: var(--radix-accordion-content-height); }
+}
+@keyframes accordion-up {
+  from { height: var(--radix-accordion-content-height); }
+  to { height: 0; }
+}
+@keyframes ring-pulse {
+  0% { transform: scale(1); opacity: 0.55; }
+  80% { transform: scale(2.1); opacity: 0; }
+  100% { transform: scale(2.1); opacity: 0; }
+}
+@keyframes streak {
+  from { transform: translateX(-110%); }
+  to { transform: translateX(0); }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--flame-100);
+  color: var(--ink-950);
+}
+
+/* Display type: tight, confident */
+.font-display {
+  font-family: var(--font-bricolage), var(--font-inter), ui-sans-serif,
+    system-ui, sans-serif;
+  letter-spacing: -0.02em;
+}
+
+/* Signature motif: the swift streak (speed lines before a kicker) */
+.streak-lines {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.streak-lines::before {
+  content: "";
+  width: 22px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, var(--flame-500));
+}
+
+/* Balanced headlines */
+.text-balance { text-wrap: balance; }
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
