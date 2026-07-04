@@ -1,0 +1,70 @@
+import type { Metadata } from "next";
+import { CalendarClock, Mail } from "lucide-react";
+import { site } from "@/lib/site";
+import { getBookingEmbed } from "@/lib/integrations/booking";
+import { Section, SectionHeader } from "@/components/shared/section";
+import { LeadForm } from "@/components/shared/lead-form";
+
+export const metadata: Metadata = {
+  title: "Book a Call",
+  description:
+    "Book a 15-minute call: we'll show the AI receptionist configured for your business and give you straight answers on pricing and setup.",
+  alternates: { canonical: `${site.url}/contact` },
+};
+
+export default function ContactPage() {
+  const booking = getBookingEmbed();
+
+  return (
+    <>
+      <Section className="pt-32 md:pt-40">
+        <SectionHeader
+          kicker="Book a call"
+          title="Fifteen minutes. No pitch deck, no pressure."
+          lede="We'll ask about your call volume, show you the receptionist handling your kind of calls, and give you an exact price. If it's not a fit, we'll say so."
+        />
+
+        <div className="grid items-start gap-10 lg:grid-cols-[1.2fr_1fr]">
+          {booking.embedUrl ? (
+            <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-card">
+              <iframe
+                src={booking.embedUrl}
+                title="Book a call"
+                loading="lazy"
+                className="h-[640px] w-full"
+              />
+            </div>
+          ) : (
+            <div className="flex h-full min-h-72 flex-col items-center justify-center rounded-2xl border border-dashed border-input bg-paper-warm p-8 text-center">
+              <CalendarClock className="mb-4 h-8 w-8 text-muted-foreground" aria-hidden />
+              <h2 className="font-display text-lg font-bold">
+                Calendar booking is almost live
+              </h2>
+              <p className="mt-2 max-w-sm text-sm leading-relaxed text-muted-foreground">
+                Use the form and we&apos;ll call you back to find a time —
+                usually the same business day.
+              </p>
+            </div>
+          )}
+
+          <div>
+            <h2 className="font-display mb-4 text-xl font-bold">
+              Prefer we call you?
+            </h2>
+            <LeadForm />
+            <p className="mt-6 flex items-center justify-center gap-2 text-sm text-muted-foreground">
+              <Mail className="h-4 w-4" aria-hidden />
+              Or email us directly:{" "}
+              <a
+                href={`mailto:${site.contact.email}`}
+                className="font-semibold text-flame-600 underline-offset-4 hover:underline"
+              >
+                {site.contact.email}
+              </a>
+            </p>
+          </div>
+        </div>
+      </Section>
+    </>
+  );
+}
