@@ -55,6 +55,8 @@ export function RoiCalculator({
     const mc = clamp(q.get("mc"), 1, 40);
     const jv = clamp(q.get("jv"), 50, 5000);
     const cr = clamp(q.get("cr"), 10, 90);
+    // One-time sync with the URL (browser-only); keeps the page static.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (mc !== undefined) setMissedCalls(mc);
     if (jv !== undefined) setJobValue(jv);
     if (cr !== undefined) setCloseRate(cr);

@@ -22,8 +22,7 @@ export function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close the mobile menu on navigation
-  useEffect(() => setOpen(false), [pathname]);
+  const closeMenu = () => setOpen(false);
 
   return (
     <header
@@ -96,6 +95,7 @@ export function Header() {
             <Link
               key={item.href}
               href={item.href}
+              onClick={closeMenu}
               className="block rounded-md px-2 py-3 text-base font-medium text-ink-700 hover:bg-paper-warm hover:text-foreground"
             >
               {item.label}
@@ -103,7 +103,12 @@ export function Header() {
           ))}
           <div className="mt-3 grid gap-2">
             <Button asChild variant="outline">
-              <TrackedLink event="cta_try_demo" eventProps={{ location: "nav_mobile_menu" }} href={site.cta.secondary.href}>
+              <TrackedLink
+                event="cta_try_demo"
+                eventProps={{ location: "nav_mobile_menu" }}
+                href={site.cta.secondary.href}
+                onClick={closeMenu}
+              >
                 {site.cta.secondary.label}
               </TrackedLink>
             </Button>

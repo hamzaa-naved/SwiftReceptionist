@@ -138,6 +138,8 @@ function VoicePanel({
   const [transcript, setTranscript] = useState<ChatMessage[]>([]);
 
   useEffect(() => {
+    // One-time sync with localStorage (browser-only); hydration-safe.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setRemaining(sessionsRemaining());
     return () => adapter.stop();
     // eslint-disable-next-line react-hooks/exhaustive-deps

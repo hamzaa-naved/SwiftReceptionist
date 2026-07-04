@@ -95,7 +95,7 @@ export default function ResultsPage() {
             <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-muted-foreground">
               Early clients are on the phones as you read this. As each agrees
               to share their numbers — calls answered, jobs booked, after-hours
-              revenue captured — they'll be published here with their name on
+              revenue captured — they&apos;ll be published here with their name on
               it. No composites, no “results may vary” fine print doing the
               heavy lifting.
             </p>
