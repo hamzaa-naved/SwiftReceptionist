@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link2, Check, TrendingDown } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
@@ -41,6 +41,24 @@ export function RoiCalculator({
   const [closeRate, setCloseRate] = useState(defaults.closeRatePct);
   const [copied, setCopied] = useState(false);
   const trackedInteraction = useRef(false);
+
+  // Shared links (?mc=&jv=&cr=) pre-fill the sliders. Read client-side so
+  // pages using the calculator stay fully static.
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search);
+    const clamp = (raw: string | null, min: number, max: number) => {
+      const n = Number(raw);
+      return raw !== null && Number.isFinite(n)
+        ? Math.min(max, Math.max(min, n))
+        : undefined;
+    };
+    const mc = clamp(q.get("mc"), 1, 40);
+    const jv = clamp(q.get("jv"), 50, 5000);
+    const cr = clamp(q.get("cr"), 10, 90);
+    if (mc !== undefined) setMissedCalls(mc);
+    if (jv !== undefined) setJobValue(jv);
+    if (cr !== undefined) setCloseRate(cr);
+  }, []);
 
   const monthlyLoss = useMemo(
     () => Math.round(missedCalls * WEEKS_PER_MONTH * (closeRate / 100) * jobValue),
