@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { m, useReducedMotion, useSpring, useTransform } from "motion/react";
 import { Link2, Check, TrendingDown } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
@@ -147,11 +148,8 @@ export function RoiCalculator({
             <TrendingDown className="mr-1 inline h-4 w-4" aria-hidden />
             Leaking to voicemail
           </p>
-          <p
-            className="font-display mt-4 text-5xl font-bold tabular-nums tracking-tight text-flame-400"
-            aria-live="polite"
-          >
-            {formatUsd(monthlyLoss)}
+          <p className="font-display mt-4 text-5xl font-bold tabular-nums tracking-tight text-flame-400">
+            <AnimatedUsd value={monthlyLoss} />
             <span className="text-lg font-medium text-ink-300"> /month</span>
           </p>
           <p className="mt-2 text-ink-300">
@@ -200,6 +198,31 @@ export function RoiCalculator({
         </div>
       </div>
     </div>
+  );
+}
+
+/**
+ * Spring count-up for the headline dollar figure. The animated span is
+ * aria-hidden; a static sr-only value with aria-live announces one settled
+ * number to screen readers instead of a stream of intermediate frames.
+ */
+function AnimatedUsd({ value }: { value: number }) {
+  const reduceMotion = useReducedMotion();
+  const spring = useSpring(value, { stiffness: 120, damping: 24 });
+  const display = useTransform(spring, (v) => formatUsd(Math.round(v)));
+
+  useEffect(() => {
+    if (reduceMotion) spring.jump(value);
+    else spring.set(value);
+  }, [value, spring, reduceMotion]);
+
+  return (
+    <>
+      <m.span aria-hidden>{display}</m.span>
+      <span className="sr-only" aria-live="polite">
+        {formatUsd(value)}
+      </span>
+    </>
   );
 }
 

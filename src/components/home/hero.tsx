@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion, useReducedMotion, AnimatePresence } from "motion/react";
+import { useEffect, useRef, useState } from "react";
+import { m, useInView, useReducedMotion, AnimatePresence } from "motion/react";
 import { PhoneIncoming, CalendarCheck, MessageSquareText, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TrackedLink } from "@/components/shared/tracked-link";
@@ -13,7 +13,24 @@ const savedCalls = [
   { niche: "Well & pump", line: "“We turned on the tap and there's nothing—”", job: "No-water priority · booked same day" },
 ];
 
+// One orchestrated moment on the page that matters most: kicker → headline
+// → lede → CTAs rise in sequence, then the call card slides in.
+const stagger = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.09, delayChildren: 0.05 } },
+};
+const rise = {
+  hidden: { opacity: 0, y: 18 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, ease: [0.21, 0.65, 0.35, 1] as const },
+  },
+};
+
 export function Hero() {
+  const reduceMotion = useReducedMotion();
+
   return (
     <div className="relative overflow-hidden bg-ink-950 pb-16 pt-32 text-paper md:pb-24 md:pt-44">
       {/* Speed-line backdrop */}
@@ -27,21 +44,34 @@ export function Hero() {
         }}
       />
       <div className="relative mx-auto grid w-full max-w-6xl items-center gap-14 px-5 sm:px-8 lg:grid-cols-[1.15fr_1fr]">
-        <div>
-          <p className="streak-lines mb-5 text-sm font-semibold uppercase tracking-widest text-flame-400">
+        <m.div
+          variants={stagger}
+          initial={reduceMotion ? false : "hidden"}
+          animate="visible"
+        >
+          <m.p
+            variants={rise}
+            className="streak-lines mb-5 text-sm font-semibold uppercase tracking-widest text-flame-400"
+          >
             <Zap className="mr-1 inline h-4 w-4" aria-hidden />
             24/7 AI receptionist for local service businesses
-          </p>
-          <h1 className="font-display text-balance text-4xl font-bold leading-[1.05] sm:text-5xl lg:text-6xl">
+          </m.p>
+          <m.h1
+            variants={rise}
+            className="font-display text-balance text-4xl font-bold leading-[1.05] sm:text-5xl lg:text-6xl"
+          >
             Every missed call is a job your{" "}
             <span className="text-flame-400">competitor</span> just booked.
-          </h1>
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-300">
+          </m.h1>
+          <m.p
+            variants={rise}
+            className="mt-6 max-w-xl text-lg leading-relaxed text-ink-300"
+          >
             Swift Receptionist answers your line in seconds — nights, weekends,
             mid-job — books the work, and texts you the details. No hiring, no
             contracts, live in days.
-          </p>
-          <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+          </m.p>
+          <m.div variants={rise} className="mt-9 flex flex-col gap-3 sm:flex-row">
             <Button
               asChild
               size="lg"
@@ -70,34 +100,50 @@ export function Hero() {
                 Talk to it right now
               </TrackedLink>
             </Button>
-          </div>
-          <p className="mt-5 text-sm text-ink-500">
+          </m.div>
+          <m.p variants={rise} className="mt-5 text-sm text-ink-300">
             Skeptical? Good. The demo answers like it&apos;s your front desk —
             judge it with your own ears.
-          </p>
-        </div>
+          </m.p>
+        </m.div>
 
-        <LiveCallCard />
+        <m.div
+          initial={reduceMotion ? false : { opacity: 0, x: 24, scale: 0.98 }}
+          animate={{ opacity: 1, x: 0, scale: 1 }}
+          transition={{ duration: 0.6, delay: 0.45, ease: [0.21, 0.65, 0.35, 1] }}
+        >
+          <LiveCallCard />
+        </m.div>
       </div>
     </div>
   );
 }
 
-/** Rotating "saved call" card — the product, shown instead of described. */
+/**
+ * Rotating "saved call" card — the product, shown instead of described.
+ * Rotation pauses when the card is off-screen or the tab is hidden, and
+ * never runs for reduced-motion users.
+ */
 function LiveCallCard() {
   const reduceMotion = useReducedMotion();
   const [index, setIndex] = useState(0);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(cardRef, { amount: 0.3 });
 
   useEffect(() => {
-    if (reduceMotion) return;
-    const id = setInterval(() => setIndex((i) => (i + 1) % savedCalls.length), 4200);
+    if (reduceMotion || !inView) return;
+    const id = setInterval(() => {
+      if (!document.hidden) {
+        setIndex((i) => (i + 1) % savedCalls.length);
+      }
+    }, 4200);
     return () => clearInterval(id);
-  }, [reduceMotion]);
+  }, [reduceMotion, inView]);
 
   const call = savedCalls[index];
 
   return (
-    <div aria-hidden className="relative mx-auto w-full max-w-sm">
+    <div ref={cardRef} aria-hidden className="relative mx-auto w-full max-w-sm">
       <div className="rounded-2xl border border-ink-800 bg-ink-900/80 p-5 shadow-lift backdrop-blur">
         <div className="flex items-center gap-3">
           <span className="relative flex h-10 w-10 items-center justify-center rounded-full bg-flame-500/15">
@@ -116,7 +162,7 @@ function LiveCallCard() {
         </div>
 
         <AnimatePresence mode="wait">
-          <motion.div
+          <m.div
             key={index}
             initial={reduceMotion ? false : { opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
@@ -131,10 +177,10 @@ function LiveCallCard() {
               <CalendarCheck className="h-4 w-4 shrink-0 text-flame-400" />
               <p className="text-sm font-medium text-paper">{call.job}</p>
             </div>
-          </motion.div>
+          </m.div>
         </AnimatePresence>
 
-        <p className="mt-4 text-center text-[11px] uppercase tracking-wider text-ink-500">
+        <p className="mt-4 text-center text-[11px] uppercase tracking-wider text-ink-300">
           Illustrative — try the real thing on the demo page
         </p>
       </div>
