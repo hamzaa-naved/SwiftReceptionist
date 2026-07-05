@@ -50,7 +50,7 @@ export function FinalCta({
             </TrackedLink>
           </Button>
         </div>
-        <p className="mt-5 text-sm text-ink-500">
+        <p className="mt-5 text-sm text-ink-300">
           No contracts. Set up in days. Cancel anytime.
         </p>
       </div>

@@ -55,9 +55,11 @@ export function DemoExperience() {
         </p>
       </div>
 
-      {/* Talk / Type toggle */}
+      {/* Talk / Type toggle — plain pressed-state buttons (a full tabs
+          pattern would require tabpanel wiring + arrow-key handling for
+          two options; aria-pressed is the honest, simpler semantic) */}
       <div
-        role="tablist"
+        role="group"
         aria-label="Demo mode"
         className="mx-auto mt-8 flex w-fit rounded-full border border-ink-800 bg-ink-900 p-1"
       >
@@ -106,8 +108,7 @@ function ModeTab({
   return (
     <button
       type="button"
-      role="tab"
-      aria-selected={active}
+      aria-pressed={active}
       onClick={onClick}
       className={cn(
         "inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-ring",
@@ -237,7 +238,7 @@ function VoicePanel({
               <Mic className="relative h-9 w-9" aria-hidden />
             </button>
             <p className="mt-5 font-semibold text-paper">Tap to call the receptionist</p>
-            <p className="mt-1 text-xs text-ink-500">
+            <p className="mt-1 text-xs text-ink-300">
               Uses your microphone · ~{Math.round(DEMO_MAX_DURATION_SECONDS / 60)} min max
               {remaining !== null && ` · ${remaining} session${remaining === 1 ? "" : "s"} left today`}
             </p>
@@ -329,7 +330,7 @@ function ChatPanel({ bizName, nicheSlug }: { bizName: string; nicheSlug: string 
 
   return (
     <Card>
-      <p className="border-b border-ink-800 px-5 py-2.5 text-center text-[11px] font-medium uppercase tracking-wider text-ink-500">
+      <p className="border-b border-ink-800 px-5 py-2.5 text-center text-[11px] font-medium uppercase tracking-wider text-ink-300">
         Scripted text preview — the voice demo is the real experience
       </p>
       <div ref={scrollRef} className="h-80 space-y-3 overflow-y-auto p-5">

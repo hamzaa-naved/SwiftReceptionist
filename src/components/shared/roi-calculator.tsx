@@ -159,7 +159,7 @@ export function RoiCalculator({
             </strong>{" "}
             in jobs going to whoever answered instead.
           </p>
-          <p className="mt-4 text-xs leading-relaxed text-ink-500">
+          <p className="mt-4 text-xs leading-relaxed text-ink-300">
             Math: {missedCalls} missed calls/week × {WEEKS_PER_MONTH} weeks ×{" "}
             {closeRate}% booking rate × {formatUsd(jobValue)} per job.
           </p>

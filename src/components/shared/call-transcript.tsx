@@ -56,7 +56,7 @@ export function CallTranscript({
           </div>
         ))}
       </div>
-      <p className="border-t border-ink-800 px-5 py-3 text-xs text-ink-500">
+      <p className="border-t border-ink-800 px-5 py-3 text-xs text-ink-300">
         Example conversation — scripts are tailored to your business during
         setup.
       </p>

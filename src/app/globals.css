@@ -26,7 +26,8 @@
   --ink-100: #e3e8f2;
   --paper: #faf9f6;
   --paper-warm: #f4f2ec;
-  --flame-600: #d54708;
+  /* Darker than the display shade so small text passes AA on paper (≥4.5:1) */
+  --flame-600: #c23f06;
   --flame-500: #f4560a;
   --flame-400: #ff7a29;
   --flame-100: #ffe8da;

@@ -90,14 +90,14 @@ export default function PricingPage() {
                 <p className="font-display text-3xl font-bold text-paper">
                   $3,000+<span className="text-base font-medium text-ink-300">/mo</span>
                 </p>
-                <p className="mt-1 text-xs text-ink-500">
+                <p className="mt-1 text-xs text-ink-300">
                   One person, business hours, one call at a time.
                 </p>
                 <p className="mt-5 text-sm text-ink-300">Swift Receptionist:</p>
                 <p className="font-display text-3xl font-bold text-flame-400">
                   A fraction of that
                 </p>
-                <p className="mt-1 text-xs text-ink-500">
+                <p className="mt-1 text-xs text-ink-300">
                   Every call, all hours, exact quote on your 15-minute call.
                 </p>
               </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TrackedLink } from "@/components/shared/tracked-link";
@@ -15,6 +15,7 @@ const DISMISS_KEY = "sr-exit-cta-dismissed";
  */
 export function ScrollCta() {
   const [show, setShow] = useState(false);
+  const dialogRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (sessionStorage.getItem(DISMISS_KEY)) return;
@@ -37,13 +38,28 @@ export function ScrollCta() {
     sessionStorage.setItem(DISMISS_KEY, "1");
   };
 
+  // Keyboard-complete: focus moves into the dialog when it appears,
+  // Escape dismisses it.
+  useEffect(() => {
+    if (!show) return;
+    dialogRef.current?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") dismiss();
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [show]);
+
   if (!show) return null;
 
   return (
     <div
+      ref={dialogRef}
       role="dialog"
       aria-label="Before you go"
-      className="fixed bottom-6 right-6 z-50 hidden w-96 rounded-2xl border border-ink-800 bg-ink-950 p-6 text-paper shadow-lift md:block"
+      tabIndex={-1}
+      className="fixed bottom-6 right-6 z-50 hidden w-96 rounded-2xl border border-ink-800 bg-ink-950 p-6 text-paper shadow-lift focus-visible:outline-2 focus-visible:outline-ring md:block"
     >
       <button
         type="button"
