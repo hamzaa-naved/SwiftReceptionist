@@ -6,6 +6,7 @@ import { ArrowLeft } from "lucide-react";
 import { getAllPosts, getPost } from "@/lib/blog";
 import { getNiche } from "@/content/niches";
 import { site } from "@/lib/site";
+import { breadcrumbJsonLd } from "@/lib/seo";
 import { JsonLd } from "@/components/shared/json-ld";
 import { Section } from "@/components/shared/section";
 import { FinalCta } from "@/components/shared/final-cta";
@@ -57,6 +58,13 @@ export default async function BlogPostPage({
           author: { "@type": "Organization", name: site.name, url: site.url },
           publisher: { "@type": "Organization", name: site.name, url: site.url },
         }}
+      />
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", url: site.url },
+          { name: "Resources", url: `${site.url}/blog` },
+          { name: post.title, url: `${site.url}/blog/${post.slug}` },
+        ])}
       />
       <Section className="pt-32 md:pt-40">
         <article className="mx-auto max-w-2xl">

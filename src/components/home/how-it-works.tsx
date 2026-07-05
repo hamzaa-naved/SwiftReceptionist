@@ -34,7 +34,7 @@ export function HowItWorks({ standalone = false }: { standalone?: boolean }) {
       <ol className="grid gap-6 md:grid-cols-3">
         {steps.map((step, i) => (
           <Reveal key={step.title} delay={i * 0.08}>
-            <li className="relative h-full rounded-2xl border border-border bg-card p-6 shadow-card">
+            <li className="relative h-full rounded-2xl border border-border bg-card p-6 shadow-card transition-shadow hover:shadow-lift">
               <div className="mb-4 flex items-center justify-between">
                 <span className="font-display flex h-10 w-10 items-center justify-center rounded-xl bg-ink-950 text-lg font-bold text-flame-400">
                   {i + 1}

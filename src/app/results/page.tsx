@@ -116,7 +116,7 @@ export default function ResultsPage() {
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {tracked.map((t, i) => (
             <Reveal key={t.label} delay={i * 0.05}>
-              <div className="h-full rounded-2xl border border-border bg-card p-6 shadow-card">
+              <div className="h-full rounded-2xl border border-border bg-card p-6 shadow-card transition-shadow hover:shadow-lift">
                 <t.icon className="mb-4 h-6 w-6 text-flame-600" aria-hidden />
                 <h3 className="font-display mb-1.5 text-base font-bold">{t.label}</h3>
                 <p className="text-sm leading-relaxed text-muted-foreground">{t.detail}</p>

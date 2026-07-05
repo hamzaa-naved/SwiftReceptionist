@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { AlertTriangle, PhoneMissed } from "lucide-react";
 import { niches, getNiche } from "@/content/niches";
 import { site } from "@/lib/site";
-import { serviceJsonLd, faqJsonLd } from "@/lib/seo";
+import { serviceJsonLd, faqJsonLd, breadcrumbJsonLd } from "@/lib/seo";
 import { JsonLd } from "@/components/shared/json-ld";
 import { Section, SectionHeader } from "@/components/shared/section";
 import { Reveal } from "@/components/shared/reveal";
@@ -58,6 +58,13 @@ export default async function NichePage({
         })}
       />
       <JsonLd data={faqJsonLd(niche.faq)} />
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", url: site.url },
+          { name: "Industries", url: `${site.url}/industries` },
+          { name: niche.name, url: `${site.url}/industries/${niche.slug}` },
+        ])}
+      />
 
       {/* Hero */}
       <Section className="pt-32 md:pt-40">
@@ -133,7 +140,7 @@ export default async function NichePage({
         <div className="grid gap-6 md:grid-cols-3">
           {niche.pains.map((pain, i) => (
             <Reveal key={pain.title} delay={i * 0.08}>
-              <div className="h-full rounded-2xl border border-border bg-card p-6 shadow-card">
+              <div className="h-full rounded-2xl border border-border bg-card p-6 shadow-card transition-shadow hover:shadow-lift">
                 <AlertTriangle className="mb-4 h-6 w-6 text-flame-600" aria-hidden />
                 <h3 className="font-display mb-2 text-lg font-bold">
                   {pain.title}

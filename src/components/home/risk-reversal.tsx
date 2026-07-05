@@ -35,7 +35,7 @@ export function RiskReversal() {
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {promises.map((p, i) => (
           <Reveal key={p.title} delay={i * 0.06}>
-            <div className="h-full rounded-2xl border border-border bg-card p-6 text-center shadow-card">
+            <div className="h-full rounded-2xl border border-border bg-card p-6 text-center shadow-card transition-shadow hover:shadow-lift">
               <p.icon className="mx-auto mb-4 h-7 w-7 text-flame-600" aria-hidden />
               <h3 className="font-display mb-2 text-base font-bold">{p.title}</h3>
               <p className="text-sm leading-relaxed text-muted-foreground">

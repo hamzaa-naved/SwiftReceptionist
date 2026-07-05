@@ -31,7 +31,7 @@ export function Problem() {
       <div className="grid gap-6 md:grid-cols-3">
         {problems.map((p, i) => (
           <Reveal key={p.title} delay={i * 0.08}>
-            <div className="h-full rounded-2xl border border-border bg-card p-6 shadow-card">
+            <div className="h-full rounded-2xl border border-border bg-card p-6 shadow-card transition-shadow hover:shadow-lift">
               <p.icon className="mb-4 h-6 w-6 text-flame-600" aria-hidden />
               <h3 className="font-display mb-2 text-lg font-bold">{p.title}</h3>
               <p className="text-sm leading-relaxed text-muted-foreground">

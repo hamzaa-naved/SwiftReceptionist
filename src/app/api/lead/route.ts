@@ -22,6 +22,15 @@ const hits = new Map<string, { count: number; windowStart: number }>();
 
 function rateLimited(ip: string): boolean {
   const now = Date.now();
+
+  // Keep the map bounded on long-lived warm instances: sweep expired
+  // windows once it grows past a sane ceiling.
+  if (hits.size > 1000) {
+    for (const [key, value] of hits) {
+      if (now - value.windowStart > WINDOW_MS) hits.delete(key);
+    }
+  }
+
   const entry = hits.get(ip);
   if (!entry || now - entry.windowStart > WINDOW_MS) {
     hits.set(ip, { count: 1, windowStart: now });

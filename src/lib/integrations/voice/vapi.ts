@@ -36,6 +36,10 @@ export const vapiAdapter: VoiceAdapter = {
   },
 
   async start(options: VoiceStartOptions, events: VoiceSessionEvents) {
+    // A retry (or double-click) must never orphan a previous call's
+    // listeners, timer, or mic — tear down any existing session first.
+    this.stop();
+
     events.onStateChange("connecting");
 
     const { default: Vapi } = await import("@vapi-ai/web");
