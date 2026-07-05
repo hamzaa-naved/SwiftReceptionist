@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Bricolage_Grotesque } from "next/font/google";
 import { site } from "@/lib/site";
 import { Header } from "@/components/layout/header";
@@ -39,6 +39,11 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+};
+
+export const viewport: Viewport = {
+  // Matches the page ground so mobile browser chrome blends with the site.
+  themeColor: "#faf9f6",
 };
 
 export default function RootLayout({
