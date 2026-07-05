@@ -42,12 +42,28 @@ export function LogoMark({ className }: { className?: string }) {
   );
 }
 
-export function Logo({ className }: { className?: string }) {
+export function Logo({
+  className,
+  tone = "dark",
+}: {
+  className?: string;
+  /** "light" renders the wordmark for dark backgrounds */
+  tone?: "dark" | "light";
+}) {
   return (
     <span className={cn("inline-flex items-center gap-2.5", className)}>
       <LogoMark />
-      <span className="font-display text-lg font-bold tracking-tight text-foreground">
-        Swift<span className="text-flame-600"> Receptionist</span>
+      <span
+        className={cn(
+          "font-display text-lg font-bold tracking-tight",
+          tone === "light" ? "text-paper" : "text-foreground",
+        )}
+      >
+        Swift
+        <span className={tone === "light" ? "text-flame-400" : "text-flame-600"}>
+          {" "}
+          Receptionist
+        </span>
       </span>
     </span>
   );

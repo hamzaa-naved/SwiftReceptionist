@@ -10,6 +10,11 @@ import { Logo } from "@/components/layout/logo";
 import { Button } from "@/components/ui/button";
 import { TrackedLink } from "@/components/shared/tracked-link";
 
+/** Routes whose hero is ink-dark; the transparent header must go light there. */
+function hasInkHero(pathname: string) {
+  return pathname === "/" || pathname.startsWith("/demo");
+}
+
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -24,6 +29,11 @@ export function Header() {
 
   const closeMenu = () => setOpen(false);
 
+  // While transparent over a dark hero, every header element flips to a
+  // light treatment; once scrolled (paper glass) or the menu is open, the
+  // standard dark-on-paper treatment applies.
+  const light = hasInkHero(pathname) && !scrolled && !open;
+
   return (
     <header
       className={cn(
@@ -35,7 +45,7 @@ export function Header() {
     >
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-5 sm:px-8">
         <Link href="/" aria-label={`${site.name} home`} className="shrink-0">
-          <Logo />
+          <Logo tone={light ? "light" : "dark"} />
         </Link>
 
         <nav aria-label="Main" className="hidden items-center gap-1 lg:flex">
@@ -44,8 +54,11 @@ export function Header() {
               key={item.href}
               href={item.href}
               className={cn(
-                "rounded-md px-3 py-2 text-sm font-medium text-ink-700 transition-colors hover:bg-paper-warm hover:text-foreground",
-                pathname === item.href && "text-foreground",
+                "rounded-md px-3 py-2 text-sm font-medium transition-colors",
+                light
+                  ? "text-ink-300 hover:bg-ink-800/60 hover:text-paper"
+                  : "text-ink-700 hover:bg-paper-warm hover:text-foreground",
+                pathname === item.href && (light ? "text-paper" : "text-foreground"),
               )}
             >
               {item.label}
@@ -54,12 +67,21 @@ export function Header() {
         </nav>
 
         <div className="hidden items-center gap-2.5 lg:flex">
-          <Button asChild variant="ghost" size="sm">
+          <Button
+            asChild
+            variant="ghost"
+            size="sm"
+            className={cn(light && "text-paper hover:bg-ink-800/60 hover:text-paper")}
+          >
             <TrackedLink event="cta_try_demo" eventProps={{ location: "nav" }} href={site.cta.secondary.href}>
               {site.cta.secondary.label}
             </TrackedLink>
           </Button>
-          <Button asChild size="sm">
+          <Button
+            asChild
+            size="sm"
+            className={cn(light && "bg-flame-500 text-ink-950 hover:bg-flame-400")}
+          >
             <TrackedLink event="cta_book_call" eventProps={{ location: "nav" }} href={site.cta.primary.href}>
               {site.cta.primary.label}
             </TrackedLink>
@@ -67,7 +89,11 @@ export function Header() {
         </div>
 
         <div className="flex items-center gap-2 lg:hidden">
-          <Button asChild size="sm">
+          <Button
+            asChild
+            size="sm"
+            className={cn(light && "bg-flame-500 text-ink-950 hover:bg-flame-400")}
+          >
             <TrackedLink event="cta_book_call" eventProps={{ location: "nav_mobile" }} href={site.cta.primary.href}>
               {site.cta.primary.label}
             </TrackedLink>
@@ -78,7 +104,12 @@ export function Header() {
             aria-expanded={open}
             aria-controls="mobile-nav"
             aria-label={open ? "Close menu" : "Open menu"}
-            className="rounded-md p-2 text-ink-700 hover:bg-paper-warm focus-visible:outline-2 focus-visible:outline-ring"
+            className={cn(
+              "rounded-md p-2 focus-visible:outline-2 focus-visible:outline-ring",
+              light
+                ? "text-paper hover:bg-ink-800/60"
+                : "text-ink-700 hover:bg-paper-warm",
+            )}
           >
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { site } from "@/lib/site";
+import { site, isPlaceholder } from "@/lib/site";
 import { LegalPage } from "@/components/shared/legal-page";
 
 export const metadata: Metadata = {
@@ -13,11 +13,17 @@ export const metadata: Metadata = {
  * and fill in the entity fields in src/lib/site.ts.
  */
 export default function TermsPage() {
+  // Until real values are set in site.ts, prose falls back to the brand
+  // name/generic jurisdiction and the address line is omitted.
+  const entity = isPlaceholder(site.legal.entityName) ? site.name : site.legal.entityName;
+  const jurisdiction = isPlaceholder(site.legal.jurisdiction)
+    ? "the jurisdiction in which the company is registered"
+    : site.legal.jurisdiction;
   return (
     <LegalPage title="Terms of Service" updated="July 4, 2026">
       <p>
         These Terms of Service (“Terms”) govern your use of the website at{" "}
-        {site.domain} and the services provided by {site.legal.entityName}
+        {site.domain} and the services provided by {entity}
         (“{site.name},” “we,” “us”). By using the site or services, you agree
         to these Terms.
       </p>
@@ -75,7 +81,7 @@ export default function TermsPage() {
       <h2>Intellectual property</h2>
       <p>
         The site, service, and all related software and content are owned by{" "}
-        {site.legal.entityName} or its licensors. Your business information,
+        {entity} or its licensors. Your business information,
         call recordings, and transcripts remain yours; you grant us the
         license needed to operate the service for you.
       </p>
@@ -100,7 +106,7 @@ export default function TermsPage() {
 
       <h2>Governing law</h2>
       <p>
-        These Terms are governed by the laws of {site.legal.jurisdiction},
+        These Terms are governed by the laws of {jurisdiction},
         without regard to conflict-of-law rules.
       </p>
 
@@ -113,10 +119,14 @@ export default function TermsPage() {
 
       <h2>Contact</h2>
       <p>
-        {site.legal.entityName}
+        {entity}
         <br />
-        {site.legal.address}
-        <br />
+        {!isPlaceholder(site.legal.address) && (
+          <>
+            {site.legal.address}
+            <br />
+          </>
+        )}
         <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a>
       </p>
     </LegalPage>

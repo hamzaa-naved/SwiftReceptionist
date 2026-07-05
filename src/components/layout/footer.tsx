@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { site } from "@/lib/site";
+import { site, isPlaceholder } from "@/lib/site";
 import { Logo } from "@/components/layout/logo";
 
 const productLinks = [
@@ -32,7 +32,7 @@ export function Footer() {
         <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div>
             <Link href="/" aria-label={`${site.name} home`}>
-              <Logo className="[&_span]:text-paper" />
+              <Logo tone="light" />
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed">
               24/7 AI receptionists for local service businesses. Every call
@@ -53,14 +53,20 @@ export function Footer() {
           <FooterColumn title="Company" links={companyLinks} />
         </div>
 
+        {/* Until the real legal identity is set in src/lib/site.ts (README
+            launch checklist), show only the brand line — never raw
+            [PLACEHOLDER] text to visitors. */}
         <div className="mt-12 flex flex-col gap-3 border-t border-ink-800 pt-6 text-xs leading-relaxed sm:flex-row sm:items-center sm:justify-between">
           <p>
-            © {new Date().getFullYear()} {site.legal.entityName}. All rights
-            reserved.
+            © {new Date().getFullYear()}{" "}
+            {isPlaceholder(site.legal.entityName) ? site.name : site.legal.entityName}
+            . All rights reserved.
           </p>
-          <p className="max-w-md">
-            {site.legal.entityName}, {site.legal.address}
-          </p>
+          {!isPlaceholder(site.legal.entityName) && !isPlaceholder(site.legal.address) && (
+            <p className="max-w-md">
+              {site.legal.entityName}, {site.legal.address}
+            </p>
+          )}
         </div>
       </div>
     </footer>

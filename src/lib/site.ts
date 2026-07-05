@@ -47,3 +47,13 @@ export const site = {
 } as const;
 
 export type SiteConfig = typeof site;
+
+/**
+ * True while a site.ts value is still an unreplaced [BRACKETED] placeholder.
+ * UI that would print the raw bracket text (footer identity line, legal
+ * prose) uses this to fall back gracefully until real values are set —
+ * see the README launch checklist.
+ */
+export function isPlaceholder(value: string): boolean {
+  return /^\[.*\]$/.test(value.trim());
+}

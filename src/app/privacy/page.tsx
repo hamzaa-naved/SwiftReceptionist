@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { site } from "@/lib/site";
+import { site, isPlaceholder } from "@/lib/site";
 import { LegalPage } from "@/components/shared/legal-page";
 
 export const metadata: Metadata = {
@@ -14,10 +14,13 @@ export const metadata: Metadata = {
  * src/lib/site.ts.
  */
 export default function PrivacyPage() {
+  // Until real values are set in site.ts, prose falls back to the brand
+  // name and the address line is omitted (README launch checklist).
+  const entity = isPlaceholder(site.legal.entityName) ? site.name : site.legal.entityName;
   return (
     <LegalPage title="Privacy Policy" updated="July 4, 2026">
       <p>
-        This Privacy Policy explains how {site.legal.entityName} (“
+        This Privacy Policy explains how {entity} (“
         {site.name},” “we,” “us”) collects, uses, and shares information when
         you visit {site.domain}, use our demo, or become a customer.
       </p>
@@ -112,10 +115,14 @@ export default function PrivacyPage() {
 
       <h2>Contact</h2>
       <p>
-        {site.legal.entityName}
+        {entity}
         <br />
-        {site.legal.address}
-        <br />
+        {!isPlaceholder(site.legal.address) && (
+          <>
+            {site.legal.address}
+            <br />
+          </>
+        )}
         <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a>
       </p>
     </LegalPage>
