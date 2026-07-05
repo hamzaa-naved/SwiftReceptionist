@@ -33,10 +33,11 @@ export function Hero() {
 
   return (
     <div className="relative overflow-hidden bg-ink-950 pb-16 pt-32 text-paper md:pb-24 md:pt-44">
-      {/* Speed-line backdrop */}
+      {/* Speed-line backdrop with a barely-perceptible drift (80s loop);
+          extra horizontal slack keeps edges covered while it translates. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-[0.07]"
+        className="speed-drift pointer-events-none absolute inset-y-0 -left-40 -right-40 opacity-[0.07]"
         style={{
           backgroundImage:
             "repeating-linear-gradient(90deg, transparent 0 96px, currentColor 96px 160px)",

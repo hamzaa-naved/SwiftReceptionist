@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, m, useReducedMotion } from "motion/react";
 import { useSearchParams } from "next/navigation";
 import { Mic, MessageSquareText, PhoneOff, Send, AlertCircle } from "lucide-react";
 import { getNiche, niches } from "@/content/niches";
@@ -36,6 +37,7 @@ export function DemoExperience() {
   const adapter = getVoiceAdapter();
   const voiceAvailable = adapter.isConfigured();
   const [mode, setMode] = useState<"voice" | "chat">(voiceAvailable ? "voice" : "chat");
+  const reduceMotion = useReducedMotion();
 
   return (
     <div className="mx-auto w-full max-w-2xl">
@@ -84,11 +86,21 @@ export function DemoExperience() {
       </div>
 
       <div className="mt-6">
-        {mode === "voice" ? (
-          <VoicePanel bizName={biz} nicheSlug={niche.slug} city={city} />
-        ) : (
-          <ChatPanel bizName={biz} nicheSlug={niche.slug} />
-        )}
+        <AnimatePresence mode="wait" initial={false}>
+          <m.div
+            key={mode}
+            initial={reduceMotion ? false : { opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={reduceMotion ? undefined : { opacity: 0, y: -6 }}
+            transition={{ duration: 0.2 }}
+          >
+            {mode === "voice" ? (
+              <VoicePanel bizName={biz} nicheSlug={niche.slug} city={city} />
+            ) : (
+              <ChatPanel bizName={biz} nicheSlug={niche.slug} />
+            )}
+          </m.div>
+        </AnimatePresence>
       </div>
     </div>
   );

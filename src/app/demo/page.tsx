@@ -24,7 +24,7 @@ export default function DemoPage() {
     <div className="relative min-h-screen overflow-hidden bg-ink-950 pb-20 pt-32 md:pt-40">
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-[0.07]"
+        className="speed-drift pointer-events-none absolute inset-y-0 -left-40 -right-40 opacity-[0.07]"
         style={{
           backgroundImage:
             "repeating-linear-gradient(90deg, transparent 0 96px, currentColor 96px 160px)",

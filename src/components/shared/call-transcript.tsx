@@ -1,3 +1,6 @@
+"use client";
+
+import { m, useReducedMotion } from "motion/react";
 import { PhoneIncoming } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { ScriptTurn } from "@/content/niches/types";
@@ -6,7 +9,12 @@ import type { ScriptTurn } from "@/content/niches/types";
  * A realistic call rendered as a transcript. This is proof-by-example:
  * skeptical owners don't believe adjectives, they believe a call that
  * sounds like their Tuesday morning.
+ *
+ * The bubbles play out in sequence when the transcript scrolls into view —
+ * the conversation "happens" in front of the visitor instead of sitting
+ * there as a block. Reduced-motion renders everything statically.
  */
+
 export function CallTranscript({
   scenario,
   turns,
@@ -16,6 +24,30 @@ export function CallTranscript({
   turns: ScriptTurn[];
   className?: string;
 }) {
+  const reduceMotion = useReducedMotion();
+
+  // The variant structure stays in place for everyone (SSR renders the
+  // hidden state, so whileInView must always fire to un-hide); reduced
+  // motion just zeroes the timings so the transcript appears instantly.
+  const list = {
+    hidden: {},
+    visible: {
+      transition: reduceMotion
+        ? { staggerChildren: 0, delayChildren: 0 }
+        : { staggerChildren: 0.28, delayChildren: 0.15 },
+    },
+  };
+  const bubble = {
+    hidden: { opacity: 0, y: reduceMotion ? 0 : 10 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: reduceMotion
+        ? { duration: 0 }
+        : { duration: 0.4, ease: [0.21, 0.65, 0.35, 1] as const },
+    },
+  };
+
   return (
     <figure
       className={cn(
@@ -31,10 +63,17 @@ export function CallTranscript({
         <PhoneIncoming className="h-4 w-4 text-ink-300" aria-hidden />
         <span className="text-sm font-medium text-ink-300">{scenario}</span>
       </figcaption>
-      <div className="space-y-3.5 px-5 py-6">
+      <m.div
+        className="space-y-3.5 px-5 py-6"
+        variants={list}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+      >
         {turns.map((turn, i) => (
-          <div
+          <m.div
             key={i}
+            variants={bubble}
             className={cn(
               "flex",
               turn.speaker === "ai" ? "justify-start" : "justify-end",
@@ -53,9 +92,9 @@ export function CallTranscript({
               </span>
               {turn.text}
             </div>
-          </div>
+          </m.div>
         ))}
-      </div>
+      </m.div>
       <p className="border-t border-ink-800 px-5 py-3 text-xs text-ink-300">
         Example conversation — scripts are tailored to your business during
         setup.

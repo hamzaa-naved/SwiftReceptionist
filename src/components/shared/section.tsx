@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { type ReactNode } from "react";
+import { Reveal } from "@/components/shared/reveal";
 
 /** Consistent section rhythm + optional dark ink treatment. */
 export function Section({
@@ -43,7 +44,7 @@ export function SectionHeader({
   align?: "center" | "left";
 }) {
   return (
-    <div
+    <Reveal
       className={cn(
         "mb-10 md:mb-14",
         align === "center" && "mx-auto max-w-2xl text-center",
@@ -78,6 +79,6 @@ export function SectionHeader({
           {lede}
         </p>
       )}
-    </div>
+    </Reveal>
   );
 }

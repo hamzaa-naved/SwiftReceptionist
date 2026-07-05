@@ -58,7 +58,7 @@ export function ScrollCta() {
       role="dialog"
       aria-label="Before you go"
       tabIndex={-1}
-      className="fixed bottom-6 right-6 z-50 hidden w-96 rounded-2xl border border-ink-800 bg-ink-950 p-6 text-paper shadow-lift focus-visible:outline-2 focus-visible:outline-ring md:block"
+      className="fixed bottom-6 right-6 z-50 hidden w-96 animate-in fade-in slide-in-from-bottom-4 rounded-2xl border border-ink-800 bg-ink-950 p-6 text-paper shadow-lift duration-300 focus-visible:outline-2 focus-visible:outline-ring md:block"
     >
       <button
         type="button"
