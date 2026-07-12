@@ -4,7 +4,7 @@ import { Reveal } from "@/components/shared/reveal";
 import { Button } from "@/components/ui/button";
 import { TrackedLink } from "@/components/shared/tracked-link";
 import { CallTranscript } from "@/components/shared/call-transcript";
-import { septic } from "@/content/niches/septic";
+import { niches } from "@/content/niches";
 
 /**
  * Live demo block: the single most disarming section for a skeptic.
@@ -55,9 +55,10 @@ export function DemoBlock() {
           </div>
         </div>
         <Reveal>
+          {/* Flagship niche transcript (registry index 0) */}
           <CallTranscript
-            scenario={septic.scriptScenario}
-            turns={septic.callScript.slice(0, 6)}
+            scenario={niches[0].scriptScenario}
+            turns={niches[0].callScript.slice(0, 6)}
           />
         </Reveal>
       </div>

@@ -48,7 +48,7 @@ const pricingFaqs = [
   },
   {
     q: "What if my call volume changes seasonally?",
-    a: "Tell us. Storm season for tree crews, moving season for storage — we'll set pricing that doesn't punish you for the quiet months.",
+    a: "Tell us. Summer AC-overload season, storm weeks, the January quiet — we'll set pricing that doesn't punish you for the slow months.",
   },
 ];
 

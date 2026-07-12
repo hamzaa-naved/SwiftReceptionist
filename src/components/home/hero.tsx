@@ -7,10 +7,10 @@ import { Button } from "@/components/ui/button";
 import { TrackedLink } from "@/components/shared/tracked-link";
 
 const savedCalls = [
+  { niche: "Electrical", line: "“Half the house just went dark—”", job: "Emergency dispatch · booked 7:30am" },
   { niche: "Garage door", line: "“My door won't open and my car's inside—”", job: "Spring replacement · booked 8:15am" },
-  { niche: "Septic", line: "“There's sewage coming up in the shower—”", job: "Emergency pump-out · tech alerted" },
+  { niche: "Electrical", line: "“There's a burning smell at the breaker box—”", job: "Urgent · on-call electrician alerted" },
   { niche: "Tree service", line: "“A limb came through our roof last night—”", job: "Storm crew · callback in 20 min" },
-  { niche: "Well & pump", line: "“We turned on the tap and there's nothing—”", job: "No-water priority · booked same day" },
 ];
 
 // One orchestrated moment on the page that matters most: kicker → headline

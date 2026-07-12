@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { site, isPlaceholder } from "@/lib/site";
+import { niches } from "@/content/niches";
 import { Logo } from "@/components/layout/logo";
 
 const productLinks = [
@@ -9,13 +10,11 @@ const productLinks = [
   { label: "Results", href: "/results" },
 ];
 
-const industryLinks = [
-  { label: "Garage door repair", href: "/industries/garage-door" },
-  { label: "Septic & porta-potty", href: "/industries/septic" },
-  { label: "Tree service", href: "/industries/tree-service" },
-  { label: "Well & pump", href: "/industries/well-pump" },
-  { label: "Self-storage", href: "/industries/self-storage" },
-];
+// Derived from the niche registry so a niche swap never leaves stale links.
+const industryLinks = niches.map((n) => ({
+  label: n.name,
+  href: `/industries/${n.slug}`,
+}));
 
 const companyLinks = [
   { label: "About", href: "/about" },

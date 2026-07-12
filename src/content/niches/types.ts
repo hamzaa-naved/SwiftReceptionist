@@ -18,14 +18,14 @@ export interface ScriptTurn {
 
 export interface Niche {
   slug: string;
-  /** Full industry label, e.g. "Septic & Porta-Potty Services" */
+  /** Full industry label, e.g. "Electrical Contractors" */
   name: string;
-  /** Short label for chips/nav, e.g. "Septic" */
+  /** Short label for chips/nav, e.g. "Electrical" */
   shortName: string;
-  /** What the owner calls their business, e.g. "septic company" */
+  /** What the owner calls their business, e.g. "electrical contractor" */
   noun: string;
   /** Lucide icon name used on cards (must exist in the icon map) */
-  icon: "wrench" | "droplets" | "tree-pine" | "waves" | "warehouse";
+  icon: "zap" | "wrench" | "tree-pine" | "waves" | "warehouse";
 
   seo: {
     title: string;

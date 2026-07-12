@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 
 /**
  * The demo page. Reads ?biz=&city=&niche= to personalize (used by cold
- * outreach links, e.g. /demo?biz=Ace%20Septic&city=Tulsa&niche=septic).
+ * outreach links, e.g. /demo?biz=Ace%20Electric&city=Tulsa&niche=electrical).
  * Point demo.swiftreceptionist.com at this route via Vercel later.
  */
 export default function DemoPage() {

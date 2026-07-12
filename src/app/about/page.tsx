@@ -23,8 +23,8 @@ export default function AboutPage() {
           <div className="space-y-5 text-lg leading-relaxed text-ink-700">
             <p>
               Swift Receptionist started with a pattern we couldn&apos;t
-              unsee. Call ten local service companies — garage door, septic,
-              tree work — and most of the time nobody picks up. Not because
+              unsee. Call ten local service companies — electricians, garage
+              door techs, tree crews — and most of the time nobody picks up. Not because
               the owners are lazy; because they&apos;re working. The person
               who can fix your problem is the same person who can&apos;t
               reach the phone.
@@ -38,8 +38,8 @@ export default function AboutPage() {
             </p>
             <p>
               AI voice technology finally got good enough to fix this — good
-              enough that a caller with sewage in their bathtub at 9pm gets
-              helped, booked, and reassured in seconds. But the tools are
+              enough that a caller with a burning smell at the breaker panel
+              at 9pm gets helped, booked, and reassured in seconds. But the tools are
               built for tech people, with dashboards and per-minute pricing
               and settings nobody has time to learn. So we became the layer
               in between: we build it, tune it to your trade, and hand you a

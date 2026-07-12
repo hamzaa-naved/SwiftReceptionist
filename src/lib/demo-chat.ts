@@ -29,7 +29,8 @@ export interface ChatState {
 }
 
 const EMERGENCY_WORDS = [
-  "emergency", "backup", "backed up", "sewage", "overflow", "flood",
+  "emergency", "sparks", "sparking", "burning", "smoke", "shock",
+  "breaker", "panel", "no power", "power out", "went dark", "dead outlet",
   "stuck", "broken", "broke", "won't open", "wont open", "won't close",
   "wont close", "no water", "leak", "leaking", "down", "fell", "fallen",
   "roof", "alarm", "smell", "locked out", "right now", "asap", "tonight",

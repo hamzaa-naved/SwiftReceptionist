@@ -37,7 +37,7 @@ Everything prerenders statically except `/api/lead`.
 
 ## Adding a niche (~5 minutes)
 
-1. Copy `src/content/niches/septic.ts` to `src/content/niches/<slug>.ts`
+1. Copy `src/content/niches/electrical.ts` to `src/content/niches/<slug>.ts`
 2. Edit every field (headline, pains, call script, FAQ, ROI defaults, …) —
    the `Niche` type in `types.ts` documents each one
 3. Register it in `src/content/niches/index.ts`
@@ -45,7 +45,7 @@ Everything prerenders statically except `/api/lead`.
 That's it. The landing page, industries index, homepage niche grid,
 sitemap, JSON-LD, and demo personalization all pick it up automatically.
 Cold outreach can then link to `/industries/<slug>` or
-`/demo?biz=Acme%20Septic&city=Tulsa&niche=<slug>`.
+`/demo?biz=Acme%20Electric&city=Tulsa&niche=<slug>`.
 
 ## Adding a blog post
 
