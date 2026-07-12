@@ -15,7 +15,7 @@ export function FaqAccordion({ items }: { items: NicheFaq[] }) {
     <Accordion
       type="single"
       collapsible
-      className="mx-auto w-full max-w-3xl rounded-2xl border border-border bg-card px-6 shadow-card"
+      className="mx-auto w-full max-w-3xl border-2 border-graphite-950 bg-card px-6"
       onValueChange={(value) => {
         if (value) track("faq_opened", { question: value });
       }}

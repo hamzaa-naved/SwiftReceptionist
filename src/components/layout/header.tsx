@@ -80,7 +80,7 @@ export function Header() {
           <Button
             asChild
             size="sm"
-            className={cn(light && "bg-flame-500 text-ink-950 hover:bg-flame-400")}
+            className={cn(light && "bg-volt-400 text-graphite-950 hover:bg-volt-400/90")}
           >
             <TrackedLink event="cta_book_call" eventProps={{ location: "nav" }} href={site.cta.primary.href}>
               {site.cta.primary.label}
@@ -92,7 +92,7 @@ export function Header() {
           <Button
             asChild
             size="sm"
-            className={cn(light && "bg-flame-500 text-ink-950 hover:bg-flame-400")}
+            className={cn(light && "bg-volt-400 text-graphite-950 hover:bg-volt-400/90")}
           >
             <TrackedLink event="cta_book_call" eventProps={{ location: "nav_mobile" }} href={site.cta.primary.href}>
               {site.cta.primary.label}

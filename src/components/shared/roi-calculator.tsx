@@ -96,7 +96,7 @@ export function RoiCalculator({
     <div
       id="roi-calculator"
       className={cn(
-        "grid overflow-hidden rounded-2xl border border-border bg-card shadow-lift md:grid-cols-[1.1fr_1fr]",
+        "grid overflow-hidden border-2 border-graphite-950 bg-card md:grid-cols-[1.1fr_1fr]",
         className,
       )}
     >
@@ -142,24 +142,24 @@ export function RoiCalculator({
         />
       </div>
 
-      <div className="flex flex-col justify-between gap-6 bg-ink-950 p-6 text-paper sm:p-8">
+      <div className="flex flex-col justify-between gap-6 bg-graphite-950 p-6 text-concrete-50 sm:p-8">
         <div>
-          <p className="streak-lines text-sm font-semibold uppercase tracking-widest text-flame-400">
+          <p className="streak-lines text-xs font-medium uppercase tracking-[0.18em] text-graphite-300">
             <TrendingDown className="mr-1 inline h-4 w-4" aria-hidden />
             Leaking to voicemail
           </p>
-          <p className="font-display mt-4 text-5xl font-bold tabular-nums tracking-tight text-flame-400">
+          <p className="font-mono mt-4 text-5xl font-medium tabular-nums tracking-tight text-volt-400">
             <AnimatedUsd value={monthlyLoss} />
-            <span className="text-lg font-medium text-ink-300"> /month</span>
+            <span className="font-mono text-lg text-graphite-300"> /MO</span>
           </p>
-          <p className="mt-2 text-ink-300">
+          <p className="mt-2 text-graphite-300">
             That&apos;s{" "}
-            <strong className="font-semibold text-paper">
+            <strong className="font-semibold text-concrete-50">
               {formatUsd(yearlyLoss)} a year
             </strong>{" "}
             in jobs going to whoever answered instead.
           </p>
-          <p className="mt-4 text-xs leading-relaxed text-ink-300">
+          <p className="mt-4 font-mono text-[11px] leading-relaxed text-graphite-300">
             Math: {missedCalls} missed calls/week × {WEEKS_PER_MONTH} weeks ×{" "}
             {closeRate}% booking rate × {formatUsd(jobValue)} per job.
           </p>
@@ -168,7 +168,7 @@ export function RoiCalculator({
           <Button
             asChild
             size="lg"
-            className="bg-flame-500 text-ink-950 hover:bg-flame-400"
+            className="bg-volt-400 font-semibold uppercase tracking-wide text-graphite-950 hover:bg-volt-400/90"
           >
             <TrackedLink
               event="cta_book_call"
@@ -183,7 +183,7 @@ export function RoiCalculator({
             size="lg"
             variant="outline"
             onClick={copyShareLink}
-            className="border-ink-700 bg-transparent text-paper hover:bg-ink-800 hover:text-paper"
+            className="border-graphite-700 bg-transparent font-semibold uppercase tracking-wide text-concrete-50 hover:bg-graphite-800 hover:text-concrete-50"
           >
             {copied ? (
               <>
@@ -249,7 +249,7 @@ function CalcSlider({
     <div>
       <div className="mb-1 flex items-baseline justify-between gap-4">
         <label className="text-sm font-semibold">{label}</label>
-        <output className="font-display text-lg font-bold tabular-nums text-flame-600">
+        <output className="font-mono text-base font-medium tabular-nums text-graphite-950">
           {format(value)}
         </output>
       </div>

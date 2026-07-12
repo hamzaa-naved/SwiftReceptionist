@@ -2,6 +2,11 @@ import { Check, Minus, X } from "lucide-react";
 import { Section, SectionHeader } from "@/components/shared/section";
 import { cn } from "@/lib/utils";
 
+/**
+ * The comparison as a spec sheet: condensed-caps row labels, mono
+ * values, chunky rules — a job ticket, not a SaaS pricing table. The
+ * Swift column sits on graphite with volt highlights.
+ */
 type Cell = { kind: "yes" | "no" | "partial"; note?: string } | { kind: "text"; note: string };
 
 const columns = [
@@ -62,7 +67,7 @@ const rows: { label: string; cells: Cell[] }[] = [
     cells: [
       { kind: "text", note: "“Free” + lost jobs" },
       { kind: "text", note: "$3,000+ w/ payroll" },
-      { kind: "text", note: "Per-minute fees add up" },
+      { kind: "text", note: "Per-minute fees" },
       { kind: "text", note: "Flat rate, no contract" },
     ],
   },
@@ -80,7 +85,12 @@ const rows: { label: string; cells: Cell[] }[] = [
 function CellContent({ cell, highlight }: { cell: Cell; highlight?: boolean }) {
   if (cell.kind === "text") {
     return (
-      <span className={cn("text-sm", highlight ? "font-semibold text-paper" : "text-muted-foreground")}>
+      <span
+        className={cn(
+          "font-mono text-xs",
+          highlight ? "font-medium text-volt-400" : "text-muted-foreground",
+        )}
+      >
         {cell.note}
       </span>
     );
@@ -89,19 +99,24 @@ function CellContent({ cell, highlight }: { cell: Cell; highlight?: boolean }) {
   const color =
     cell.kind === "yes"
       ? highlight
-        ? "text-flame-400"
-        : "text-success-600"
+        ? "text-live-500"
+        : "text-live-600"
       : cell.kind === "no"
         ? "text-destructive"
-        : "text-muted-foreground";
+        : "text-graphite-500";
   return (
     <span className="inline-flex items-center gap-1.5">
-      <Icon className={cn("h-4 w-4 shrink-0", color)} aria-hidden />
+      <Icon className={cn("h-4 w-4 shrink-0", color)} strokeWidth={2.5} aria-hidden />
       <span className="sr-only">
         {cell.kind === "yes" ? "Yes" : cell.kind === "no" ? "No" : "Partially"}
       </span>
       {cell.note && (
-        <span className={cn("text-xs", highlight ? "text-ink-300" : "text-muted-foreground")}>
+        <span
+          className={cn(
+            "font-mono text-xs",
+            highlight ? "text-concrete-50" : "text-muted-foreground",
+          )}
+        >
           {cell.note}
         </span>
       )}
@@ -114,26 +129,28 @@ export function Comparison() {
     <Section>
       <SectionHeader
         kicker="Your real options"
-        title="You're already paying for a receptionist. In lost jobs."
-        lede="Here's the honest comparison — including the option of changing nothing."
+        title="Who picks up at 9pm?"
+        lede="The honest comparison — including the option of changing nothing."
       />
-      <div className="overflow-x-auto rounded-2xl border border-border shadow-card">
-        <table className="w-full min-w-[720px] border-collapse bg-card text-left">
+      <div className="overflow-x-auto border-t-[3px] border-graphite-950">
+        <table className="w-full min-w-[760px] border-collapse text-left">
           <caption className="sr-only">
             Comparison of call-answering options for local service businesses
           </caption>
           <thead>
-            <tr>
-              <th scope="col" className="p-4" />
+            <tr className="border-b-2 border-graphite-950/20">
+              <th scope="col" className="py-4 pr-4">
+                <span className="sr-only">Feature</span>
+              </th>
               {columns.map((col, i) => (
                 <th
                   key={col}
                   scope="col"
                   className={cn(
-                    "p-4 text-sm font-bold",
+                    "px-4 py-4 font-mono text-[11px] font-medium uppercase tracking-[0.12em]",
                     i === columns.length - 1
-                      ? "rounded-t-xl bg-ink-950 text-flame-400"
-                      : "text-ink-700",
+                      ? "bg-graphite-950 text-volt-400"
+                      : "text-graphite-700",
                   )}
                 >
                   {col}
@@ -142,18 +159,20 @@ export function Comparison() {
             </tr>
           </thead>
           <tbody>
-            {rows.map((row, ri) => (
-              <tr key={row.label} className={ri % 2 ? "bg-paper-warm/60" : undefined}>
-                <th scope="row" className="p-4 text-sm font-semibold">
+            {rows.map((row) => (
+              <tr key={row.label} className="border-b border-border">
+                <th
+                  scope="row"
+                  className="font-display py-4 pr-4 text-base font-semibold uppercase leading-tight"
+                >
                   {row.label}
                 </th>
                 {row.cells.map((cell, ci) => (
                   <td
                     key={ci}
                     className={cn(
-                      "p-4 align-top",
-                      ci === row.cells.length - 1 &&
-                        cn("bg-ink-950", ri === rows.length - 1 && "rounded-b-xl"),
+                      "px-4 py-4 align-top",
+                      ci === row.cells.length - 1 && "bg-graphite-950",
                     )}
                   >
                     <CellContent cell={cell} highlight={ci === row.cells.length - 1} />

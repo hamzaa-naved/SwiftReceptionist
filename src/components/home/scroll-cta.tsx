@@ -77,7 +77,7 @@ export function ScrollCta() {
       </p>
       <Button
         asChild
-        className="mt-4 w-full bg-flame-500 text-ink-950 hover:bg-flame-400"
+        className="mt-4 w-full bg-volt-400 font-semibold uppercase tracking-wide text-graphite-950 hover:bg-volt-400/90"
         onClick={() => track("exit_cta_clicked")}
       >
         <TrackedLink

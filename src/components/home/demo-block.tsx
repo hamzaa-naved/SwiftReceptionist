@@ -17,7 +17,7 @@ export function DemoBlock() {
     <Section tone="ink" id="live-demo">
       <div className="grid items-center gap-12 lg:grid-cols-2">
         <div>
-          <p className="streak-lines mb-4 text-sm font-semibold uppercase tracking-widest text-flame-400">
+          <p className="streak-lines mb-4 text-xs font-medium uppercase tracking-[0.18em] text-graphite-300">
             Don&apos;t take our word for it
           </p>
           <h2 className="font-display text-balance text-3xl font-bold leading-tight text-paper sm:text-4xl">
@@ -42,7 +42,7 @@ export function DemoBlock() {
             <Button
               asChild
               size="lg"
-              className="bg-flame-500 text-ink-950 hover:bg-flame-400"
+              className="bg-volt-400 font-semibold uppercase tracking-wide text-graphite-950 hover:bg-volt-400/90"
             >
               <TrackedLink
                 event="cta_try_demo"

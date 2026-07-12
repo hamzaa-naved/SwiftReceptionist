@@ -15,17 +15,20 @@ export function FinalCta({
   location: string;
 }) {
   return (
-    <Section tone="ink">
+    <Section tone="ink" className="border-t-[3px] border-volt-400">
       <div className="mx-auto max-w-2xl text-center">
-        <h2 className="font-display text-balance text-3xl font-bold leading-tight text-paper sm:text-4xl">
+        <p className="streak-lines mb-5 justify-center text-xs font-medium uppercase tracking-[0.18em] text-graphite-300">
+          Next call · yours or theirs
+        </p>
+        <h2 className="font-display text-balance text-4xl font-bold uppercase leading-[0.98] text-concrete-50 sm:text-5xl">
           {title}
         </h2>
-        <p className="mt-4 text-lg leading-relaxed text-ink-300">{lede}</p>
+        <p className="mt-4 text-lg leading-relaxed text-graphite-300">{lede}</p>
         <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
           <Button
             asChild
             size="lg"
-            className="bg-flame-500 text-ink-950 hover:bg-flame-400"
+            className="bg-volt-400 font-semibold uppercase tracking-wide text-graphite-950 hover:bg-volt-400/90"
           >
             <TrackedLink
               event="cta_book_call"
@@ -39,7 +42,7 @@ export function FinalCta({
             asChild
             size="lg"
             variant="outline"
-            className="border-ink-700 bg-transparent text-paper hover:bg-ink-800 hover:text-paper"
+            className="border-graphite-700 bg-transparent font-semibold uppercase tracking-wide text-concrete-50 hover:bg-graphite-800 hover:text-concrete-50"
           >
             <TrackedLink
               event="cta_try_demo"
@@ -50,8 +53,8 @@ export function FinalCta({
             </TrackedLink>
           </Button>
         </div>
-        <p className="mt-5 text-sm text-ink-300">
-          No contracts. Set up in days. Cancel anytime.
+        <p className="mt-5 font-mono text-xs uppercase tracking-[0.12em] text-graphite-300">
+          No contracts · set up in days · cancel anytime
         </p>
       </div>
     </Section>

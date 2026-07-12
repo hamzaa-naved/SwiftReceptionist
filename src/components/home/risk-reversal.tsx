@@ -32,12 +32,14 @@ export function RiskReversal() {
         kicker="The fine print, up front"
         title="Trying it shouldn't be a risk. So it isn't."
       />
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
         {promises.map((p, i) => (
-          <Reveal key={p.title} delay={i * 0.06}>
-            <div className="h-full rounded-2xl border border-border bg-card p-6 text-center shadow-card transition-shadow hover:shadow-lift">
-              <p.icon className="mx-auto mb-4 h-7 w-7 text-flame-600" aria-hidden />
-              <h3 className="font-display mb-2 text-base font-bold">{p.title}</h3>
+          <Reveal key={p.title} delay={i * 0.06} className="h-full">
+            <div className="h-full bg-card p-6">
+              <p.icon className="mb-4 h-6 w-6 text-graphite-700" strokeWidth={1.75} aria-hidden />
+              <h3 className="font-display mb-2 text-lg font-bold uppercase leading-tight">
+                {p.title}
+              </h3>
               <p className="text-sm leading-relaxed text-muted-foreground">
                 {p.body}
               </p>
