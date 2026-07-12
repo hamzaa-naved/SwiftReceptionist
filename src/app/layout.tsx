@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Bricolage_Grotesque } from "next/font/google";
+import { Barlow, Barlow_Condensed, IBM_Plex_Mono } from "next/font/google";
 import { site } from "@/lib/site";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
@@ -8,15 +8,24 @@ import { AnalyticsScripts } from "@/components/shared/analytics-scripts";
 import { MotionProvider } from "@/components/shared/motion-provider";
 import "./globals.css";
 
-const inter = Inter({
+const barlow = Barlow({
   subsets: ["latin"],
-  variable: "--font-inter",
+  weight: ["400", "500", "600"],
+  variable: "--font-barlow",
   display: "swap",
 });
 
-const bricolage = Bricolage_Grotesque({
+const barlowCondensed = Barlow_Condensed({
   subsets: ["latin"],
-  variable: "--font-bricolage",
+  weight: ["600", "700"],
+  variable: "--font-barlow-condensed",
+  display: "swap",
+});
+
+const plexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-plex-mono",
   display: "swap",
 });
 
@@ -44,7 +53,7 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   // Matches the page ground so mobile browser chrome blends with the site.
-  themeColor: "#faf9f6",
+  themeColor: "#f1f2ef",
 };
 
 export default function RootLayout({
@@ -53,7 +62,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${bricolage.variable}`}>
+    <html
+      lang="en"
+      className={`${barlow.variable} ${barlowCondensed.variable} ${plexMono.variable}`}
+    >
       <body className="flex min-h-screen flex-col">
         <MotionProvider>
           <a
