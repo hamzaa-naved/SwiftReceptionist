@@ -7,13 +7,13 @@ export default function NotFound() {
   return (
     <div className="flex min-h-[70vh] items-center justify-center px-5 pt-16">
       <div className="mx-auto max-w-md text-center">
-        <span className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-flame-50">
-          <PhoneMissed className="h-7 w-7 text-flame-600" aria-hidden />
+        <span className="mx-auto mb-6 flex h-14 w-14 items-center justify-center bg-graphite-950">
+          <PhoneMissed className="h-7 w-7 text-volt-400" aria-hidden />
         </span>
-        <p className="streak-lines justify-center text-sm font-semibold uppercase tracking-widest text-flame-600">
+        <p className="streak-lines justify-center text-xs font-medium uppercase tracking-[0.18em] text-graphite-700">
           404
         </p>
-        <h1 className="font-display mt-3 text-balance text-3xl font-bold sm:text-4xl">
+        <h1 className="font-display mt-3 text-balance text-4xl font-bold uppercase sm:text-5xl">
           This page missed the call.
         </h1>
         <p className="mt-4 text-muted-foreground">

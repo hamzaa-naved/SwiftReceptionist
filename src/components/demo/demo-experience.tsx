@@ -43,10 +43,10 @@ export function DemoExperience() {
     <div className="mx-auto w-full max-w-2xl">
       {/* Personalized headline */}
       <div className="text-center">
-        <p className="streak-lines mb-4 inline-flex text-sm font-semibold uppercase tracking-widest text-flame-400">
+        <p className="streak-lines mb-4 inline-flex text-xs font-medium uppercase tracking-[0.18em] text-graphite-300">
           Live demo · {niche.name}
         </p>
-        <h1 className="font-display text-balance text-3xl font-bold leading-tight text-paper sm:text-5xl">
+        <h1 className="font-display text-balance text-4xl font-bold uppercase leading-[0.95] text-concrete-50 sm:text-6xl">
           This is who&apos;d answer the phone at{" "}
           <span className="text-flame-400">{biz}</span>
           {city ? ` in ${city}` : ""}.

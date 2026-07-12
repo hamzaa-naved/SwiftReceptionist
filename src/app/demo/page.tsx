@@ -21,15 +21,16 @@ export const metadata: Metadata = {
  */
 export default function DemoPage() {
   return (
-    <div className="relative min-h-screen overflow-hidden bg-ink-950 pb-20 pt-32 md:pt-40">
+    <div className="relative min-h-screen overflow-hidden bg-graphite-950 pb-20 pt-32 md:pt-40">
       <div
         aria-hidden
-        className="speed-drift pointer-events-none absolute inset-y-0 -left-40 -right-40 opacity-[0.07]"
+        className="pointer-events-none absolute inset-0 opacity-[0.05]"
         style={{
           backgroundImage:
-            "repeating-linear-gradient(90deg, transparent 0 96px, currentColor 96px 160px)",
-          maskImage: "linear-gradient(180deg, black, transparent 60%)",
-          color: "#faf9f6",
+            "linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px)",
+          backgroundSize: "36px 36px",
+          maskImage: "linear-gradient(180deg, black, transparent 65%)",
+          color: "#f1f2ef",
         }}
       />
       <div className="relative mx-auto w-full max-w-6xl px-5 sm:px-8">
