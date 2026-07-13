@@ -37,7 +37,7 @@ function CellContent({ cell, highlight }: { cell: Cell; highlight?: boolean }) {
   const Icon = cell.kind === "yes" ? Check : cell.kind === "no" ? X : Minus;
   const color =
     cell.kind === "yes"
-      ? highlight ? "text-brass-400" : "text-live-600"
+      ? highlight ? "text-brass-400" : "text-moss-600"
       : cell.kind === "no"
         ? highlight ? "text-espresso-300" : "text-oxblood-600/70"
         : highlight ? "text-espresso-300" : "text-espresso-500";

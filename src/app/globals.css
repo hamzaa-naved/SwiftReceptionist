@@ -6,7 +6,7 @@
 
   Light editorial luxe × cinematic bold. A warm-ivory magazine feature on
   the cost of a phone that isn't answered: exquisite serif display
-  (Fraunces), a clean humanist body (Hanken Grotesque), a single burnished
+  (Fraunces), a clean humanist body (Instrument Sans), a single burnished
   brass accent, deep espresso full-bleed "scenes," generous air, film
   grain, and scroll-driven motion (Lenis smooth scroll + Motion reveals).
 
@@ -28,13 +28,17 @@
   --espresso-900: #211b13;
   --espresso-800: #2e2619;
   --espresso-700: #443a2a;
+  --espresso-600: #574b38; /* between 700 and 500 — muted labels */
   --espresso-500: #6b5d47; /* muted brown-grey */
+  --espresso-400: #8a7c66; /* between 500 and 300 — soft captions */
   --espresso-300: #a99c85; /* soft on-dark text */
   --brass-500: #a9803f;    /* burnished accent — large/bold or hairlines */
   --brass-400: #c39a56;    /* accent on dark grounds */
   --brass-200: #e6d3ad;
   --brass-100: #f0e4cb;
   --oxblood-600: #7c3a2d;  /* rare secondary accent (loss/urgency) */
+  --moss-600: #2f6144;     /* rare positive accent (answered/confirmed) */
+  --moss-500: #3f7d5a;
   --line: #ddd2bd;         /* hairline rules on ivory */
 
   /* Legacy aliases */
@@ -121,13 +125,17 @@
   --color-espresso-900: var(--espresso-900);
   --color-espresso-800: var(--espresso-800);
   --color-espresso-700: var(--espresso-700);
+  --color-espresso-600: var(--espresso-600);
   --color-espresso-500: var(--espresso-500);
+  --color-espresso-400: var(--espresso-400);
   --color-espresso-300: var(--espresso-300);
   --color-brass-500: var(--brass-500);
   --color-brass-400: var(--brass-400);
   --color-brass-200: var(--brass-200);
   --color-brass-100: var(--brass-100);
   --color-oxblood-600: var(--oxblood-600);
+  --color-moss-600: var(--moss-600);
+  --color-moss-500: var(--moss-500);
   --color-line: var(--line);
 
   /* Legacy aliases */
@@ -162,9 +170,9 @@
   --color-flame-50: var(--brass-100);
   --color-success-600: var(--success-600);
 
-  --font-sans: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
-  --font-mono: var(--font-hanken), ui-sans-serif, sans-serif;
+  --font-mono: var(--font-body), ui-sans-serif, sans-serif;
 
   --radius-sm: 2px;
   --radius-md: 2px;
@@ -179,7 +187,7 @@
 
   --animate-accordion-down: accordion-down 0.3s var(--ease-luxe);
   --animate-accordion-up: accordion-up 0.3s var(--ease-luxe);
-  --animate-ring-pulse: ring-pulse 2.6s cubic-bezier(0.2, 0.6, 0.4, 1) infinite;
+  --animate-ring-pulse: ring-pulse 2.6s var(--ease-luxe) infinite;
 }
 
 @keyframes accordion-down { from { height: 0; } to { height: var(--radix-accordion-content-height); } }
@@ -192,7 +200,19 @@
 html {
   /* Lenis drives scrolling; keep native smooth off to avoid double-easing */
   scroll-behavior: auto;
+  /* Thin brand scrollbar (standard properties; Chromium/Firefox) */
+  scrollbar-width: thin;
+  scrollbar-color: var(--brass-500) transparent;
 }
+/* Safari fallback — ignored by engines that honor scrollbar-color above */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--brass-500);
+  border: 3px solid var(--ivory);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--espresso-700); }
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 .lenis.lenis-stopped { overflow: hidden; }
@@ -200,7 +220,7 @@ html.lenis, html.lenis body { height: auto; }
 body {
   background: var(--ivory);
   color: var(--espresso-950);
-  font-family: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   font-feature-settings: "ss01";
@@ -219,6 +239,14 @@ body {
 
 ::selection { background: var(--brass-200); color: var(--espresso-950); }
 
+/* One focus language everywhere: a brass hairline ring, offset from the
+   element so it reads on both ivory and espresso grounds. */
+:focus-visible {
+  outline: 2px solid var(--brass-500);
+  outline-offset: 2px;
+  border-radius: 1px;
+}
+
 .font-display {
   font-family: var(--font-fraunces), Georgia, serif;
   font-optical-sizing: auto;
@@ -231,7 +259,7 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 14px;
-  font-family: var(--font-hanken), sans-serif;
+  font-family: var(--font-body), sans-serif;
   font-size: 0.72rem;
   font-weight: 500;
   text-transform: uppercase;
@@ -244,22 +272,6 @@ body {
   background: currentColor;
   opacity: 0.5;
 }
-/* legacy kicker class → editorial eyebrow */
-.streak-lines {
-  display: inline-flex;
-  align-items: center;
-  gap: 14px;
-  font-family: var(--font-hanken), sans-serif;
-  letter-spacing: 0.28em;
-}
-.streak-lines::before {
-  content: "";
-  width: 34px;
-  height: 1px;
-  background: currentColor;
-  opacity: 0.5;
-}
-
 /* Draw-in underline for editorial links */
 .link-underline {
   background-image: linear-gradient(var(--brass-500), var(--brass-500));

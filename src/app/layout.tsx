@@ -24,7 +24,7 @@ const fraunces = Fraunces({
 // pairs with the serif without the default-Inter look.
 const instrument = Instrument_Sans({
   subsets: ["latin"],
-  variable: "--font-hanken",
+  variable: "--font-body",
   display: "swap",
 });
 

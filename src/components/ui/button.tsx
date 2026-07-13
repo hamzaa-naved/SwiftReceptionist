@@ -5,7 +5,7 @@ import { Slot } from "radix-ui"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "group/btn relative inline-flex shrink-0 items-center justify-center gap-2 rounded-[2px] text-sm font-medium tracking-wide whitespace-nowrap outline-none transition-all duration-500 [transition-timing-function:cubic-bezier(0.16,1,0.3,1)] active:scale-[0.985] motion-reduce:active:scale-100 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "group/btn relative inline-flex shrink-0 items-center justify-center gap-2 rounded-[2px] text-sm font-medium tracking-wide whitespace-nowrap outline-none transition-all duration-500 [transition-timing-function:cubic-bezier(0.16,1,0.3,1)] active:scale-[0.985] motion-reduce:active:scale-100 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
@@ -13,7 +13,7 @@ const buttonVariants = cva(
         default:
           "bg-espresso-950 text-ivory hover:bg-espresso-800 hover:shadow-[0_16px_30px_-14px_rgb(23_19_13/0.6)]",
         destructive:
-          "bg-destructive text-ivory hover:bg-destructive/90",
+          "bg-oxblood-600 text-ivory hover:bg-espresso-950",
         // Hairline outline that fills with ink on hover
         outline:
           "border border-espresso-950/25 bg-transparent text-espresso-950 hover:border-espresso-950 hover:bg-espresso-950 hover:text-ivory",
@@ -21,7 +21,8 @@ const buttonVariants = cva(
           "bg-ivory-deep text-espresso-900 hover:bg-brass-100",
         ghost:
           "text-espresso-900 hover:bg-espresso-950/5",
-        link: "text-espresso-950 underline-offset-4 hover:underline",
+        // Brass draw-in underline — the site's signature link treatment
+        link: "link-underline rounded-none px-0 text-espresso-950",
       },
       size: {
         default: "h-11 px-6 has-[>svg]:px-4",
@@ -31,7 +32,7 @@ const buttonVariants = cva(
         icon: "size-11",
         "icon-xs": "size-6 rounded-[2px] [&_svg:not([class*='size-'])]:size-3",
         "icon-sm": "size-9",
-        "icon-lg": "size-11",
+        "icon-lg": "size-13",
       },
     },
     defaultVariants: {

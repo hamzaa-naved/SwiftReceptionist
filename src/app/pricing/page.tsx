@@ -73,7 +73,7 @@ export default function PricingPage() {
               <ul className="mt-5 space-y-3">
                 {included.map((item) => (
                   <li key={item} className="flex items-start gap-2.5 text-sm leading-relaxed">
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-success-600" aria-hidden />
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-moss-600" aria-hidden />
                     {item}
                   </li>
                 ))}
@@ -83,7 +83,7 @@ export default function PricingPage() {
           <Reveal delay={0.08}>
             <div className="flex h-full flex-col justify-between rounded-2xl bg-ink-950 p-8 text-paper shadow-lift">
               <div>
-                <p className="streak-lines text-sm font-semibold uppercase tracking-widest text-flame-400">
+                <p className="eyebrow text-brass-400">
                   The comparison that matters
                 </p>
                 <p className="mt-5 text-sm text-ink-300">A human receptionist:</p>

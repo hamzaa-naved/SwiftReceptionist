@@ -62,9 +62,9 @@ export function LeadForm() {
 
   if (status === "sent") {
     return (
-      <div className="border-2 border-graphite-950 bg-card p-8 text-center">
-        <CheckCircle2 className="mx-auto mb-3 h-8 w-8 text-success-600" aria-hidden />
-        <h3 className="font-display text-xl font-bold">Got it — we&apos;ll be quick.</h3>
+      <div className="border border-line bg-ivory-raised p-8 text-center">
+        <CheckCircle2 className="mx-auto mb-3 h-8 w-8 text-moss-600" aria-hidden />
+        <h3 className="font-display text-2xl font-medium">Got it — we&apos;ll be quick.</h3>
         <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-muted-foreground">
           We answer fast — it&apos;s literally the business we&apos;re in.
           Expect to hear from us within one business day.
@@ -77,7 +77,7 @@ export function LeadForm() {
     <form
       onSubmit={onSubmit}
       noValidate
-      className="space-y-5 border-2 border-graphite-950 bg-card p-6 sm:p-8"
+      className="space-y-5 border border-line bg-ivory-raised p-6 sm:p-8"
     >
       <div className="grid gap-5 sm:grid-cols-2">
         <Field label="Your name" name="name" error={errors.name} autoComplete="name" />
