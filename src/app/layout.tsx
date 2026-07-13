@@ -32,11 +32,11 @@ const plexMono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.name} — 24/7 AI Receptionist for Local Service Businesses`,
+    default: `${site.name} — 24/7 AI Receptionist for Electrical Contractors & the Trades`,
     template: `%s | ${site.name}`,
   },
   description:
-    "Every missed call is a job your competitor just booked. Swift Receptionist answers every inbound call 24/7, books jobs, and triages emergencies for local service businesses.",
+    "The call you miss is the job they get. Swift Receptionist answers every inbound call 24/7, books the job, and flags real emergencies — built for electrical contractors, garage door repair, and the trades.",
   openGraph: {
     type: "website",
     siteName: site.name,
