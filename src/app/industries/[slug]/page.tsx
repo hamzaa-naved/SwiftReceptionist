@@ -5,6 +5,7 @@ import { niches, getNiche } from "@/content/niches";
 import { site } from "@/lib/site";
 import { serviceJsonLd, faqJsonLd, breadcrumbJsonLd } from "@/lib/seo";
 import { JsonLd } from "@/components/shared/json-ld";
+import { articleFor } from "@/lib/utils";
 import { Section, SectionHeader } from "@/components/shared/section";
 import { Reveal } from "@/components/shared/reveal";
 import { CallTranscript } from "@/components/shared/call-transcript";
@@ -158,7 +159,7 @@ export default async function NichePage({
       <Section tone="warm">
         <SectionHeader
           kicker="Run your numbers"
-          title={`What missed calls cost a ${niche.noun}`}
+          title={`What missed calls cost ${articleFor(niche.noun)} ${niche.noun}`}
           lede="Drag the sliders to your reality. The math is on the card — check it yourself."
         />
         <RoiCalculator defaults={niche.roiDefaults} />

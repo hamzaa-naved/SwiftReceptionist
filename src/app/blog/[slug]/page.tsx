@@ -5,6 +5,7 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import { ArrowLeft } from "lucide-react";
 import { getAllPosts, getPost } from "@/lib/blog";
 import { getNiche } from "@/content/niches";
+import { articleFor } from "@/lib/utils";
 import { site } from "@/lib/site";
 import { breadcrumbJsonLd } from "@/lib/seo";
 import { JsonLd } from "@/components/shared/json-ld";
@@ -107,7 +108,7 @@ export default async function BlogPostPage({
           {niche && (
             <aside className="mt-12 rounded-2xl border border-border bg-paper-warm p-6">
               <p className="font-display text-base font-bold">
-                Run a {niche.noun}?
+                Run {articleFor(niche.noun)} {niche.noun}?
               </p>
               <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
                 See exactly how the receptionist handles {niche.shortName.toLowerCase()}{" "}

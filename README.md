@@ -4,6 +4,8 @@ The conversion-focused marketing site for [swiftreceptionist.com](https://swiftr
 24/7 AI receptionists for local service businesses. Built to turn skeptical
 cold-outreach traffic into booked demo calls.
 
+Primary niche: **electrical contractors**; secondary: **garage door repair**.
+
 **Stack:** Next.js 16 (App Router) · TypeScript · Tailwind CSS v4 · shadcn/ui ·
 Motion (Framer Motion) · MDX · deployed on Vercel.
 
@@ -113,12 +115,24 @@ and A/B test against it.
 - [ ] **Proof strip**: swap the homepage niche strip for real client
       logos/stats when you have permission to show them
 
-## Design system
+## Design system — "The Dispatch Board"
 
-Tokens live in `src/app/globals.css`: ink navy (`--ink-*`), warm paper
-(`--paper*`), flame orange (`--flame-*`) — orange always pairs with dark
-text (never white-on-orange) to hold WCAG AA. Display font is Bricolage
-Grotesque, body is Inter, both self-optimized via `next/font`. The
-signature motif is the "swift streak" (speed lines), used in the logo,
-section kickers, and hero backdrop. Motion respects
-`prefers-reduced-motion` throughout.
+High-vis industrial, grounded in the trades this sells to (electrical
+contractors, garage door techs). Tokens live in `src/app/globals.css`:
+
+- **Color:** `--graphite-*` (breaker-panel charcoal grounds), `--concrete-*`
+  (shop-floor off-white), `--volt-400` `#FFC400` (rationed safety-yellow
+  accent — CTAs always pair it with graphite text for WCAG AA), `--live-500`
+  `#2FBF71` (LED green, status only). The legacy `--ink-*/--flame-*/--paper*`
+  names remain as documented aliases of these tokens.
+- **Type:** Barlow Condensed (display, uppercase), Barlow (body), IBM Plex
+  Mono (timestamps, prices, labels — the dispatch-log texture). All via
+  `next/font`.
+- **Layout:** flat panels (2–4px radii, chunky borders, near-flat shadows)
+  and gapless spec-sheet grids instead of floating rounded cards.
+- **Signature element:** the **Call Board** — the hero renders incoming
+  calls as dispatch-log rows whose LED flips RINGING → ANSWERED with the
+  booked outcome. The LED + mono-label device recurs as every section
+  kicker, and call transcripts are styled as call logs.
+
+Motion respects `prefers-reduced-motion` throughout.
