@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { AlertTriangle, PhoneMissed } from "lucide-react";
 import { niches, getNiche } from "@/content/niches";
 import { site } from "@/lib/site";
 import { serviceJsonLd, faqJsonLd, breadcrumbJsonLd } from "@/lib/seo";
@@ -71,13 +70,13 @@ export default async function NichePage({
       <Section className="pt-32 md:pt-40">
         <div className="grid items-center gap-12 lg:grid-cols-2">
           <div>
-            <p className="streak-lines mb-4 text-xs font-medium uppercase tracking-[0.18em] text-graphite-700">
+            <p className="eyebrow mb-6 text-brass-500">
               For {niche.name.toLowerCase()}
             </p>
-            <h1 className="font-display text-balance text-5xl font-bold uppercase leading-[0.95] sm:text-6xl">
+            <h1 className="font-display text-balance text-[clamp(2.6rem,5.5vw,4.5rem)] font-light leading-[1.0]">
               {niche.hero.headline}
             </h1>
-            <p className="mt-5 max-w-xl text-lg leading-relaxed text-muted-foreground">
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-espresso-700">
               {niche.hero.subhead}
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -117,15 +116,12 @@ export default async function NichePage({
           title={`These calls don't leave voicemails.`}
           lede={`They hang up and dial the next ${niche.noun} on the list. Typical ${niche.jobValue.label}: $${niche.jobValue.low.toLocaleString()}–$${niche.jobValue.high.toLocaleString()}.`}
         />
-        <div className="mx-auto grid max-w-3xl gap-px overflow-hidden border border-border bg-border sm:grid-cols-2">
+        <div className="mx-auto grid max-w-3xl gap-px overflow-hidden border-y border-line bg-line sm:grid-cols-2">
           {niche.emergencies.map((item, i) => (
             <Reveal key={item} delay={i * 0.06} className="h-full">
-              <div className="flex h-full items-start gap-3 bg-card p-4">
-                <PhoneMissed
-                  className="mt-0.5 h-5 w-5 shrink-0 text-graphite-700"
-                  aria-hidden
-                />
-                <p className="text-sm font-medium leading-relaxed">{item}</p>
+              <div className="flex h-full items-start gap-4 bg-ivory p-6 transition-colors duration-500 hover:bg-ivory-raised">
+                <span className="mt-1 text-brass-500" aria-hidden>—</span>
+                <p className="leading-relaxed text-espresso-800">{item}</p>
               </div>
             </Reveal>
           ))}
@@ -138,15 +134,15 @@ export default async function NichePage({
           kicker="Why it keeps happening"
           title="It's not a you problem. It's a phone problem."
         />
-        <div className="grid gap-px overflow-hidden border border-border bg-border md:grid-cols-3">
+        <div className="grid gap-px overflow-hidden border-y border-line bg-line md:grid-cols-3">
           {niche.pains.map((pain, i) => (
             <Reveal key={pain.title} delay={i * 0.08} className="h-full">
-              <div className="h-full bg-card p-6">
-                <AlertTriangle className="mb-4 h-6 w-6 text-graphite-700" strokeWidth={1.75} aria-hidden />
-                <h3 className="font-display mb-2 text-xl font-bold uppercase leading-tight">
+              <div className="h-full bg-ivory p-8 transition-colors duration-500 hover:bg-ivory-raised md:p-10">
+                <span className="font-display text-2xl italic text-brass-500">{String(i + 1).padStart(2, "0")}</span>
+                <h3 className="font-display mt-5 text-2xl font-medium leading-tight">
                   {pain.title}
                 </h3>
-                <p className="text-sm leading-relaxed text-muted-foreground">
+                <p className="mt-3 leading-relaxed text-espresso-700">
                   {pain.body}
                 </p>
               </div>

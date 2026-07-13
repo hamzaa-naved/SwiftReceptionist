@@ -43,15 +43,15 @@ export function DemoExperience() {
     <div className="mx-auto w-full max-w-2xl">
       {/* Personalized headline */}
       <div className="text-center">
-        <p className="streak-lines mb-4 inline-flex text-xs font-medium uppercase tracking-[0.18em] text-graphite-300">
+        <p className="eyebrow mb-6 inline-flex text-brass-400">
           Live demo · {niche.name}
         </p>
-        <h1 className="font-display text-balance text-4xl font-bold uppercase leading-[0.95] text-concrete-50 sm:text-6xl">
+        <h1 className="font-display text-balance text-4xl font-light leading-[1.02] text-ivory sm:text-6xl">
           This is who&apos;d answer the phone at{" "}
-          <span className="text-flame-400">{biz}</span>
+          <span className="italic text-brass-400">{biz}</span>
           {city ? ` in ${city}` : ""}.
         </h1>
-        <p className="mx-auto mt-4 max-w-lg text-lg text-ink-300">
+        <p className="mx-auto mt-5 max-w-lg text-lg text-espresso-300">
           Talk to it like a customer would. Interrupt it. Test it. It&apos;s
           not a recording — see for yourself.
         </p>
@@ -63,7 +63,7 @@ export function DemoExperience() {
       <div
         role="group"
         aria-label="Demo mode"
-        className="mx-auto mt-8 flex w-fit rounded-full border border-ink-800 bg-ink-900 p-1"
+        className="mx-auto mt-10 flex w-fit border border-espresso-700 bg-espresso-900 p-1"
       >
         <ModeTab
           active={mode === "voice"}
@@ -123,8 +123,8 @@ function ModeTab({
       aria-pressed={active}
       onClick={onClick}
       className={cn(
-        "inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-ring",
-        active ? "bg-flame-500 text-ink-950" : "text-ink-300 hover:text-paper",
+        "inline-flex items-center gap-2 px-6 py-2.5 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-ring",
+        active ? "bg-ivory text-espresso-950" : "text-espresso-300 hover:text-ivory",
       )}
     >
       {icon}

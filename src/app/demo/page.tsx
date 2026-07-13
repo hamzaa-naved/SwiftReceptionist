@@ -21,7 +21,7 @@ export const metadata: Metadata = {
  */
 export default function DemoPage() {
   return (
-    <div className="relative min-h-screen overflow-hidden bg-graphite-950 pb-20 pt-32 md:pt-40">
+    <div className="relative min-h-screen overflow-hidden bg-espresso-950 pb-24 pt-36 md:pt-44">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 opacity-[0.05]"
@@ -30,7 +30,7 @@ export default function DemoPage() {
             "linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px)",
           backgroundSize: "36px 36px",
           maskImage: "linear-gradient(180deg, black, transparent 65%)",
-          color: "#f1f2ef",
+          color: "#f6f1e7",
         }}
       />
       <div className="relative mx-auto w-full max-w-6xl px-5 sm:px-8">
