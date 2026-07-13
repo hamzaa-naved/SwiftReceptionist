@@ -26,7 +26,7 @@ export default function ContactPage() {
 
         <div className="grid items-start gap-10 lg:grid-cols-[1.2fr_1fr]">
           {booking.embedUrl ? (
-            <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-card">
+            <div className="overflow-hidden border border-line bg-ivory-raised">
               <iframe
                 src={booking.embedUrl}
                 title="Book a call"
@@ -35,12 +35,12 @@ export default function ContactPage() {
               />
             </div>
           ) : (
-            <div className="flex h-full min-h-72 flex-col items-center justify-center rounded-2xl border border-dashed border-input bg-paper-warm p-8 text-center">
-              <CalendarClock className="mb-4 h-8 w-8 text-muted-foreground" aria-hidden />
-              <h2 className="font-display text-lg font-bold">
+            <div className="flex h-full min-h-72 flex-col items-center justify-center border border-line bg-ivory-deep p-8 text-center">
+              <CalendarClock className="mb-5 h-8 w-8 text-brass-500" strokeWidth={1.5} aria-hidden />
+              <h2 className="font-display text-2xl font-medium">
                 Calendar booking is almost live
               </h2>
-              <p className="mt-2 max-w-sm text-sm leading-relaxed text-muted-foreground">
+              <p className="mt-3 max-w-sm text-sm leading-relaxed text-espresso-700">
                 Use the form and we&apos;ll call you back to find a time —
                 usually the same business day.
               </p>
@@ -48,16 +48,16 @@ export default function ContactPage() {
           )}
 
           <div>
-            <h2 className="font-display mb-4 text-xl font-bold">
+            <h2 className="font-display mb-5 text-2xl font-medium">
               Prefer we call you?
             </h2>
             <LeadForm />
-            <p className="mt-6 flex items-center justify-center gap-2 text-sm text-muted-foreground">
-              <Mail className="h-4 w-4" aria-hidden />
+            <p className="mt-6 flex items-center justify-center gap-2 text-sm text-espresso-700">
+              <Mail className="h-4 w-4 text-brass-500" aria-hidden />
               Or email us directly:{" "}
               <a
                 href={`mailto:${site.contact.email}`}
-                className="font-semibold text-flame-600 underline-offset-4 hover:underline"
+                className="link-underline font-medium text-espresso-950"
               >
                 {site.contact.email}
               </a>

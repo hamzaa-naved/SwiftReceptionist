@@ -20,7 +20,7 @@ export default function AboutPage() {
             kicker="About us"
             title="We do one thing: make sure your phone gets answered."
           />
-          <div className="space-y-5 text-lg leading-relaxed text-ink-700">
+          <div className="space-y-5 text-lg leading-relaxed text-espresso-700">
             <p>
               Swift Receptionist started with a pattern we couldn&apos;t
               unsee. Call ten local service companies — electricians, garage
@@ -54,9 +54,9 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div className="mt-10 rounded-2xl border border-border bg-card p-6 shadow-card">
-            <h2 className="font-display text-lg font-bold">How we work with you</h2>
-            <ul className="mt-4 space-y-3 text-base leading-relaxed text-muted-foreground">
+          <div className="mt-12 border border-line bg-ivory-raised p-8">
+            <h2 className="font-display text-2xl font-medium">How we work with you</h2>
+            <ul className="mt-5 space-y-3 text-base leading-relaxed text-espresso-700">
               <li>
                 <strong className="text-foreground">Straight answers.</strong>{" "}
                 You get one flat price, on the first call. If we&apos;re not a
@@ -77,11 +77,11 @@ export default function AboutPage() {
             </ul>
           </div>
 
-          <p className="mt-10 text-base text-muted-foreground">
+          <p className="mt-10 text-base text-espresso-700">
             Questions, skepticism, edge cases — we want all of it:{" "}
             <a
               href={`mailto:${site.contact.email}`}
-              className="font-semibold text-flame-600 underline-offset-4 hover:underline"
+              className="link-underline font-medium text-espresso-950"
             >
               {site.contact.email}
             </a>

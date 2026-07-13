@@ -34,26 +34,26 @@ export default function IndustriesPage() {
         />
       </Section>
       <Section className="pt-0">
-        <div className="grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-px overflow-hidden border-y border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
           {niches.map((niche, i) => {
             const Icon = icons[niche.icon];
             return (
               <Reveal key={niche.slug} delay={i * 0.06} className="h-full">
                 <Link
                   href={`/industries/${niche.slug}`}
-                  className="group flex h-full flex-col bg-card p-6 transition-colors hover:bg-concrete-50 focus-visible:outline-2 focus-visible:outline-ring"
+                  className="group flex h-full flex-col bg-ivory p-8 transition-colors duration-500 hover:bg-ivory-raised"
                 >
-                  <div className="mb-4 inline-flex h-11 w-11 items-center justify-center bg-graphite-950">
-                    <Icon className="h-5 w-5 text-volt-400" aria-hidden />
+                  <div className="mb-6 inline-flex h-11 w-11 items-center justify-center border border-line bg-ivory-raised">
+                    <Icon className="h-5 w-5 text-brass-500" strokeWidth={1.5} aria-hidden />
                   </div>
-                  <h2 className="font-display text-xl font-bold uppercase leading-tight">{niche.name}</h2>
-                  <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
+                  <h2 className="font-display text-2xl font-medium leading-tight">{niche.name}</h2>
+                  <p className="mt-3 flex-1 text-sm leading-relaxed text-espresso-700">
                     {niche.homeHook}
                   </p>
-                  <span className="mt-4 inline-flex items-center gap-1.5 font-mono text-xs font-medium uppercase tracking-[0.1em] text-graphite-700">
+                  <span className="mt-6 inline-flex items-center gap-2 text-[0.7rem] font-medium uppercase tracking-[0.22em] text-brass-500">
                     See the {niche.shortName.toLowerCase()} page
                     <ArrowRight
-                      className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
+                      className="h-3.5 w-3.5 transition-transform duration-500 group-hover:translate-x-1"
                       aria-hidden
                     />
                   </span>
@@ -62,17 +62,17 @@ export default function IndustriesPage() {
             );
           })}
           <Reveal delay={niches.length * 0.06} className="h-full">
-            <div className="flex h-full flex-col justify-center bg-concrete-100 p-6 text-center">
-              <h2 className="font-display text-xl font-bold uppercase">
+            <div className="flex h-full flex-col justify-center bg-ivory-deep p-8 text-center">
+              <h2 className="font-display text-2xl font-medium">
                 Don&apos;t see your trade?
               </h2>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              <p className="mt-3 text-sm leading-relaxed text-espresso-700">
                 If your business lives and dies by inbound calls, we can build
                 for it. Tell us what you do.
               </p>
               <Link
                 href="/contact"
-                className="mt-4 text-sm font-semibold text-graphite-950 underline decoration-volt-400 decoration-2 underline-offset-4"
+                className="link-underline mx-auto mt-5 text-sm font-medium text-espresso-950"
               >
                 Ask us about your industry →
               </Link>

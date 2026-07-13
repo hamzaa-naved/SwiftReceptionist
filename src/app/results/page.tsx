@@ -60,24 +60,24 @@ export default function ResultsPage() {
         />
 
         {caseStudies.length > 0 ? (
-          <div className="grid gap-6 md:grid-cols-2">
+          <div className="grid gap-px overflow-hidden border-y border-line bg-line md:grid-cols-2">
             {caseStudies.map((cs, i) => (
-              <Reveal key={cs.business} delay={i * 0.06}>
-                <article className="h-full rounded-2xl border border-border bg-card p-8 shadow-card">
-                  <p className="text-sm font-semibold uppercase tracking-widest text-flame-600">
+              <Reveal key={cs.business} delay={i * 0.06} className="h-full">
+                <article className="h-full bg-ivory p-8 transition-colors duration-500 hover:bg-ivory-raised md:p-10">
+                  <p className="eyebrow text-brass-500">
                     {cs.niche} · {cs.location}
                   </p>
-                  <h2 className="font-display mt-2 text-xl font-bold">{cs.business}</h2>
-                  <blockquote className="mt-4 border-l-2 border-flame-500 pl-4 text-muted-foreground">
+                  <h2 className="font-display mt-4 text-2xl font-medium">{cs.business}</h2>
+                  <blockquote className="font-display mt-4 border-l-2 border-brass-500 pl-4 text-lg italic leading-snug text-espresso-800">
                     “{cs.quote}”
                   </blockquote>
                   <dl className="mt-6 grid grid-cols-2 gap-4">
                     {cs.metrics.map((m) => (
                       <div key={m.label}>
-                        <dt className="text-xs uppercase tracking-wider text-muted-foreground">
+                        <dt className="text-xs uppercase tracking-wider text-espresso-500">
                           {m.label}
                         </dt>
-                        <dd className="font-display text-2xl font-bold text-flame-600">
+                        <dd className="font-display text-3xl font-light text-brass-500">
                           {m.value}
                         </dd>
                       </div>
@@ -88,8 +88,8 @@ export default function ResultsPage() {
             ))}
           </div>
         ) : (
-          <div className="mx-auto max-w-2xl rounded-2xl border border-dashed border-input bg-paper-warm p-10 text-center">
-            <h2 className="font-display text-xl font-bold">
+          <div className="mx-auto max-w-2xl border border-line bg-ivory-deep p-10 text-center">
+            <h2 className="font-display text-2xl font-medium">
               Case studies are being documented now
             </h2>
             <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-muted-foreground">
@@ -113,13 +113,13 @@ export default function ResultsPage() {
           title="Every client sees these four numbers"
           lede="This is the scoreboard your dashboard shows — and what future case studies here will report."
         />
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-px overflow-hidden border-y border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
           {tracked.map((t, i) => (
-            <Reveal key={t.label} delay={i * 0.05}>
-              <div className="h-full rounded-2xl border border-border bg-card p-6 shadow-card transition-shadow hover:shadow-lift">
-                <t.icon className="mb-4 h-6 w-6 text-flame-600" aria-hidden />
-                <h3 className="font-display mb-1.5 text-base font-bold">{t.label}</h3>
-                <p className="text-sm leading-relaxed text-muted-foreground">{t.detail}</p>
+            <Reveal key={t.label} delay={i * 0.05} className="h-full">
+              <div className="h-full bg-ivory p-8 transition-colors duration-500 hover:bg-ivory-raised">
+                <t.icon className="mb-5 h-6 w-6 text-brass-500" strokeWidth={1.5} aria-hidden />
+                <h3 className="font-display mb-2 text-xl font-medium leading-tight">{t.label}</h3>
+                <p className="text-sm leading-relaxed text-espresso-700">{t.detail}</p>
               </div>
             </Reveal>
           ))}

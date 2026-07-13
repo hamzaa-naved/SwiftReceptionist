@@ -64,13 +64,13 @@ export default function HowItWorksPage() {
           kicker="Under the hood"
           title="What 'it just answers' actually means"
         />
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-px overflow-hidden border-y border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
           {details.map((d, i) => (
-            <Reveal key={d.title} delay={i * 0.05}>
-              <div className="h-full rounded-2xl border border-border bg-card p-6 shadow-card transition-shadow hover:shadow-lift">
-                <d.icon className="mb-4 h-6 w-6 text-flame-600" aria-hidden />
-                <h3 className="font-display mb-2 text-base font-bold">{d.title}</h3>
-                <p className="text-sm leading-relaxed text-muted-foreground">{d.body}</p>
+            <Reveal key={d.title} delay={i * 0.05} className="h-full">
+              <div className="h-full bg-ivory p-8 transition-colors duration-500 hover:bg-ivory-raised">
+                <d.icon className="mb-5 h-6 w-6 text-brass-500" strokeWidth={1.5} aria-hidden />
+                <h3 className="font-display mb-2 text-xl font-medium leading-tight">{d.title}</h3>
+                <p className="text-sm leading-relaxed text-espresso-700">{d.body}</p>
               </div>
             </Reveal>
           ))}

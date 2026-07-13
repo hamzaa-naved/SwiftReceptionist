@@ -25,16 +25,16 @@ export default function BlogIndexPage() {
           title="Straight talk about your phone line"
           lede="No growth-hacking fluff. Practical math and honest comparisons for owners who'd rather be working than reading."
         />
-        <div className="mx-auto max-w-3xl space-y-5">
+        <div className="mx-auto max-w-3xl border-t border-line">
           {posts.map((post) => {
             const niche = post.niche ? getNiche(post.niche) : undefined;
             return (
-              <article key={post.slug}>
+              <article key={post.slug} className="border-b border-line">
                 <Link
                   href={`/blog/${post.slug}`}
-                  className="group block rounded-2xl border border-border bg-card p-6 shadow-card transition-shadow hover:shadow-lift focus-visible:outline-2 focus-visible:outline-ring sm:p-8"
+                  className="group block px-2 py-8 transition-colors duration-500 hover:bg-ivory-raised sm:px-6 sm:py-10"
                 >
-                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[0.7rem] font-medium uppercase tracking-[0.22em] text-espresso-500">
                     <time dateTime={post.date}>
                       {new Date(post.date + "T00:00:00").toLocaleDateString("en-US", {
                         month: "long",
@@ -47,19 +47,19 @@ export default function BlogIndexPage() {
                     {niche && (
                       <>
                         <span aria-hidden>·</span>
-                        <span className="text-flame-600">{niche.shortName}</span>
+                        <span className="text-brass-500">{niche.shortName}</span>
                       </>
                     )}
                   </div>
-                  <h2 className="font-display mt-3 text-xl font-bold leading-snug group-hover:text-flame-600 sm:text-2xl">
+                  <h2 className="font-display mt-4 text-2xl font-medium leading-snug transition-colors duration-500 group-hover:text-brass-500 sm:text-3xl">
                     {post.title}
                   </h2>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground sm:text-base">
+                  <p className="mt-3 text-sm leading-relaxed text-espresso-700 sm:text-base">
                     {post.description}
                   </p>
-                  <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-flame-600">
+                  <span className="mt-5 inline-flex items-center gap-2 text-[0.7rem] font-medium uppercase tracking-[0.22em] text-brass-500">
                     Read it
-                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
+                    <ArrowRight className="h-3.5 w-3.5 transition-transform duration-500 group-hover:translate-x-1" aria-hidden />
                   </span>
                 </Link>
               </article>

@@ -66,8 +66,8 @@ export default function PricingPage() {
 
         <div className="mx-auto grid max-w-4xl items-stretch gap-6 md:grid-cols-[1.3fr_1fr]">
           <Reveal>
-            <div className="h-full rounded-2xl border border-border bg-card p-8 shadow-lift">
-              <h2 className="font-display text-xl font-bold">
+            <div className="h-full border border-line bg-ivory-raised p-8 md:p-10">
+              <h2 className="font-display text-2xl font-medium">
                 Everything is included
               </h2>
               <ul className="mt-5 space-y-3">
@@ -81,30 +81,30 @@ export default function PricingPage() {
             </div>
           </Reveal>
           <Reveal delay={0.08}>
-            <div className="flex h-full flex-col justify-between rounded-2xl bg-ink-950 p-8 text-paper shadow-lift">
+            <div className="flex h-full flex-col justify-between bg-espresso-950 p-8 text-ivory md:p-10">
               <div>
                 <p className="eyebrow text-brass-400">
                   The comparison that matters
                 </p>
-                <p className="mt-5 text-sm text-ink-300">A human receptionist:</p>
-                <p className="font-display text-3xl font-bold text-paper">
-                  $3,000+<span className="text-base font-medium text-ink-300">/mo</span>
+                <p className="mt-6 text-sm text-espresso-300">A human receptionist:</p>
+                <p className="font-display text-4xl font-light text-ivory">
+                  $3,000+<span className="text-base text-espresso-300">/mo</span>
                 </p>
-                <p className="mt-1 text-xs text-ink-300">
+                <p className="mt-1 text-xs text-espresso-300">
                   One person, business hours, one call at a time.
                 </p>
-                <p className="mt-5 text-sm text-ink-300">Swift Receptionist:</p>
-                <p className="font-display text-3xl font-bold text-flame-400">
+                <p className="mt-6 text-sm text-espresso-300">Swift Receptionist:</p>
+                <p className="font-display text-3xl font-light italic text-brass-400">
                   A fraction of that
                 </p>
-                <p className="mt-1 text-xs text-ink-300">
+                <p className="mt-1 text-xs text-espresso-300">
                   Every call, all hours, exact quote on your 15-minute call.
                 </p>
               </div>
               <Button
                 asChild
                 size="lg"
-                className="mt-8 w-full bg-flame-500 text-ink-950 hover:bg-flame-400"
+                className="mt-8 w-full bg-ivory text-espresso-950 hover:bg-brass-100"
               >
                 <TrackedLink
                   event="cta_book_call"

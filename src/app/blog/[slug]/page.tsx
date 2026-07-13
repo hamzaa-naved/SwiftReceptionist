@@ -71,12 +71,12 @@ export default async function BlogPostPage({
         <article className="mx-auto max-w-2xl">
           <Link
             href="/blog"
-            className="inline-flex items-center gap-1.5 text-sm font-semibold text-muted-foreground hover:text-flame-600"
+            className="inline-flex items-center gap-2 text-[0.7rem] font-medium uppercase tracking-[0.22em] text-espresso-500 transition-colors duration-500 hover:text-brass-500"
           >
-            <ArrowLeft className="h-4 w-4" aria-hidden /> All resources
+            <ArrowLeft className="h-3.5 w-3.5" aria-hidden /> All resources
           </Link>
-          <header className="mt-6">
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          <header className="mt-8">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[0.7rem] font-medium uppercase tracking-[0.22em] text-espresso-500">
               <time dateTime={post.date}>
                 {new Date(post.date + "T00:00:00").toLocaleDateString("en-US", {
                   month: "long",
@@ -91,14 +91,14 @@ export default async function BlogPostPage({
                   <span aria-hidden>·</span>
                   <Link
                     href={`/industries/${niche.slug}`}
-                    className="text-flame-600 hover:underline"
+                    className="text-brass-500 transition-colors duration-500 hover:text-espresso-950"
                   >
                     {niche.shortName}
                   </Link>
                 </>
               )}
             </div>
-            <h1 className="font-display mt-4 text-balance text-4xl font-bold uppercase leading-[0.98] sm:text-5xl">
+            <h1 className="font-display mt-5 text-balance text-4xl font-light leading-[1.05] tracking-[-0.02em] sm:text-5xl">
               {post.title}
             </h1>
           </header>
@@ -106,17 +106,17 @@ export default async function BlogPostPage({
             <MDXRemote source={post.content} />
           </div>
           {niche && (
-            <aside className="mt-12 rounded-2xl border border-border bg-paper-warm p-6">
-              <p className="font-display text-base font-bold">
+            <aside className="mt-14 border border-line bg-ivory-raised p-7">
+              <p className="font-display text-xl font-medium">
                 Run {articleFor(niche.noun)} {niche.noun}?
               </p>
-              <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+              <p className="mt-2 text-sm leading-relaxed text-espresso-700">
                 See exactly how the receptionist handles {niche.shortName.toLowerCase()}{" "}
                 calls — emergencies, booking, and all.
               </p>
               <Link
                 href={`/industries/${niche.slug}`}
-                className="mt-3 inline-block text-sm font-semibold text-flame-600 underline-offset-4 hover:underline"
+                className="link-underline mt-4 inline-block text-sm font-medium text-espresso-950"
               >
                 See the {niche.shortName.toLowerCase()} page →
               </Link>
