@@ -26,21 +26,28 @@ const companyLinks = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-ink-800 bg-ink-950 text-ink-300">
-      <div className="mx-auto w-full max-w-6xl px-5 py-14 sm:px-8">
-        <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+    <footer className="border-t border-espresso-800 bg-espresso-950 text-espresso-300">
+      <div className="mx-auto w-full max-w-6xl px-6 py-20 sm:px-10">
+        {/* A closing editorial line */}
+        <p className="font-display mb-16 max-w-3xl text-balance text-3xl font-light italic leading-tight text-ivory sm:text-4xl">
+          The phone is still ringing.
+          <span className="text-brass-400"> Someone should answer it.</span>
+        </p>
+
+        <div className="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div>
             <Link href="/" aria-label={`${site.name} home`}>
               <Logo tone="light" />
             </Link>
-            <p className="mt-4 max-w-xs text-sm leading-relaxed">
-              24/7 AI receptionists for local service businesses. Every call
-              answered, every job captured — while you&apos;re on the job.
+            <p className="mt-5 max-w-xs text-sm leading-relaxed text-espresso-300">
+              24/7 AI receptionists for electrical contractors and the trades.
+              Every call answered, every job captured — while you&apos;re on
+              the job.
             </p>
-            <p className="mt-4 text-sm">
+            <p className="mt-5 text-sm">
               <a
                 href={`mailto:${site.contact.email}`}
-                className="text-paper underline-offset-4 hover:underline"
+                className="link-underline text-ivory"
               >
                 {site.contact.email}
               </a>
@@ -52,10 +59,7 @@ export function Footer() {
           <FooterColumn title="Company" links={companyLinks} />
         </div>
 
-        {/* Until the real legal identity is set in src/lib/site.ts (README
-            launch checklist), show only the brand line — never raw
-            [PLACEHOLDER] text to visitors. */}
-        <div className="mt-12 flex flex-col gap-3 border-t border-ink-800 pt-6 text-xs leading-relaxed sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-16 flex flex-col gap-3 border-t border-espresso-800 pt-6 text-xs leading-relaxed text-espresso-500 sm:flex-row sm:items-center sm:justify-between">
           <p>
             © {new Date().getFullYear()}{" "}
             {isPlaceholder(site.legal.entityName) ? site.name : site.legal.entityName}
@@ -81,15 +85,13 @@ function FooterColumn({
 }) {
   return (
     <nav aria-label={title}>
-      <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-paper">
-        {title}
-      </h3>
-      <ul className="space-y-2.5">
+      <h3 className="eyebrow mb-5 text-brass-400">{title}</h3>
+      <ul className="space-y-3">
         {links.map((link) => (
           <li key={link.href}>
             <Link
               href={link.href}
-              className="text-sm transition-colors hover:text-paper"
+              className="text-sm text-espresso-300 transition-colors hover:text-ivory"
             >
               {link.label}
             </Link>

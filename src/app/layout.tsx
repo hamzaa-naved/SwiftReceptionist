@@ -1,31 +1,30 @@
 import type { Metadata, Viewport } from "next";
-import { Barlow, Barlow_Condensed, IBM_Plex_Mono } from "next/font/google";
+import { Fraunces, Instrument_Sans } from "next/font/google";
 import { site } from "@/lib/site";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { MobileCtaBar } from "@/components/layout/mobile-cta-bar";
 import { AnalyticsScripts } from "@/components/shared/analytics-scripts";
 import { MotionProvider } from "@/components/shared/motion-provider";
+import { SmoothScroll } from "@/components/shared/smooth-scroll";
+import { GrainOverlay } from "@/components/shared/grain-overlay";
 import "./globals.css";
 
-const barlow = Barlow({
+// Display: Fraunces — a soft, high-contrast old-style serif with an
+// optical-size axis; warm and crafted, ideal for cinematic headlines.
+const fraunces = Fraunces({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-barlow",
+  weight: ["300", "400", "500", "600"],
+  style: ["normal", "italic"],
+  variable: "--font-fraunces",
   display: "swap",
 });
 
-const barlowCondensed = Barlow_Condensed({
+// Body: Instrument Sans — a refined grotesque with subtle character that
+// pairs with the serif without the default-Inter look.
+const instrument = Instrument_Sans({
   subsets: ["latin"],
-  weight: ["600", "700"],
-  variable: "--font-barlow-condensed",
-  display: "swap",
-});
-
-const plexMono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  variable: "--font-plex-mono",
+  variable: "--font-hanken",
   display: "swap",
 });
 
@@ -52,8 +51,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  // Matches the page ground so mobile browser chrome blends with the site.
-  themeColor: "#f1f2ef",
+  // Matches the ivory ground so mobile browser chrome blends with the site.
+  themeColor: "#f6f1e7",
 };
 
 export default function RootLayout({
@@ -64,13 +63,14 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${barlow.variable} ${barlowCondensed.variable} ${plexMono.variable}`}
+      className={`${fraunces.variable} ${instrument.variable}`}
     >
       <body className="flex min-h-screen flex-col">
         <MotionProvider>
+          <SmoothScroll />
           <a
             href="#main"
-            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-md focus:bg-ink-950 focus:px-4 focus:py-2 focus:text-paper"
+            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-md focus:bg-espresso-950 focus:px-4 focus:py-2 focus:text-ivory"
           >
             Skip to content
           </a>
@@ -80,6 +80,7 @@ export default function RootLayout({
           </main>
           <Footer />
           <MobileCtaBar />
+          <GrainOverlay />
         </MotionProvider>
         <AnalyticsScripts />
       </body>

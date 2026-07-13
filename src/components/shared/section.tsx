@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { type ReactNode } from "react";
 import { Reveal } from "@/components/shared/reveal";
 
-/** Consistent section rhythm + optional graphite (dark panel) treatment. */
+/** Section rhythm with generous editorial air + optional espresso scene. */
 export function Section({
   children,
   className,
@@ -18,21 +18,20 @@ export function Section({
     <section
       id={id}
       className={cn(
-        "py-16 md:py-24",
-        tone === "ink" && "bg-graphite-950 text-concrete-50",
-        tone === "warm" && "bg-concrete-100",
+        "py-24 md:py-36",
+        tone === "ink" && "bg-espresso-950 text-ivory",
+        tone === "warm" && "bg-ivory-deep",
         className,
       )}
     >
-      <div className="mx-auto w-full max-w-6xl px-5 sm:px-8">{children}</div>
+      <div className="mx-auto w-full max-w-6xl px-6 sm:px-10">{children}</div>
     </section>
   );
 }
 
 /**
- * Dispatch-board section header: volt tab bar + LED/mono kicker +
- * condensed uppercase title. Left-anchored by default — the whole
- * system reads like a job ticket, not centered marketing sections.
+ * Editorial section header: a numbered eyebrow + large Fraunces headline
+ * with a serif lede. Left-anchored, generous, magazine-like.
  */
 export function SectionHeader({
   kicker,
@@ -50,21 +49,17 @@ export function SectionHeader({
   return (
     <Reveal
       className={cn(
-        "mb-10 md:mb-14",
-        align === "center" && "mx-auto max-w-2xl text-center",
-        align === "left" &&
-          cn(
-            "max-w-2xl border-l-[3px] pl-5",
-            tone === "ink" ? "border-volt-400" : "border-graphite-950",
-          ),
+        "mb-14 md:mb-20",
+        align === "center" && "mx-auto max-w-3xl text-center",
+        align === "left" && "max-w-3xl",
       )}
     >
       {kicker && (
         <p
           className={cn(
-            "streak-lines mb-3 text-xs font-medium uppercase tracking-[0.18em]",
+            "eyebrow mb-6",
             align === "center" && "justify-center",
-            tone === "ink" ? "text-graphite-300" : "text-graphite-700",
+            tone === "ink" ? "text-brass-400" : "text-brass-500",
           )}
         >
           {kicker}
@@ -72,8 +67,8 @@ export function SectionHeader({
       )}
       <h2
         className={cn(
-          "font-display text-balance text-4xl font-bold uppercase leading-[0.98] sm:text-5xl",
-          tone === "ink" ? "text-concrete-50" : "text-foreground",
+          "font-display text-balance text-[2.6rem] font-medium leading-[1.02] sm:text-6xl",
+          tone === "ink" ? "text-ivory" : "text-espresso-950",
         )}
       >
         {title}
@@ -81,8 +76,8 @@ export function SectionHeader({
       {lede && (
         <p
           className={cn(
-            "mt-4 max-w-xl text-lg leading-relaxed",
-            tone === "ink" ? "text-graphite-300" : "text-muted-foreground",
+            "mt-6 max-w-2xl text-lg leading-relaxed sm:text-xl",
+            tone === "ink" ? "text-espresso-300" : "text-espresso-700",
           )}
         >
           {lede}

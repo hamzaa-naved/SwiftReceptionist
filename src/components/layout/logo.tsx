@@ -1,24 +1,33 @@
 import { cn } from "@/lib/utils";
 
 /**
- * Brand mark: a volt bolt on a graphite panel square — the answered
- * call as a live circuit. Echoes the square LED used as the section
- * kicker device. Pure SVG, crisp at any size.
+ * Brand mark: a serif monogram "S" inside a hairline circle — an
+ * editorial maker's-mark. Understated, luxe, and legible at any size.
  */
 export function LogoMark({ className }: { className?: string }) {
   return (
     <svg
-      viewBox="0 0 32 32"
+      viewBox="0 0 40 40"
       fill="none"
       aria-hidden="true"
-      className={cn("h-8 w-8", className)}
+      className={cn("h-9 w-9", className)}
     >
-      <rect x="0" y="0" width="32" height="32" rx="3" className="fill-graphite-950" />
-      <rect x="2" y="2" width="28" height="28" rx="2" className="stroke-graphite-800" strokeWidth="1.5" fill="none" />
-      <path
-        d="M17.8 5.5 9.5 17.5h6l-1.3 9 8.3-12h-6z"
-        className="fill-volt-400"
-      />
+      <circle cx="20" cy="20" r="19" className="stroke-current" strokeWidth="1" opacity="0.4" />
+      <text
+        x="20"
+        y="20"
+        textAnchor="middle"
+        dominantBaseline="central"
+        className="fill-current"
+        style={{
+          fontFamily: "var(--font-fraunces), Georgia, serif",
+          fontSize: "22px",
+          fontStyle: "italic",
+          fontWeight: 500,
+        }}
+      >
+        S
+      </text>
     </svg>
   );
 }
@@ -28,22 +37,21 @@ export function Logo({
   tone = "dark",
 }: {
   className?: string;
-  /** "light" renders the wordmark for dark backgrounds */
+  /** "light" renders for dark grounds */
   tone?: "dark" | "light";
 }) {
   return (
-    <span className={cn("inline-flex items-center gap-2.5", className)}>
+    <span
+      className={cn(
+        "inline-flex items-center gap-3",
+        tone === "light" ? "text-ivory" : "text-espresso-950",
+        className,
+      )}
+    >
       <LogoMark />
-      <span
-        className={cn(
-          "font-display text-xl font-bold uppercase tracking-wide",
-          tone === "light" ? "text-concrete-50" : "text-foreground",
-        )}
-      >
+      <span className="font-display text-[19px] font-medium leading-none tracking-tight">
         Swift{" "}
-        <span className={tone === "light" ? "text-volt-400" : "text-graphite-500"}>
-          Receptionist
-        </span>
+        <span className="italic text-brass-500">Receptionist</span>
       </span>
     </span>
   );
