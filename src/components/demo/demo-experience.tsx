@@ -123,7 +123,7 @@ function ModeTab({
       aria-pressed={active}
       onClick={onClick}
       className={cn(
-        "inline-flex items-center gap-2 px-6 py-2.5 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-ring",
+        "inline-flex items-center gap-2 px-6 py-2.5 text-sm font-medium transition-colors duration-500",
         active ? "bg-ivory text-espresso-950" : "text-espresso-300 hover:text-ivory",
       )}
     >
@@ -162,13 +162,13 @@ function VoicePanel({
     return (
       <Card>
         <div className="p-8 text-center">
-          <Mic className="mx-auto mb-4 h-8 w-8 text-ink-500" aria-hidden />
-          <h2 className="font-display text-lg font-bold text-paper">
+          <Mic className="mx-auto mb-4 h-8 w-8 text-espresso-500" strokeWidth={1.5} aria-hidden />
+          <h2 className="font-display text-2xl font-medium text-ivory">
             The voice line is being connected
           </h2>
-          <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-ink-300">
+          <p className="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-espresso-300">
             The talk-out-loud demo isn&apos;t live on this deployment yet. Use{" "}
-            <strong className="text-paper">Type to it</strong> above for a
+            <strong className="font-medium text-ivory">Type to it</strong> above for a
             preview of how it handles calls — or book a call and we&apos;ll
             run the live demo with you.
           </p>
@@ -212,11 +212,11 @@ function VoicePanel({
       <div className="flex flex-col items-center p-8">
         {outOfSessions ? (
           <div className="text-center">
-            <AlertCircle className="mx-auto mb-3 h-7 w-7 text-flame-400" aria-hidden />
-            <p className="font-semibold text-paper">
+            <AlertCircle className="mx-auto mb-3 h-7 w-7 text-brass-400" strokeWidth={1.5} aria-hidden />
+            <p className="font-medium text-ivory">
               You&apos;ve used today&apos;s demo sessions.
             </p>
-            <p className="mt-1 text-sm text-ink-300">
+            <p className="mt-1 text-sm text-espresso-300">
               Want unlimited time with it? Book a call — we&apos;ll demo it
               live on your own business scenario.
             </p>
@@ -224,7 +224,7 @@ function VoicePanel({
         ) : busy ? (
           <>
             <StatusOrb state={state} />
-            <p className="mt-4 text-sm font-medium text-ink-300" aria-live="polite">
+            <p className="mt-4 text-sm font-medium text-espresso-300" aria-live="polite">
               {state === "connecting" && "Connecting…"}
               {state === "listening" && "It's listening — go ahead, talk to it"}
               {state === "speaking" && "Receptionist speaking…"}
@@ -233,7 +233,7 @@ function VoicePanel({
               type="button"
               variant="outline"
               onClick={() => adapter.stop()}
-              className="mt-6 border-ink-700 bg-transparent text-paper hover:bg-ink-800 hover:text-paper"
+              className="mt-6 border-ivory/30 bg-transparent text-ivory hover:border-ivory hover:bg-ivory hover:text-espresso-950"
             >
               <PhoneOff className="h-4 w-4" aria-hidden /> End call
             </Button>
@@ -243,19 +243,19 @@ function VoicePanel({
             <button
               type="button"
               onClick={start}
-              className="group relative flex h-24 w-24 items-center justify-center rounded-full bg-flame-500 text-ink-950 shadow-lift transition-transform hover:scale-105 focus-visible:outline-2 focus-visible:outline-ring"
+              className="group relative flex h-24 w-24 items-center justify-center rounded-full bg-brass-400 text-espresso-950 transition-transform duration-500 [transition-timing-function:cubic-bezier(0.16,1,0.3,1)] hover:scale-105"
               aria-label="Start voice demo"
             >
-              <span className="absolute inline-flex h-full w-full animate-ring-pulse rounded-full bg-flame-500/50" />
-              <Mic className="relative h-9 w-9" aria-hidden />
+              <span className="absolute inline-flex h-full w-full animate-ring-pulse rounded-full bg-brass-400/50" />
+              <Mic className="relative h-9 w-9" strokeWidth={1.5} aria-hidden />
             </button>
-            <p className="mt-5 font-semibold text-paper">Tap to call the receptionist</p>
-            <p className="mt-1 text-xs text-ink-300">
+            <p className="mt-5 font-medium text-ivory">Tap to call the receptionist</p>
+            <p className="mt-1 text-xs text-espresso-300">
               Uses your microphone · ~{Math.round(DEMO_MAX_DURATION_SECONDS / 60)} min max
               {remaining !== null && ` · ${remaining} session${remaining === 1 ? "" : "s"} left today`}
             </p>
             {(state === "ended" || state === "error") && (
-              <p className="mt-3 text-sm text-ink-300" aria-live="polite">
+              <p className="mt-3 text-sm text-espresso-300" aria-live="polite">
                 {state === "ended" ? "Call ended — tap to call again." : error || "Something went wrong — try again."}
               </p>
             )}
@@ -263,7 +263,7 @@ function VoicePanel({
         )}
       </div>
       {transcript.length > 0 && (
-        <div className="max-h-64 space-y-2 overflow-y-auto border-t border-ink-800 p-5">
+        <div className="max-h-64 space-y-2 overflow-y-auto border-t border-espresso-800 p-5">
           {transcript.map((line, i) => (
             <Bubble key={i} message={line} />
           ))}
@@ -277,8 +277,8 @@ function StatusOrb({ state }: { state: VoiceSessionState }) {
   return (
     <div
       className={cn(
-        "relative flex h-24 w-24 items-center justify-center rounded-full transition-colors",
-        state === "speaking" ? "bg-flame-500" : "bg-ink-800",
+        "relative flex h-24 w-24 items-center justify-center rounded-full transition-colors duration-500",
+        state === "speaking" ? "bg-brass-400" : "bg-espresso-800",
       )}
       aria-hidden
     >
@@ -286,13 +286,14 @@ function StatusOrb({ state }: { state: VoiceSessionState }) {
         className={cn(
           "absolute inline-flex h-full w-full rounded-full",
           state !== "connecting" && "animate-ring-pulse",
-          state === "speaking" ? "bg-flame-500/50" : "bg-ink-500/40",
+          state === "speaking" ? "bg-brass-400/50" : "bg-espresso-500/40",
         )}
       />
       <Mic
+        strokeWidth={1.5}
         className={cn(
           "relative h-9 w-9",
-          state === "speaking" ? "text-ink-950" : "text-paper",
+          state === "speaking" ? "text-espresso-950" : "text-ivory",
         )}
       />
     </div>
@@ -342,7 +343,7 @@ function ChatPanel({ bizName, nicheSlug }: { bizName: string; nicheSlug: string 
 
   return (
     <Card>
-      <p className="border-b border-ink-800 px-5 py-2.5 text-center text-[11px] font-medium uppercase tracking-wider text-ink-300">
+      <p className="border-b border-espresso-800 px-5 py-3 text-center text-[0.65rem] font-medium uppercase tracking-[0.22em] text-espresso-300">
         Scripted text preview — the voice demo is the real experience
       </p>
       <div ref={scrollRef} className="h-80 space-y-3 overflow-y-auto p-5">
@@ -351,7 +352,7 @@ function ChatPanel({ bizName, nicheSlug }: { bizName: string; nicheSlug: string 
         ))}
         {aiTyping && (
           <div className="flex justify-start">
-            <span className="rounded-2xl rounded-bl-sm bg-ink-800 px-4 py-3 text-sm text-ink-300">
+            <span className="rounded-[2px] bg-espresso-800 px-4 py-3 text-sm text-espresso-300">
               <span className="inline-flex gap-1" aria-label="Receptionist is typing">
                 <Dot delay="0ms" /> <Dot delay="150ms" /> <Dot delay="300ms" />
               </span>
@@ -360,7 +361,7 @@ function ChatPanel({ bizName, nicheSlug }: { bizName: string; nicheSlug: string 
         )}
       </div>
       <form
-        className="flex gap-2 border-t border-ink-800 p-4"
+        className="flex gap-2 border-t border-espresso-800 p-4"
         onSubmit={(e) => {
           e.preventDefault();
           send();
@@ -371,13 +372,13 @@ function ChatPanel({ bizName, nicheSlug }: { bizName: string; nicheSlug: string 
           onChange={(e) => setInput(e.target.value)}
           placeholder='Try: "My door is stuck and I need someone today"'
           aria-label="Your message"
-          className="border-ink-700 bg-ink-900 text-paper placeholder:text-ink-500"
+          className="border-espresso-700 bg-espresso-900 text-ivory placeholder:text-espresso-500 focus-visible:border-ivory/60"
         />
         <Button
           type="submit"
           size="icon"
           aria-label="Send"
-          className="shrink-0 bg-flame-500 text-ink-950 hover:bg-flame-400"
+          className="shrink-0 bg-brass-400 text-espresso-950 hover:bg-brass-200"
         >
           <Send className="h-4 w-4" aria-hidden />
         </Button>
@@ -390,7 +391,7 @@ function ChatPanel({ bizName, nicheSlug }: { bizName: string; nicheSlug: string 
 
 function Card({ children }: { children: React.ReactNode }) {
   return (
-    <div className="overflow-hidden rounded-2xl border border-ink-800 bg-ink-950/80 shadow-lift backdrop-blur">
+    <div className="overflow-hidden border border-espresso-700/60 bg-espresso-900/50 backdrop-blur">
       {children}
     </div>
   );
@@ -401,10 +402,10 @@ function Bubble({ message }: { message: ChatMessage }) {
     <div className={cn("flex", message.speaker === "ai" ? "justify-start" : "justify-end")}>
       <p
         className={cn(
-          "max-w-[85%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed",
+          "max-w-[85%] rounded-[2px] px-4 py-2.5 text-sm leading-relaxed",
           message.speaker === "ai"
-            ? "rounded-bl-sm bg-ink-800 text-paper"
-            : "rounded-br-sm bg-flame-500/15 text-flame-100",
+            ? "bg-espresso-800 text-ivory"
+            : "bg-brass-400/15 text-brass-100",
         )}
       >
         {message.text}
@@ -416,7 +417,7 @@ function Bubble({ message }: { message: ChatMessage }) {
 function Dot({ delay }: { delay: string }) {
   return (
     <span
-      className="h-1.5 w-1.5 animate-bounce rounded-full bg-ink-300"
+      className="h-1.5 w-1.5 animate-bounce rounded-full bg-espresso-300"
       style={{ animationDelay: delay }}
     />
   );
