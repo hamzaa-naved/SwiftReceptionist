@@ -96,11 +96,11 @@ export function RoiCalculator({
     <div
       id="roi-calculator"
       className={cn(
-        "grid overflow-hidden border-2 border-graphite-950 bg-card md:grid-cols-[1.1fr_1fr]",
+        "grid overflow-hidden border border-line bg-ivory-raised md:grid-cols-[1.1fr_1fr]",
         className,
       )}
     >
-      <div className="space-y-8 p-6 sm:p-8">
+      <div className="space-y-9 p-8 sm:p-10">
         <CalcSlider
           label="Calls you can't answer per week"
           hint="Ringing out, voicemail, after-hours — be honest."
@@ -142,25 +142,27 @@ export function RoiCalculator({
         />
       </div>
 
-      <div className="flex flex-col justify-between gap-6 bg-graphite-950 p-6 text-concrete-50 sm:p-8">
+      <div className="flex flex-col justify-between gap-6 bg-espresso-950 p-8 text-ivory sm:p-10">
         <div>
-          <p className="streak-lines text-xs font-medium uppercase tracking-[0.18em] text-graphite-300">
-            <TrendingDown className="mr-1 inline h-4 w-4" aria-hidden />
+          <p className="eyebrow text-brass-400">
+            <TrendingDown className="h-4 w-4" aria-hidden />
             Leaking to voicemail
           </p>
-          <p className="font-mono mt-4 text-5xl font-medium tabular-nums tracking-tight text-volt-400">
+          <p className="font-display mt-6 text-6xl font-light tabular-nums leading-none text-brass-400 sm:text-7xl">
             <AnimatedUsd value={monthlyLoss} />
-            <span className="font-mono text-lg text-graphite-300"> /MO</span>
           </p>
-          <p className="mt-2 text-graphite-300">
+          <p className="mt-2 text-[0.7rem] uppercase tracking-[0.24em] text-espresso-300">
+            every month
+          </p>
+          <p className="mt-6 leading-relaxed text-espresso-300">
             That&apos;s{" "}
-            <strong className="font-semibold text-concrete-50">
+            <strong className="font-medium text-ivory">
               {formatUsd(yearlyLoss)} a year
             </strong>{" "}
             in jobs going to whoever answered instead.
           </p>
-          <p className="mt-4 font-mono text-[11px] leading-relaxed text-graphite-300">
-            Math: {missedCalls} missed calls/week × {WEEKS_PER_MONTH} weeks ×{" "}
+          <p className="mt-5 text-[0.72rem] leading-relaxed text-espresso-500">
+            {missedCalls} missed calls/week × {WEEKS_PER_MONTH} weeks ×{" "}
             {closeRate}% booking rate × {formatUsd(jobValue)} per job.
           </p>
         </div>
@@ -168,7 +170,7 @@ export function RoiCalculator({
           <Button
             asChild
             size="lg"
-            className="bg-volt-400 font-semibold uppercase tracking-wide text-graphite-950 hover:bg-volt-400/90"
+            className="bg-ivory text-espresso-950 hover:bg-brass-100"
           >
             <TrackedLink
               event="cta_book_call"
@@ -183,7 +185,7 @@ export function RoiCalculator({
             size="lg"
             variant="outline"
             onClick={copyShareLink}
-            className="border-graphite-700 bg-transparent font-semibold uppercase tracking-wide text-concrete-50 hover:bg-graphite-800 hover:text-concrete-50"
+            className="border-espresso-700 bg-transparent text-ivory hover:border-ivory hover:bg-ivory hover:text-espresso-950"
           >
             {copied ? (
               <>
@@ -248,12 +250,12 @@ function CalcSlider({
   return (
     <div>
       <div className="mb-1 flex items-baseline justify-between gap-4">
-        <label className="text-sm font-semibold">{label}</label>
-        <output className="font-mono text-base font-medium tabular-nums text-graphite-950">
+        <label className="text-sm font-medium text-espresso-900">{label}</label>
+        <output className="font-display text-xl italic tabular-nums text-espresso-950">
           {format(value)}
         </output>
       </div>
-      <p className="mb-3 text-xs text-muted-foreground">{hint}</p>
+      <p className="mb-4 text-xs text-espresso-500">{hint}</p>
       <Slider
         value={[value]}
         onValueChange={([v]) => onChange(v)}

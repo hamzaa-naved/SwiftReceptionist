@@ -40,7 +40,7 @@ export function HomeFaq() {
     <Section tone="warm" id="faq">
       <JsonLd data={faqJsonLd(homeFaqs)} />
       <SectionHeader
-        kicker="Straight answers"
+        kicker="No. 08 — Straight answers"
         title="The questions every owner asks before saying yes"
       />
       <FaqAccordion items={homeFaqs} />

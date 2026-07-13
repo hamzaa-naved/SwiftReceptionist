@@ -44,12 +44,11 @@ export default function Home() {
       <ProofStrip />
       <Problem />
 
-      <Section tone="ink">
+      <Section tone="warm">
         <SectionHeader
-          tone="ink"
-          kicker="Do the math"
-          title="What is voicemail costing you, exactly?"
-          lede="Your calls, your job values, your close rate. Drag the sliders — the math is printed on the card."
+          kicker="No. 02 — The arithmetic"
+          title="What is silence costing you, exactly?"
+          lede="Your calls, your job values, your close rate. Move the sliders — the number counts itself against you."
         />
         <RoiCalculator defaults={roiDefaults} />
       </Section>

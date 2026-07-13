@@ -1,29 +1,25 @@
-import { PhoneForwarded, Settings2, CalendarCheck2 } from "lucide-react";
 import { Section, SectionHeader } from "@/components/shared/section";
 import { Reveal } from "@/components/shared/reveal";
 
-/**
- * Setup as three job tickets — a genuine sequence, so the numbering is
- * information, styled as mono ticket IDs rather than decorative 01/02/03.
- */
+/** Setup as three editorial acts — a genuine sequence, numbered as such. */
 export const steps = [
   {
-    icon: Settings2,
+    n: "01",
     title: "We build it for your business",
-    body: "One 15-minute call. We set up your receptionist with your services, prices, service area, and how you want emergencies handled. You approve everything it will say.",
-    tag: "DAY 1–2",
+    body: "One 15-minute call. We set up your receptionist with your services, prices, service area, and how you want emergencies handled. You approve every word it will say.",
+    tag: "Day 1–2",
   },
   {
-    icon: PhoneForwarded,
+    n: "02",
     title: "Your calls forward to it",
     body: "Keep your number. Forward everything, or only the calls you can't take — after hours, busy line, no answer. Flip it on or off anytime from your phone.",
-    tag: "DAY 3",
+    tag: "Day 3",
   },
   {
-    icon: CalendarCheck2,
+    n: "03",
     title: "Jobs land on your calendar",
     body: "It answers in seconds, books the job or takes the lead, and texts you a summary with a full transcript. Real emergencies ring through to you immediately.",
-    tag: "EVERY DAY AFTER",
+    tag: "Every day after",
   },
 ];
 
@@ -31,29 +27,26 @@ export function HowItWorks({ standalone = false }: { standalone?: boolean }) {
   return (
     <Section tone="warm" id="how-it-works">
       <SectionHeader
-        kicker="How it works"
+        kicker="No. 03 — The remedy"
         title={standalone ? "Live in days, not weeks." : "Set up in days. Simpler than a new phone."}
         lede="You don't install anything, learn anything, or change your number."
       />
-      <ol className="grid gap-px overflow-hidden border border-border bg-border md:grid-cols-3">
+      <ol className="space-y-px overflow-hidden border-y border-line bg-line">
         {steps.map((step, i) => (
-          <Reveal key={step.title} delay={i * 0.08} className="h-full">
-            <li className="flex h-full flex-col bg-card p-6">
-              <div className="mb-5 flex items-center justify-between border-b-2 border-graphite-950 pb-3">
-                <span className="font-mono text-xs font-medium tracking-[0.12em] text-graphite-700">
-                  TICKET {String(i + 1).padStart(2, "0")}
-                </span>
-                <span className="bg-volt-100 px-2 py-0.5 font-mono text-[10px] font-medium tracking-[0.1em] text-graphite-950">
-                  {step.tag}
-                </span>
+          <Reveal key={step.title} delay={i * 0.1}>
+            <li className="grid items-baseline gap-4 bg-ivory-deep p-8 transition-colors duration-500 hover:bg-ivory-raised md:grid-cols-[auto_1fr_auto] md:gap-10 md:p-12">
+              <span className="font-display text-5xl font-light italic text-brass-500 md:text-6xl">
+                {step.n}
+              </span>
+              <div className="max-w-xl">
+                <h3 className="font-display text-2xl font-medium leading-tight md:text-3xl">
+                  {step.title}
+                </h3>
+                <p className="mt-3 leading-relaxed text-espresso-700">{step.body}</p>
               </div>
-              <step.icon className="mb-3 h-6 w-6 text-graphite-700" strokeWidth={1.75} aria-hidden />
-              <h3 className="font-display mb-2 text-xl font-bold uppercase leading-tight">
-                {step.title}
-              </h3>
-              <p className="text-sm leading-relaxed text-muted-foreground">
-                {step.body}
-              </p>
+              <span className="text-[0.68rem] uppercase tracking-[0.24em] text-espresso-500 md:text-right">
+                {step.tag}
+              </span>
             </li>
           </Reveal>
         ))}

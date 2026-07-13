@@ -1,211 +1,180 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { m, useInView, useReducedMotion } from "motion/react";
-import { MessageSquareText } from "lucide-react";
+import { useRef } from "react";
+import { m, useScroll, useTransform, useReducedMotion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { TrackedLink } from "@/components/shared/tracked-link";
-import { cn } from "@/lib/utils";
+import { KineticText } from "@/components/shared/reveal";
+
+const EASE = [0.16, 1, 0.3, 1] as const;
 
 /**
- * The Call Board — the site's signature element. Incoming calls appear
- * as dispatch-log rows; the active row expands to show the caller's
- * words and the booked outcome while its LED reads ANSWERED. One row
- * always shows RINGING… so the board feels live.
+ * Cinematic opening scene. An espresso "night" ground with a single
+ * missed-call moment framed like a film still; the headline rises word
+ * by word in Fraunces, and the whole scene parallaxes as you begin to
+ * scroll. This is the thesis of the page — the quiet cost of a call that
+ * goes unanswered.
  */
-const boardCalls = [
-  { time: "21:12", niche: "ELECTRICAL", line: "“Half the house just went dark—”", job: "EMERGENCY DISPATCH · BOOKED 7:30AM" },
-  { time: "06:52", niche: "GARAGE DOOR", line: "“My door won't open and my car's inside—”", job: "SPRING REPLACEMENT · BOOKED 8:15AM" },
-  { time: "22:47", niche: "ELECTRICAL", line: "“There's a burning smell at the breaker box—”", job: "URGENT · ON-CALL ELECTRICIAN ALERTED" },
-  { time: "07:15", niche: "TREE SERVICE", line: "“A limb came through our roof last night—”", job: "STORM CREW · CALLBACK IN 20 MIN" },
-];
-
-const stagger = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.09, delayChildren: 0.05 } },
-};
-const rise = {
-  hidden: { opacity: 0, y: 18 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.55, ease: [0.21, 0.65, 0.35, 1] as const },
-  },
-};
-
 export function Hero() {
   const reduceMotion = useReducedMotion();
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"],
+  });
+  const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "22%"]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+  const stillY = useTransform(scrollYProgress, [0, 1], ["0%", "-14%"]);
 
   return (
-    <div className="relative overflow-hidden border-b-[3px] border-volt-400 bg-graphite-950 pb-16 pt-32 text-concrete-50 md:pb-24 md:pt-44">
-      {/* Faint schematic grid — panel-diagram texture, not decoration */}
+    <div
+      ref={ref}
+      className="relative min-h-[100svh] overflow-hidden bg-espresso-950 text-ivory"
+    >
+      {/* Warm vignette + faint aurora of brass light */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-[0.05]"
+        className="pointer-events-none absolute inset-0"
         style={{
-          backgroundImage:
-            "linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px)",
-          backgroundSize: "36px 36px",
-          maskImage: "linear-gradient(180deg, transparent, black 35%, black 75%, transparent)",
+          background:
+            "radial-gradient(120% 90% at 80% 10%, rgba(195,154,86,0.14), transparent 55%), radial-gradient(90% 70% at 0% 100%, rgba(124,58,45,0.14), transparent 55%)",
         }}
       />
-      <div className="relative mx-auto grid w-full max-w-6xl items-center gap-14 px-5 sm:px-8 lg:grid-cols-[1.1fr_1fr]">
-        <m.div
-          variants={stagger}
-          initial={reduceMotion ? false : "hidden"}
-          animate="visible"
-        >
-          <m.p
-            variants={rise}
-            className="streak-lines mb-6 text-xs font-medium uppercase tracking-[0.18em] text-graphite-300"
-          >
-            <span className="relative -ml-1 mr-1 flex h-2 w-2">
-              <span className="absolute h-2 w-2 animate-ring-pulse rounded-full bg-live-500" />
-              <span className="relative h-2 w-2 rounded-full bg-live-500" />
-            </span>
-            Line open · 24/7 · every call answered
-          </m.p>
-          <m.h1
-            variants={rise}
-            className="font-display text-balance text-5xl font-bold uppercase leading-[0.95] sm:text-6xl lg:text-7xl"
-          >
-            The call you miss is the job{" "}
-            <span className="text-volt-400">they get.</span>
-          </m.h1>
-          <m.p
-            variants={rise}
-            className="mt-6 max-w-xl text-lg leading-relaxed text-graphite-300"
-          >
-            Swift Receptionist answers your line in seconds — nights, weekends,
-            mid-job — books the work, and texts you the ticket. No hiring, no
-            contracts, live in days.
-          </m.p>
-          <m.div variants={rise} className="mt-9 flex flex-col gap-3 sm:flex-row">
-            <Button
-              asChild
-              size="lg"
-              className="bg-volt-400 font-semibold uppercase tracking-wide text-graphite-950 hover:bg-volt-400/90"
-            >
-              <TrackedLink
-                event="cta_book_call"
-                eventProps={{ location: "hero" }}
-                href="/contact"
-              >
-                Book a 15-minute call
-              </TrackedLink>
-            </Button>
-            <Button
-              asChild
-              size="lg"
-              variant="outline"
-              className="border-graphite-700 bg-transparent font-semibold uppercase tracking-wide text-concrete-50 hover:bg-graphite-800 hover:text-concrete-50"
-            >
-              <TrackedLink
-                event="cta_try_demo"
-                eventProps={{ location: "hero" }}
-                href="/demo"
-              >
-                <MessageSquareText className="h-4 w-4" aria-hidden />
-                Talk to it right now
-              </TrackedLink>
-            </Button>
-          </m.div>
-          <m.p variants={rise} className="mt-5 text-sm text-graphite-300">
-            Skeptical? Good. The demo answers like it&apos;s your front desk —
-            judge it with your own ears.
-          </m.p>
-        </m.div>
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-[0.4]"
+        style={{
+          background:
+            "radial-gradient(100% 100% at 50% 40%, transparent 40%, rgba(15,12,8,0.9))",
+        }}
+      />
 
-        <m.div
-          initial={reduceMotion ? false : { opacity: 0, x: 24 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, delay: 0.45, ease: [0.21, 0.65, 0.35, 1] }}
-        >
-          <CallBoard />
-        </m.div>
+      <div className="relative mx-auto flex min-h-[100svh] w-full max-w-6xl flex-col justify-center px-6 pt-28 pb-20 sm:px-10">
+        <div className="grid items-center gap-14 lg:grid-cols-[1.15fr_0.85fr]">
+          <m.div style={reduceMotion ? undefined : { y: contentY, opacity: contentOpacity }}>
+            <m.p
+              className="eyebrow mb-8 text-brass-400"
+              initial={reduceMotion ? false : { opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1, delay: 0.2 }}
+            >
+              24/7 AI receptionist · electrical &amp; the trades
+            </m.p>
+
+            <h1 className="font-display text-[clamp(2.9rem,7vw,6rem)] font-light leading-[0.98] tracking-[-0.02em]">
+              <KineticText text="The call you miss" as="span" className="block" />
+              <KineticText
+                text="is the job"
+                as="span"
+                className="block"
+                delay={0.28}
+              />
+              <span className="block italic text-brass-400">
+                <KineticText text="they get." as="span" delay={0.5} />
+              </span>
+            </h1>
+
+            <m.p
+              className="mt-9 max-w-md text-lg leading-relaxed text-espresso-300"
+              initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.9, ease: EASE }}
+            >
+              Swift Receptionist answers your line in seconds — nights,
+              weekends, mid-job — books the work, and texts you the ticket.
+              No hiring. No contracts. Live in days.
+            </m.p>
+
+            <m.div
+              className="mt-11 flex flex-col gap-3 sm:flex-row"
+              initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 1.05, ease: EASE }}
+            >
+              <Button asChild size="lg" className="bg-ivory text-espresso-950 hover:bg-brass-100">
+                <TrackedLink event="cta_book_call" eventProps={{ location: "hero" }} href="/contact">
+                  Book a 15-minute call
+                </TrackedLink>
+              </Button>
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="border-ivory/30 text-ivory hover:border-ivory hover:bg-ivory hover:text-espresso-950"
+              >
+                <TrackedLink event="cta_try_demo" eventProps={{ location: "hero" }} href="/demo">
+                  Hear it answer →
+                </TrackedLink>
+              </Button>
+            </m.div>
+          </m.div>
+
+          <m.div style={reduceMotion ? undefined : { y: stillY }}>
+            <CallStill />
+          </m.div>
+        </div>
       </div>
+
+      {/* Scroll cue */}
+      <m.div
+        aria-hidden
+        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        initial={reduceMotion ? false : { opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 1.4 }}
+      >
+        <div className="flex flex-col items-center gap-3 text-espresso-500">
+          <span className="text-[0.65rem] uppercase tracking-[0.3em]">Scroll</span>
+          <span className="block h-12 w-px bg-gradient-to-b from-espresso-500 to-transparent" />
+        </div>
+      </m.div>
     </div>
   );
 }
 
-function CallBoard() {
+/**
+ * The "film still" — a single incoming call caught at 11:48pm, rendered
+ * as an elegant framed card. A live pulse marks the ring; the outcome
+ * fades in beneath, telling the whole story in one glance.
+ */
+function CallStill() {
   const reduceMotion = useReducedMotion();
-  const [active, setActive] = useState(0);
-  const boardRef = useRef<HTMLDivElement>(null);
-  const inView = useInView(boardRef, { amount: 0.3 });
-
-  useEffect(() => {
-    if (reduceMotion || !inView) return;
-    const id = setInterval(() => {
-      if (!document.hidden) setActive((i) => (i + 1) % boardCalls.length);
-    }, 4200);
-    return () => clearInterval(id);
-  }, [reduceMotion, inView]);
-
   return (
-    <div
-      ref={boardRef}
-      aria-hidden
-      className="relative mx-auto w-full max-w-md border border-graphite-800 bg-graphite-900"
+    <m.figure
+      className="relative mx-auto w-full max-w-sm border border-espresso-700/60 bg-espresso-900/50 p-8 backdrop-blur-sm"
+      initial={reduceMotion ? false : { opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 1.1, delay: 0.7, ease: EASE }}
     >
-      {/* Board header */}
-      <div className="flex items-center justify-between border-b border-graphite-800 px-4 py-2.5">
-        <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-graphite-300">
-          Call board — tonight
-        </span>
-        <span className="flex gap-1">
-          <span className="h-2 w-2 bg-volt-400" />
-          <span className="h-2 w-2 bg-graphite-700" />
-          <span className="h-2 w-2 bg-graphite-700" />
-        </span>
-      </div>
+      {/* corner ticks — a framed-print detail */}
+      <span aria-hidden className="absolute -left-px -top-px h-4 w-4 border-l border-t border-brass-400" />
+      <span aria-hidden className="absolute -right-px -top-px h-4 w-4 border-r border-t border-brass-400" />
+      <span aria-hidden className="absolute -bottom-px -left-px h-4 w-4 border-b border-l border-brass-400" />
+      <span aria-hidden className="absolute -bottom-px -right-px h-4 w-4 border-b border-r border-brass-400" />
 
-      {/* Rows */}
-      <div>
-        {boardCalls.map((call, i) => {
-          const isActive = i === active;
-          const isRinging = i === (active + 1) % boardCalls.length;
-          return (
-            <div
-              key={call.time + call.niche}
-              className={cn(
-                "border-b border-graphite-800 px-4 transition-colors duration-500 last:border-b-0",
-                isActive ? "bg-graphite-950 py-4" : "py-3",
-              )}
-            >
-              <div className="flex items-center gap-3 font-mono text-xs">
-                <span className="text-graphite-500">{call.time}</span>
-                {isActive ? (
-                  <span className="flex items-center gap-1.5 font-medium text-live-500">
-                    <span className="h-2 w-2 rounded-full bg-live-500" /> ANSWERED
-                  </span>
-                ) : isRinging ? (
-                  <span className="flex items-center gap-1.5 font-medium text-volt-400">
-                    <span className="h-2 w-2 animate-led-blink rounded-full bg-volt-400" /> RINGING…
-                  </span>
-                ) : (
-                  <span className="flex items-center gap-1.5 text-graphite-500">
-                    <span className="h-2 w-2 rounded-full bg-graphite-700" /> ANSWERED
-                  </span>
-                )}
-                <span className="ml-auto text-graphite-500">{call.niche}</span>
-              </div>
-              {isActive && (
-                <div className="mt-3">
-                  <p className="text-[15px] leading-snug text-concrete-50">{call.line}</p>
-                  <p className="mt-2 font-mono text-xs font-medium tracking-wide text-volt-400">
-                    → {call.job}
-                  </p>
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
+      <figcaption className="flex items-center justify-between text-[0.68rem] uppercase tracking-[0.24em] text-espresso-300">
+        <span className="flex items-center gap-2.5">
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full animate-ring-pulse rounded-full bg-brass-400" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-brass-400" />
+          </span>
+          Incoming
+        </span>
+        <span>11:48 PM</span>
+      </figcaption>
 
-      <p className="border-t border-graphite-800 px-4 py-2 text-center font-mono text-[10px] uppercase tracking-[0.15em] text-graphite-500">
-        Illustrative — try the real thing on the demo page
+      <p className="font-display mt-7 text-2xl font-light italic leading-snug text-ivory">
+        “Half the house just went dark and the breaker won&apos;t reset.”
       </p>
-    </div>
+
+      <div className="mt-7 border-t border-espresso-700/60 pt-5">
+        <p className="text-[0.68rem] uppercase tracking-[0.24em] text-brass-400">
+          Answered in 2 rings
+        </p>
+        <p className="mt-2 text-sm text-espresso-300">
+          Emergency dispatch booked — 7:30 AM. Owner notified by text.
+        </p>
+      </div>
+    </m.figure>
   );
 }

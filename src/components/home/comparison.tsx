@@ -3,94 +3,33 @@ import { Section, SectionHeader } from "@/components/shared/section";
 import { cn } from "@/lib/utils";
 
 /**
- * The comparison as a spec sheet: condensed-caps row labels, mono
- * values, chunky rules — a job ticket, not a SaaS pricing table. The
- * Swift column sits on graphite with volt highlights.
+ * The comparison as an editorial ledger: hairline rules, serif row
+ * labels, the Swift column quietly lifted on a warm plate. Refined, not
+ * a SaaS pricing table.
  */
 type Cell = { kind: "yes" | "no" | "partial"; note?: string } | { kind: "text"; note: string };
 
-const columns = [
-  "What you do today",
-  "Human receptionist",
-  "Call-center service",
-  "Swift Receptionist",
-] as const;
+const columns = ["Today", "A human hire", "A call centre", "Swift Receptionist"] as const;
 
 const rows: { label: string; cells: Cell[] }[] = [
-  {
-    label: "Answers nights & weekends",
-    cells: [
-      { kind: "no", note: "Voicemail" },
-      { kind: "no", note: "9–5 only" },
-      { kind: "partial", note: "Extra cost" },
-      { kind: "yes", note: "Always on" },
-    ],
-  },
-  {
-    label: "Picks up in seconds, every time",
-    cells: [
-      { kind: "no", note: "Only when free" },
-      { kind: "partial", note: "One call at a time" },
-      { kind: "partial", note: "Hold queues" },
-      { kind: "yes", note: "Unlimited lines" },
-    ],
-  },
-  {
-    label: "Knows your trade & prices",
-    cells: [
-      { kind: "yes", note: "It's you" },
-      { kind: "partial", note: "After training" },
-      { kind: "no", note: "Generic scripts" },
-      { kind: "yes", note: "Built to your setup" },
-    ],
-  },
-  {
-    label: "Books jobs on your calendar",
-    cells: [
-      { kind: "partial", note: "When you can" },
-      { kind: "yes" },
-      { kind: "no", note: "Takes messages" },
-      { kind: "yes" },
-    ],
-  },
-  {
-    label: "Flags real emergencies to you",
-    cells: [
-      { kind: "no", note: "If you hear it ring" },
-      { kind: "partial" },
-      { kind: "partial" },
-      { kind: "yes", note: "Instant escalation" },
-    ],
-  },
-  {
-    label: "Monthly cost",
-    cells: [
-      { kind: "text", note: "“Free” + lost jobs" },
-      { kind: "text", note: "$3,000+ w/ payroll" },
-      { kind: "text", note: "Per-minute fees" },
-      { kind: "text", note: "Flat rate, no contract" },
-    ],
-  },
-  {
-    label: "Sick days, turnover, training",
-    cells: [
-      { kind: "text", note: "You never get a day off" },
-      { kind: "no", note: "All three" },
-      { kind: "partial", note: "Agent roulette" },
-      { kind: "yes", note: "None" },
-    ],
-  },
+  { label: "Answers nights & weekends", cells: [
+    { kind: "no", note: "Voicemail" }, { kind: "no", note: "9–5" }, { kind: "partial", note: "Extra" }, { kind: "yes", note: "Always" } ] },
+  { label: "Picks up in seconds, every time", cells: [
+    { kind: "no", note: "If free" }, { kind: "partial", note: "One at a time" }, { kind: "partial", note: "Queues" }, { kind: "yes", note: "Unlimited" } ] },
+  { label: "Knows your trade & prices", cells: [
+    { kind: "yes", note: "It's you" }, { kind: "partial", note: "After training" }, { kind: "no", note: "Generic" }, { kind: "yes", note: "Your setup" } ] },
+  { label: "Books jobs on your calendar", cells: [
+    { kind: "partial", note: "When you can" }, { kind: "yes" }, { kind: "no", note: "Messages" }, { kind: "yes" } ] },
+  { label: "Flags real emergencies to you", cells: [
+    { kind: "no" }, { kind: "partial" }, { kind: "partial" }, { kind: "yes", note: "Instant" } ] },
+  { label: "Monthly cost", cells: [
+    { kind: "text", note: "Lost jobs" }, { kind: "text", note: "$3,000+" }, { kind: "text", note: "Per-minute" }, { kind: "text", note: "Flat, no contract" } ] },
 ];
 
 function CellContent({ cell, highlight }: { cell: Cell; highlight?: boolean }) {
   if (cell.kind === "text") {
     return (
-      <span
-        className={cn(
-          "font-mono text-xs",
-          highlight ? "font-medium text-volt-400" : "text-muted-foreground",
-        )}
-      >
+      <span className={cn("text-sm", highlight ? "font-medium text-ivory" : "text-espresso-500")}>
         {cell.note}
       </span>
     );
@@ -98,25 +37,18 @@ function CellContent({ cell, highlight }: { cell: Cell; highlight?: boolean }) {
   const Icon = cell.kind === "yes" ? Check : cell.kind === "no" ? X : Minus;
   const color =
     cell.kind === "yes"
-      ? highlight
-        ? "text-live-500"
-        : "text-live-600"
+      ? highlight ? "text-brass-400" : "text-live-600"
       : cell.kind === "no"
-        ? "text-destructive"
-        : "text-graphite-500";
+        ? highlight ? "text-espresso-300" : "text-oxblood-600/70"
+        : highlight ? "text-espresso-300" : "text-espresso-500";
   return (
-    <span className="inline-flex items-center gap-1.5">
-      <Icon className={cn("h-4 w-4 shrink-0", color)} strokeWidth={2.5} aria-hidden />
+    <span className="inline-flex items-center gap-2">
+      <Icon className={cn("h-4 w-4 shrink-0", color)} strokeWidth={1.75} aria-hidden />
       <span className="sr-only">
         {cell.kind === "yes" ? "Yes" : cell.kind === "no" ? "No" : "Partially"}
       </span>
       {cell.note && (
-        <span
-          className={cn(
-            "font-mono text-xs",
-            highlight ? "text-concrete-50" : "text-muted-foreground",
-          )}
-        >
+        <span className={cn("text-xs", highlight ? "text-espresso-300" : "text-espresso-500")}>
           {cell.note}
         </span>
       )}
@@ -128,29 +60,23 @@ export function Comparison() {
   return (
     <Section>
       <SectionHeader
-        kicker="Your real options"
-        title="Who picks up at 9pm?"
+        kicker="No. 05 — The reckoning"
+        title="Who picks up at nine at night?"
         lede="The honest comparison — including the option of changing nothing."
       />
-      <div className="overflow-x-auto border-t-[3px] border-graphite-950">
-        <table className="w-full min-w-[760px] border-collapse text-left">
-          <caption className="sr-only">
-            Comparison of call-answering options for local service businesses
-          </caption>
+      <div className="overflow-x-auto">
+        <table className="w-full min-w-[720px] border-collapse text-left">
+          <caption className="sr-only">Comparison of call-answering options</caption>
           <thead>
-            <tr className="border-b-2 border-graphite-950/20">
-              <th scope="col" className="py-4 pr-4">
-                <span className="sr-only">Feature</span>
-              </th>
+            <tr className="border-b border-espresso-950/20">
+              <th scope="col" className="py-5 pr-4" />
               {columns.map((col, i) => (
                 <th
                   key={col}
                   scope="col"
                   className={cn(
-                    "px-4 py-4 font-mono text-[11px] font-medium uppercase tracking-[0.12em]",
-                    i === columns.length - 1
-                      ? "bg-graphite-950 text-volt-400"
-                      : "text-graphite-700",
+                    "px-5 py-5 text-[0.68rem] font-medium uppercase tracking-[0.18em]",
+                    i === columns.length - 1 ? "bg-espresso-950 text-brass-400" : "text-espresso-500",
                   )}
                 >
                   {col}
@@ -160,20 +86,14 @@ export function Comparison() {
           </thead>
           <tbody>
             {rows.map((row) => (
-              <tr key={row.label} className="border-b border-border">
-                <th
-                  scope="row"
-                  className="font-display py-4 pr-4 text-base font-semibold uppercase leading-tight"
-                >
+              <tr key={row.label} className="border-b border-line">
+                <th scope="row" className="font-display py-5 pr-4 text-lg font-medium leading-tight">
                   {row.label}
                 </th>
                 {row.cells.map((cell, ci) => (
                   <td
                     key={ci}
-                    className={cn(
-                      "px-4 py-4 align-top",
-                      ci === row.cells.length - 1 && "bg-graphite-950",
-                    )}
+                    className={cn("px-5 py-5 align-middle", ci === row.cells.length - 1 && "bg-espresso-950")}
                   >
                     <CellContent cell={cell} highlight={ci === row.cells.length - 1} />
                   </td>

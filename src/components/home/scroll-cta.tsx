@@ -58,26 +58,26 @@ export function ScrollCta() {
       role="dialog"
       aria-label="Before you go"
       tabIndex={-1}
-      className="fixed bottom-6 right-6 z-50 hidden w-96 animate-in fade-in slide-in-from-bottom-4 rounded-2xl border border-ink-800 bg-ink-950 p-6 text-paper shadow-lift duration-300 focus-visible:outline-2 focus-visible:outline-ring md:block"
+      className="fixed bottom-6 right-6 z-50 hidden w-96 animate-in fade-in slide-in-from-bottom-4 border border-espresso-700 bg-espresso-950 p-7 text-ivory shadow-lift duration-500 focus-visible:outline-2 focus-visible:outline-ring md:block"
     >
       <button
         type="button"
         onClick={dismiss}
         aria-label="Dismiss"
-        className="absolute right-3 top-3 rounded-md p-1.5 text-ink-500 hover:bg-ink-800 hover:text-paper focus-visible:outline-2 focus-visible:outline-ring"
+        className="absolute right-3 top-3 rounded-[2px] p-1.5 text-espresso-500 hover:bg-espresso-800 hover:text-ivory focus-visible:outline-2 focus-visible:outline-ring"
       >
         <X className="h-4 w-4" aria-hidden />
       </button>
-      <p className="font-display text-lg font-bold leading-snug">
-        60 seconds. Talk to the AI before you decide anything.
+      <p className="font-display text-2xl font-light italic leading-snug">
+        Sixty seconds. Talk to it before you decide anything.
       </p>
-      <p className="mt-2 text-sm leading-relaxed text-ink-300">
+      <p className="mt-3 text-sm leading-relaxed text-espresso-300">
         No form, no email, no sales call. Just hear what your customers would
         hear.
       </p>
       <Button
         asChild
-        className="mt-4 w-full bg-volt-400 font-semibold uppercase tracking-wide text-graphite-950 hover:bg-volt-400/90"
+        className="mt-5 w-full bg-ivory text-espresso-950 hover:bg-brass-100"
         onClick={() => track("exit_cta_clicked")}
       >
         <TrackedLink
