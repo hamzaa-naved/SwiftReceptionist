@@ -21,7 +21,7 @@ export const metadata: Metadata = {
  */
 export default function DemoPage() {
   return (
-    <div className="relative min-h-screen overflow-hidden bg-espresso-950 pb-24 pt-36 md:pt-44">
+    <div className="relative min-h-screen overflow-hidden bg-night-990 pb-24 pt-36 md:pt-44">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 opacity-[0.05]"

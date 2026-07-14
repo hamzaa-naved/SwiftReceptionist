@@ -7,7 +7,7 @@ import { Section, SectionHeader } from "@/components/shared/section";
 import { Reveal } from "@/components/shared/reveal";
 import { RoiCalculator } from "@/components/shared/roi-calculator";
 import { FaqAccordion } from "@/components/shared/faq-section";
-import { FinalCta } from "@/components/shared/final-cta";
+import { DawnCta } from "@/components/shared/dawn-cta";
 import { Button } from "@/components/ui/button";
 import { TrackedLink } from "@/components/shared/tracked-link";
 
@@ -57,23 +57,24 @@ export default function PricingPage() {
     <>
       <JsonLd data={faqJsonLd(pricingFaqs)} />
 
-      <Section className="pt-32 md:pt-40">
+      <Section tone="night" className="pt-32 md:pt-40">
         <SectionHeader
+          tone="ink"
           kicker="Pricing"
-          title="One flat monthly rate. Quoted straight, on one call."
-          lede="No tiers to decode, no per-minute meter running against you. You tell us your call volume; we tell you one number and what it includes."
+          title="One number. No meter running."
+          lede="No tiers to decode, no per-minute meter running against you. You tell us your call volume; we tell you one flat number and what it includes."
         />
 
         <div className="mx-auto grid max-w-4xl items-stretch gap-6 md:grid-cols-[1.3fr_1fr]">
           <Reveal>
-            <div className="h-full border border-line bg-ivory-raised p-8 md:p-10">
-              <h2 className="font-display text-2xl font-medium">
+            <div className="h-full border border-espresso-800 bg-espresso-900/40 p-8 md:p-10">
+              <h2 className="font-display text-2xl font-medium text-ivory">
                 Everything is included
               </h2>
               <ul className="mt-5 space-y-3">
                 {included.map((item) => (
-                  <li key={item} className="flex items-start gap-2.5 text-sm leading-relaxed">
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-moss-600" aria-hidden />
+                  <li key={item} className="flex items-start gap-2.5 text-sm leading-relaxed text-espresso-300">
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-moss-500" aria-hidden />
                     {item}
                   </li>
                 ))}
@@ -81,7 +82,7 @@ export default function PricingPage() {
             </div>
           </Reveal>
           <Reveal delay={0.08}>
-            <div className="flex h-full flex-col justify-between bg-espresso-950 p-8 text-ivory md:p-10">
+            <div className="flex h-full flex-col justify-between border border-espresso-700/60 bg-espresso-950 p-8 text-ivory shadow-[0_0_90px_-18px_rgba(195,154,86,0.3)] md:p-10">
               <div>
                 <p className="eyebrow text-brass-400">
                   The comparison that matters
@@ -119,9 +120,9 @@ export default function PricingPage() {
         </div>
       </Section>
 
-      <Section tone="warm">
+      <Section tone="dawn">
         <SectionHeader
-          kicker="Sanity check"
+          kicker="The morning math"
           title="Weigh the cost against the leak"
           lede="Before any quote, know what doing nothing costs. Your numbers, your math:"
         />
@@ -130,13 +131,14 @@ export default function PricingPage() {
         />
       </Section>
 
-      <Section>
-        <SectionHeader kicker="Pricing questions" title="Asked and answered" />
-        <FaqAccordion items={pricingFaqs} />
+      <Section tone="night">
+        <SectionHeader tone="ink" kicker="Pricing questions" title="Asked and answered" />
+        <FaqAccordion tone="night" items={pricingFaqs} />
       </Section>
 
-      <FinalCta
+      <DawnCta
         title="Get a number, not a runaround."
+        italicLine="One flat rate, quoted straight."
         lede="Fifteen minutes: see it work on your kind of calls, hear the exact monthly price, decide with real information."
         location="pricing_final"
       />

@@ -12,9 +12,14 @@ import { Button } from "@/components/ui/button";
 import { TrackedLink } from "@/components/shared/tracked-link";
 import { EASE_LUXE as EASE } from "@/lib/motion";
 
-/** Routes with an espresso-dark hero; the transparent header goes light there. */
+/** Routes that open on a night ground; the transparent header goes light there. */
 function hasDarkHero(pathname: string) {
-  return pathname === "/" || pathname.startsWith("/demo");
+  return (
+    pathname === "/" ||
+    pathname.startsWith("/demo") ||
+    pathname.startsWith("/industries") ||
+    pathname.startsWith("/pricing")
+  );
 }
 
 export function Header() {

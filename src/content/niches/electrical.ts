@@ -14,9 +14,9 @@ export const electrical: Niche = {
   },
 
   hero: {
-    headline: "You can't answer the phone from inside a panel.",
+    headline: "Every burnt-out breaker rings somebody. Make sure it's you.",
     subhead:
-      "A homeowner with a burning smell at the breaker box calls electricians until one picks up — and books the first who does. Swift Receptionist makes sure that's you, day or night, without hiring anyone.",
+      "A homeowner with a burning smell at the panel calls electricians until one picks up — and books the first who does. Swift Receptionist makes sure that's you, day or night, without hiring anyone.",
   },
 
   emergencies: [
