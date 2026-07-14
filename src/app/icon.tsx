@@ -1,10 +1,15 @@
 import { ImageResponse } from "next/og";
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 
 export const size = { width: 32, height: 32 };
 export const contentType = "image/png";
 
-/** Browser-tab icon: volt bolt on graphite panel. */
-export default function Icon() {
+/** Browser-tab icon: the serif "S" maker's-mark on espresso. */
+export default async function Icon() {
+  const fraunces = await readFile(
+    join(process.cwd(), "src/assets/og/fraunces-500-italic.ttf"),
+  );
   return new ImageResponse(
     (
       <div
@@ -12,15 +17,39 @@ export default function Icon() {
           width: "100%",
           height: "100%",
           display: "flex",
-          background: "transparent",
+          alignItems: "center",
+          justifyContent: "center",
+          background: "#17130d",
+          borderRadius: 6,
         }}
       >
-        <svg viewBox="0 0 32 32" width="32" height="32" fill="none">
-          <rect width="32" height="32" rx="3" fill="#191c20" />
-          <path d="M17.8 5.5 9.5 17.5h6l-1.3 9 8.3-12h-6z" fill="#ffc400" />
-        </svg>
+        <div
+          style={{
+            width: 26,
+            height: 26,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            border: "1px solid rgba(195, 154, 86, 0.55)",
+            borderRadius: 9999,
+            color: "#c39a56",
+            fontFamily: "Fraunces",
+            fontStyle: "italic",
+            fontSize: 17,
+            // optical centering: italic serif sits a hair low-right
+            paddingBottom: 2,
+            paddingRight: 1,
+          }}
+        >
+          S
+        </div>
       </div>
     ),
-    { ...size },
+    {
+      ...size,
+      fonts: [
+        { name: "Fraunces", data: fraunces, style: "italic", weight: 500 },
+      ],
+    },
   );
 }

@@ -1,10 +1,15 @@
 import { ImageResponse } from "next/og";
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 
 export const size = { width: 180, height: 180 };
 export const contentType = "image/png";
 
-/** Home-screen icon (iOS): volt bolt on graphite panel. */
-export default function AppleIcon() {
+/** Home-screen icon (iOS): serif "S" maker's-mark on espresso. */
+export default async function AppleIcon() {
+  const fraunces = await readFile(
+    join(process.cwd(), "src/assets/og/fraunces-500-italic.ttf"),
+  );
   return new ImageResponse(
     (
       <div
@@ -14,15 +19,35 @@ export default function AppleIcon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "#191c20",
-          borderRadius: 24,
+          background: "#17130d",
         }}
       >
-        <svg viewBox="0 0 32 32" width="140" height="140" fill="none">
-          <path d="M17.8 4 8.5 17.5h6.5l-1.5 10.5 9.3-13.5h-6.5z" fill="#ffc400" />
-        </svg>
+        <div
+          style={{
+            width: 132,
+            height: 132,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            border: "2px solid rgba(195, 154, 86, 0.55)",
+            borderRadius: 9999,
+            color: "#c39a56",
+            fontFamily: "Fraunces",
+            fontStyle: "italic",
+            fontSize: 84,
+            paddingBottom: 10,
+            paddingRight: 4,
+          }}
+        >
+          S
+        </div>
       </div>
     ),
-    { ...size },
+    {
+      ...size,
+      fonts: [
+        { name: "Fraunces", data: fraunces, style: "italic", weight: 500 },
+      ],
+    },
   );
 }
