@@ -28,12 +28,13 @@ export interface ChatState {
   callerName: string;
 }
 
+// Electrical + garage-door urgency vocabulary (the two trades we serve).
 const EMERGENCY_WORDS = [
   "emergency", "sparks", "sparking", "burning", "smoke", "shock",
   "breaker", "panel", "no power", "power out", "went dark", "dead outlet",
   "stuck", "broken", "broke", "won't open", "wont open", "won't close",
-  "wont close", "no water", "leak", "leaking", "down", "fell", "fallen",
-  "roof", "alarm", "smell", "locked out", "right now", "asap", "tonight",
+  "wont close", "spring", "off track", "car trapped", "down", "alarm",
+  "smell", "locked out", "right now", "asap", "tonight",
 ];
 
 function looksLikeEmergency(text: string) {

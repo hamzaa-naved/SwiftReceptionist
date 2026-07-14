@@ -24,7 +24,7 @@ export default function AboutPage() {
             <p>
               Swift Receptionist started with a pattern we couldn&apos;t
               unsee. Call ten local service companies — electricians, garage
-              door techs, tree crews — and most of the time nobody picks up. Not because
+              door techs — and most of the time nobody picks up. Not because
               the owners are lazy; because they&apos;re working. The person
               who can fix your problem is the same person who can&apos;t
               reach the phone.

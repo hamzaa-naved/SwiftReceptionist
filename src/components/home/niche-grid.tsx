@@ -48,6 +48,7 @@ export function NicheGrid() {
         ))}
       </div>
 
+      {rest.length > 0 && (
       <div className="mt-px overflow-hidden border border-t-0 border-line">
         {rest.map((niche, i) => (
           <Reveal key={niche.slug} delay={0.12 + i * 0.06}>
@@ -69,6 +70,7 @@ export function NicheGrid() {
           </Reveal>
         ))}
       </div>
+      )}
     </Section>
   );
 }

@@ -10,6 +10,23 @@ const nextConfig: NextConfig = {
         destination: "/industries/electrical",
         permanent: true,
       },
+      // Tree service, well & pump, and self-storage were retired when the
+      // site narrowed to electrical + garage door. Their URLs were live.
+      {
+        source: "/industries/tree-service",
+        destination: "/industries",
+        permanent: true,
+      },
+      {
+        source: "/industries/well-pump",
+        destination: "/industries",
+        permanent: true,
+      },
+      {
+        source: "/industries/self-storage",
+        destination: "/industries",
+        permanent: true,
+      },
     ];
   },
 };

@@ -25,7 +25,7 @@ export interface Niche {
   /** What the owner calls their business, e.g. "electrical contractor" */
   noun: string;
   /** Lucide icon name used on cards (must exist in the icon map) */
-  icon: "zap" | "wrench" | "tree-pine" | "waves" | "warehouse";
+  icon: "zap" | "wrench";
 
   seo: {
     title: string;

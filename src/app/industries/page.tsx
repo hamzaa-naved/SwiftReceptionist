@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ArrowRight, TreePine, Warehouse, Waves, Wrench, Zap } from "lucide-react";
+import { ArrowRight, Wrench, Zap } from "lucide-react";
 import Link from "next/link";
 import { niches } from "@/content/niches";
 import { site } from "@/lib/site";
@@ -10,16 +10,13 @@ import { FinalCta } from "@/components/shared/final-cta";
 export const metadata: Metadata = {
   title: "Industries We Answer For",
   description:
-    "AI receptionists built for the way local service businesses actually get calls: electrical, garage door, tree service, well & pump, self-storage, and more.",
+    "AI receptionists built deep for two trades — electrical contractors and garage door companies — trained on the calls, emergencies, and jobs of each.",
   alternates: { canonical: `${site.url}/industries` },
 };
 
 const icons = {
   zap: Zap,
   wrench: Wrench,
-  "tree-pine": TreePine,
-  waves: Waves,
-  warehouse: Warehouse,
 } as const;
 
 export default function IndustriesPage() {
