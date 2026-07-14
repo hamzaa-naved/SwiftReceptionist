@@ -3,12 +3,15 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { AnimatePresence, m, useReducedMotion } from "motion/react";
 import { Menu, X } from "lucide-react";
 import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/layout/logo";
 import { Button } from "@/components/ui/button";
 import { TrackedLink } from "@/components/shared/tracked-link";
+
+const EASE = [0.16, 1, 0.3, 1] as const;
 
 /** Routes with an espresso-dark hero; the transparent header goes light there. */
 function hasDarkHero(pathname: string) {
@@ -27,6 +30,7 @@ export function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const reduceMotion = useReducedMotion();
   const closeMenu = () => setOpen(false);
   const light = hasDarkHero(pathname) && !scrolled && !open;
 
@@ -110,36 +114,65 @@ export function Header() {
         </div>
       </div>
 
-      {open && (
-        <nav
-          id="mobile-nav"
-          aria-label="Mobile"
-          className="border-t border-line bg-ivory px-6 pb-8 pt-3 lg:hidden"
-        >
-          {site.nav.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={closeMenu}
-              className="font-display block py-3 text-2xl font-medium text-espresso-950"
-            >
-              {item.label}
-            </Link>
-          ))}
-          <div className="mt-4 grid gap-2">
-            <Button asChild variant="outline">
-              <TrackedLink
-                event="cta_try_demo"
-                eventProps={{ location: "nav_mobile_menu" }}
-                href={site.cta.secondary.href}
-                onClick={closeMenu}
+      <AnimatePresence initial={false}>
+        {open && (
+          <m.nav
+            id="mobile-nav"
+            aria-label="Mobile"
+            className="overflow-hidden border-t border-line bg-ivory lg:hidden"
+            initial={reduceMotion ? { opacity: 0 } : { height: 0, opacity: 0 }}
+            animate={reduceMotion ? { opacity: 1 } : { height: "auto", opacity: 1 }}
+            exit={reduceMotion ? { opacity: 0 } : { height: 0, opacity: 0 }}
+            transition={{ duration: 0.5, ease: EASE }}
+          >
+            <div className="px-6 pb-8 pt-3">
+              {site.nav.map((item, i) => (
+                <m.div
+                  key={item.href}
+                  initial={reduceMotion ? false : { opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.05 + i * 0.04, ease: EASE }}
+                >
+                  <Link
+                    href={item.href}
+                    onClick={closeMenu}
+                    className="font-display block py-3 text-2xl font-medium text-espresso-950"
+                  >
+                    {item.label}
+                  </Link>
+                </m.div>
+              ))}
+              <m.div
+                className="mt-5 grid gap-2.5"
+                initial={reduceMotion ? false : { opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.05 + site.nav.length * 0.04, ease: EASE }}
               >
-                {site.cta.secondary.label}
-              </TrackedLink>
-            </Button>
-          </div>
-        </nav>
-      )}
+                <Button asChild size="lg">
+                  <TrackedLink
+                    event="cta_book_call"
+                    eventProps={{ location: "nav_mobile_menu" }}
+                    href={site.cta.primary.href}
+                    onClick={closeMenu}
+                  >
+                    {site.cta.primary.label}
+                  </TrackedLink>
+                </Button>
+                <Button asChild variant="outline" size="lg">
+                  <TrackedLink
+                    event="cta_try_demo"
+                    eventProps={{ location: "nav_mobile_menu" }}
+                    href={site.cta.secondary.href}
+                    onClick={closeMenu}
+                  >
+                    {site.cta.secondary.label}
+                  </TrackedLink>
+                </Button>
+              </m.div>
+            </div>
+          </m.nav>
+        )}
+      </AnimatePresence>
     </header>
   );
 }
