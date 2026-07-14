@@ -7,7 +7,8 @@ import { Section, SectionHeader } from "@/components/shared/section";
 import { Reveal } from "@/components/shared/reveal";
 import { RoiCalculator } from "@/components/shared/roi-calculator";
 import { FaqAccordion } from "@/components/shared/faq-section";
-import { DawnCta } from "@/components/shared/dawn-cta";
+import { FinalCta } from "@/components/shared/final-cta";
+import { Aura } from "@/components/shared/aura";
 import { Button } from "@/components/ui/button";
 import { TrackedLink } from "@/components/shared/tracked-link";
 
@@ -57,56 +58,56 @@ export default function PricingPage() {
     <>
       <JsonLd data={faqJsonLd(pricingFaqs)} />
 
-      <Section tone="night" className="pt-32 md:pt-40">
+      <Section className="pt-32 md:pt-40">
         <SectionHeader
-          tone="ink"
           kicker="Pricing"
-          title="One number. No meter running."
-          lede="No tiers to decode, no per-minute meter running against you. You tell us your call volume; we tell you one flat number and what it includes."
+          title="One flat rate."
+          lede="No tiers to decode, no per-minute meter running against you. You tell us your call volume; we tell you one number and what it includes."
+          align="center"
         />
 
-        <div className="mx-auto grid max-w-4xl items-stretch gap-6 md:grid-cols-[1.3fr_1fr]">
+        <div className="mx-auto grid max-w-4xl items-stretch gap-4 md:grid-cols-[1.3fr_1fr]">
           <Reveal>
-            <div className="h-full border border-espresso-800 bg-espresso-900/40 p-8 md:p-10">
-              <h2 className="font-display text-2xl font-medium text-ivory">
+            <div className="h-full rounded-3xl border border-line bg-white p-8 shadow-card md:p-10">
+              <h2 className="text-2xl font-semibold tracking-[-0.02em] text-carbon-950">
                 Everything is included
               </h2>
-              <ul className="mt-5 space-y-3">
+              <ul className="mt-6 space-y-3.5">
                 {included.map((item) => (
-                  <li key={item} className="flex items-start gap-2.5 text-sm leading-relaxed text-espresso-300">
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-moss-500" aria-hidden />
+                  <li key={item} className="flex items-start gap-2.5 text-sm leading-relaxed text-carbon-600">
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-azure-600" strokeWidth={2.5} aria-hidden />
                     {item}
                   </li>
                 ))}
               </ul>
             </div>
           </Reveal>
-          <Reveal delay={0.08}>
-            <div className="flex h-full flex-col justify-between border border-espresso-700/60 bg-espresso-950 p-8 text-ivory shadow-[0_0_90px_-18px_rgba(195,154,86,0.3)] md:p-10">
+          <Reveal delay={0.08} className="relative">
+            <Aura intensity={0.2} />
+            <div className="relative flex h-full flex-col justify-between rounded-3xl border border-line bg-white p-8 shadow-float md:p-10">
               <div>
-                <p className="eyebrow text-brass-400">
+                <p className="eyebrow text-carbon-400">
                   The comparison that matters
                 </p>
-                <p className="mt-6 text-sm text-espresso-300">A human receptionist:</p>
-                <p className="font-display text-4xl font-light text-ivory">
-                  $3,000+<span className="text-base text-espresso-300">/mo</span>
+                <p className="mt-6 text-sm text-carbon-600">A human receptionist:</p>
+                <p className="font-display text-4xl text-carbon-950">
+                  $3,000+<span className="text-base font-medium text-carbon-400">/mo</span>
                 </p>
-                <p className="mt-1 text-xs text-espresso-300">
+                <p className="mt-1 text-xs text-carbon-400">
                   One person, business hours, one call at a time.
                 </p>
-                <p className="mt-6 text-sm text-espresso-300">Swift Receptionist:</p>
-                <p className="font-display text-3xl font-light italic text-brass-400">
+                <p className="mt-6 text-sm text-carbon-600">Swift Receptionist:</p>
+                <p
+                  className="bg-clip-text font-display text-3xl text-transparent"
+                  style={{ backgroundImage: "linear-gradient(135deg, #0a84ff, #7c3aed)" }}
+                >
                   A fraction of that
                 </p>
-                <p className="mt-1 text-xs text-espresso-300">
+                <p className="mt-1 text-xs text-carbon-400">
                   Every call, all hours, exact quote on your 15-minute call.
                 </p>
               </div>
-              <Button
-                asChild
-                size="lg"
-                className="mt-8 w-full bg-ivory text-espresso-950 hover:bg-brass-100"
-              >
+              <Button asChild size="lg" className="mt-8 w-full">
                 <TrackedLink
                   event="cta_book_call"
                   eventProps={{ location: "pricing_card" }}
@@ -120,25 +121,25 @@ export default function PricingPage() {
         </div>
       </Section>
 
-      <Section tone="dawn">
+      <Section tone="cloud">
         <SectionHeader
-          kicker="The morning math"
+          kicker="The math"
           title="Weigh the cost against the leak"
           lede="Before any quote, know what doing nothing costs. Your numbers, your math:"
+          align="center"
         />
         <RoiCalculator
           defaults={{ missedCallsPerWeek: 8, avgJobValue: 500, closeRatePct: 55 }}
         />
       </Section>
 
-      <Section tone="night">
-        <SectionHeader tone="ink" kicker="Pricing questions" title="Asked and answered" />
-        <FaqAccordion tone="night" items={pricingFaqs} />
+      <Section>
+        <SectionHeader kicker="Pricing questions" title="Asked and answered" align="center" />
+        <FaqAccordion items={pricingFaqs} />
       </Section>
 
-      <DawnCta
+      <FinalCta
         title="Get a number, not a runaround."
-        italicLine="One flat rate, quoted straight."
         lede="Fifteen minutes: see it work on your kind of calls, hear the exact monthly price, decide with real information."
         location="pricing_final"
       />

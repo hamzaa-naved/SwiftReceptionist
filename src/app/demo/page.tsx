@@ -21,39 +21,22 @@ export const metadata: Metadata = {
  */
 export default function DemoPage() {
   return (
-    <div className="relative min-h-screen overflow-hidden bg-night-990 pb-24 pt-36 md:pt-44">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-[0.05]"
-        style={{
-          backgroundImage:
-            "linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px)",
-          backgroundSize: "36px 36px",
-          maskImage: "linear-gradient(180deg, black, transparent 65%)",
-          color: "#f6f1e7",
-        }}
-      />
+    <div className="relative min-h-screen overflow-hidden bg-snow pb-24 pt-32 md:pt-40">
       <div className="relative mx-auto w-full max-w-6xl px-5 sm:px-8">
         <Suspense fallback={null}>
           <DemoExperience />
         </Suspense>
 
-        <div className="relative mx-auto mt-16 max-w-2xl border border-espresso-700/60 bg-espresso-900/50 p-8 text-center backdrop-blur-sm sm:p-10">
-          {/* corner ticks — the framed-print detail from the hero still */}
-          <span aria-hidden className="absolute -left-px -top-px h-4 w-4 border-l border-t border-brass-400" />
-          <span aria-hidden className="absolute -right-px -top-px h-4 w-4 border-r border-t border-brass-400" />
-          <span aria-hidden className="absolute -bottom-px -left-px h-4 w-4 border-b border-l border-brass-400" />
-          <span aria-hidden className="absolute -bottom-px -right-px h-4 w-4 border-b border-r border-brass-400" />
-
-          <h2 className="font-display text-2xl font-light text-ivory sm:text-3xl">
-            Impressed? Skeptical? Either way — <span className="italic text-brass-400">let&apos;s talk.</span>
+        <div className="relative mx-auto mt-16 max-w-2xl rounded-3xl border border-line bg-white p-8 text-center shadow-card sm:p-10">
+          <h2 className="text-2xl font-semibold tracking-[-0.02em] text-carbon-950 sm:text-3xl">
+            Impressed? Skeptical? Either way — let&apos;s talk.
           </h2>
-          <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-espresso-300">
+          <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-carbon-600">
             A 15-minute call is all it takes to see it configured for your
             business, your prices, your service area.
           </p>
           <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
-            <Button asChild size="lg" className="bg-ivory text-espresso-950 hover:bg-brass-100">
+            <Button asChild size="lg">
               <TrackedLink
                 event="cta_book_call"
                 eventProps={{ location: "demo_page" }}
@@ -62,12 +45,7 @@ export default function DemoPage() {
                 Book a 15-minute call
               </TrackedLink>
             </Button>
-            <Button
-              asChild
-              size="lg"
-              variant="outline"
-              className="border-ivory/30 bg-transparent text-ivory hover:border-ivory hover:bg-ivory hover:text-espresso-950"
-            >
+            <Button asChild size="lg" variant="outline">
               <Link href="/how-it-works">
                 How setup works <ArrowRight className="h-4 w-4" aria-hidden />
               </Link>

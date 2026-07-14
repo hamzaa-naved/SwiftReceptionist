@@ -14,9 +14,9 @@ export const garageDoor: Niche = {
   },
 
   hero: {
-    headline: "The first company to answer gets the spring job.",
+    headline: "The 6:45 AM spring call? Answered.",
     subhead:
-      "A homeowner with a car trapped behind a broken door calls down the Google results until a human — or something that sounds like one — picks up. Swift Receptionist makes sure your number is where the calling stops.",
+      "A homeowner with a car trapped behind a broken door calls down the Google results until someone picks up. Swift Receptionist makes sure your number is where the calling stops.",
   },
 
   emergencies: [
