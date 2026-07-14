@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { site } from "@/lib/site";
 import { Section, SectionHeader } from "@/components/shared/section";
-import { DawnCta } from "@/components/shared/dawn-cta";
+import { FinalCta } from "@/components/shared/final-cta";
 
 export const metadata: Metadata = {
   title: "About",
@@ -13,15 +13,14 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <>
-      <Section tone="night" className="pt-32 md:pt-40">
+      <Section className="pt-32 md:pt-40">
         <div className="mx-auto max-w-2xl">
           <SectionHeader
             align="left"
-            tone="ink"
             kicker="About us"
             title="We do one thing: make sure your phone gets answered."
           />
-          <div className="space-y-5 text-lg leading-relaxed text-espresso-300">
+          <div className="space-y-5 text-lg leading-relaxed text-carbon-600">
             <p>
               Swift Receptionist started with a pattern we couldn&apos;t
               unsee. Call ten local service companies — electricians, garage
@@ -55,13 +54,9 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div className="relative mt-12 border border-espresso-700/60 bg-espresso-900/40 p-8">
-            <span aria-hidden className="absolute -left-px -top-px h-4 w-4 border-l border-t border-brass-400" />
-            <span aria-hidden className="absolute -right-px -top-px h-4 w-4 border-r border-t border-brass-400" />
-            <span aria-hidden className="absolute -bottom-px -left-px h-4 w-4 border-b border-l border-brass-400" />
-            <span aria-hidden className="absolute -bottom-px -right-px h-4 w-4 border-b border-r border-brass-400" />
-            <h2 className="font-display text-2xl font-medium text-ivory">How we work with you</h2>
-            <ul className="mt-5 space-y-3 text-base leading-relaxed text-espresso-300">
+          <div className="mt-12 rounded-3xl border border-line bg-white p-8 shadow-card">
+            <h2 className="text-2xl font-semibold tracking-[-0.01em] text-carbon-950">How we work with you</h2>
+            <ul className="mt-5 space-y-3 text-base leading-relaxed text-carbon-600">
               <li>
                 <strong className="text-foreground">Straight answers.</strong>{" "}
                 You get one flat price, on the first call. If we&apos;re not a
@@ -82,11 +77,11 @@ export default function AboutPage() {
             </ul>
           </div>
 
-          <p className="mt-10 text-base text-espresso-300">
+          <p className="mt-10 text-base text-carbon-600">
             Questions, skepticism, edge cases — we want all of it:{" "}
             <a
               href={`mailto:${site.contact.email}`}
-              className="link-underline font-medium text-ivory"
+              className="link-underline font-medium text-azure-600"
             >
               {site.contact.email}
             </a>
@@ -94,10 +89,9 @@ export default function AboutPage() {
         </div>
       </Section>
 
-      <DawnCta
+      <FinalCta
         title="Judge us by the product, not the About page."
-        italicLine="The demo is one click away."
-        lede="Grill it like a customer would — then let's talk."
+        lede="The demo is one click away. Grill it like a customer would — then let's talk."
         location="about_page"
       />
     </>

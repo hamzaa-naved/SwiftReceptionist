@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     template: `%s | ${site.name}`,
   },
   description:
-    "The call you miss is the job they get. Swift Receptionist answers every inbound call 24/7, books the job, and flags real emergencies — built deep for electrical contractors and garage door companies.",
+    "Every call answered. Swift Receptionist picks up in two rings, books the job, and texts you the ticket — 24/7, built for electrical contractors and garage door companies.",
   openGraph: {
     type: "website",
     siteName: site.name,

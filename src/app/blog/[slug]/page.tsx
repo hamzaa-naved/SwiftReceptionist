@@ -10,7 +10,7 @@ import { site } from "@/lib/site";
 import { breadcrumbJsonLd } from "@/lib/seo";
 import { JsonLd } from "@/components/shared/json-ld";
 import { Section } from "@/components/shared/section";
-import { DawnCta } from "@/components/shared/dawn-cta";
+import { FinalCta } from "@/components/shared/final-cta";
 
 export function generateStaticParams() {
   return getAllPosts().map((p) => ({ slug: p.slug }));
@@ -67,16 +67,16 @@ export default async function BlogPostPage({
           { name: post.title, url: `${site.url}/blog/${post.slug}` },
         ])}
       />
-      <Section tone="night" className="pt-32 md:pt-40">
+      <Section className="pt-32 md:pt-40">
         <article className="mx-auto max-w-2xl">
           <Link
             href="/blog"
-            className="inline-flex items-center gap-2 text-[0.7rem] font-medium uppercase tracking-[0.22em] text-espresso-500 transition-colors duration-500 hover:text-brass-400"
+            className="inline-flex items-center gap-2 text-sm font-medium text-carbon-400 transition-colors duration-300 hover:text-azure-600"
           >
             <ArrowLeft className="h-3.5 w-3.5" aria-hidden /> All resources
           </Link>
           <header className="mt-8">
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[0.7rem] font-medium uppercase tracking-[0.22em] text-espresso-500">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-carbon-400">
               <time dateTime={post.date}>
                 {new Date(post.date + "T00:00:00").toLocaleDateString("en-US", {
                   month: "long",
@@ -91,35 +91,32 @@ export default async function BlogPostPage({
                   <span aria-hidden>·</span>
                   <Link
                     href={`/industries/${niche.slug}`}
-                    className="text-brass-400 transition-colors duration-500 hover:text-ivory"
+                    className="text-azure-600 transition-colors duration-300 hover:text-carbon-950"
                   >
                     {niche.shortName}
                   </Link>
                 </>
               )}
             </div>
-            <h1 className="font-display mt-5 text-balance text-4xl font-light leading-[1.05] tracking-[-0.02em] text-ivory sm:text-5xl">
+            <h1 className="mt-5 text-balance font-display text-4xl leading-[1.05] text-carbon-950 sm:text-5xl">
               {post.title}
             </h1>
           </header>
-          {/* The article itself: paper under a desk lamp */}
-          <div className="mt-10 border border-line bg-ivory p-7 shadow-[0_0_90px_-20px_rgba(195,154,86,0.22)] sm:p-12">
-            <div className="prose-sr">
-              <MDXRemote source={post.content} />
-            </div>
+          <div className="prose-sr mt-10">
+            <MDXRemote source={post.content} />
           </div>
           {niche && (
-            <aside className="mt-10 border border-espresso-700/60 bg-espresso-900/40 p-7">
-              <p className="font-display text-xl font-medium text-ivory">
+            <aside className="mt-12 rounded-3xl border border-line bg-cloud p-7">
+              <p className="text-xl font-semibold tracking-[-0.01em] text-carbon-950">
                 Run {articleFor(niche.noun)} {niche.noun}?
               </p>
-              <p className="mt-2 text-sm leading-relaxed text-espresso-300">
+              <p className="mt-2 text-sm leading-relaxed text-carbon-600">
                 See exactly how the receptionist handles {niche.shortName.toLowerCase()}{" "}
                 calls — emergencies, booking, and all.
               </p>
               <Link
                 href={`/industries/${niche.slug}`}
-                className="link-underline mt-4 inline-block text-sm font-medium text-ivory"
+                className="link-underline mt-4 inline-block text-sm font-medium text-azure-600"
               >
                 See the {niche.shortName.toLowerCase()} page →
               </Link>
@@ -127,9 +124,8 @@ export default async function BlogPostPage({
           )}
         </article>
       </Section>
-      <DawnCta
+      <FinalCta
         title="Your phone is ringing while you read this."
-        italicLine="Stop losing jobs to voicemail."
         lede="Try the live demo or book a 15-minute call — either way, the next missed call doesn't have to be yours."
         location="blog_post"
       />

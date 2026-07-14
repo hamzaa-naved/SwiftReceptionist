@@ -3,24 +3,16 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { site } from "@/lib/site";
 
-export const alt = `${site.name} — 24/7 AI receptionist for local service businesses`;
+export const alt = `${site.name} — 24/7 AI receptionist for electrical contractors and garage door companies`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-const tick = (pos: React.CSSProperties): React.CSSProperties => ({
-  position: "absolute",
-  width: 18,
-  height: 18,
-  ...pos,
-});
-
-/** Default Open Graph card, inherited by all pages without their own. */
+/** Default Open Graph card: DAYLIGHT — white void, colossal type. */
 export default async function OgImage() {
   const assets = join(process.cwd(), "src/assets/og");
-  const [frauncesLight, frauncesItalic, instrument] = await Promise.all([
-    readFile(join(assets, "fraunces-300.ttf")),
-    readFile(join(assets, "fraunces-500-italic.ttf")),
-    readFile(join(assets, "instrument-sans-500.ttf")),
+  const [geist600, geist400] = await Promise.all([
+    readFile(join(assets, "geist-600.ttf")),
+    readFile(join(assets, "geist-400.ttf")),
   ]);
 
   return new ImageResponse(
@@ -30,117 +22,76 @@ export default async function OgImage() {
           width: "100%",
           height: "100%",
           display: "flex",
-          background: "#0c0a06",
-          color: "#f6f1e7",
-          padding: 40,
-          fontFamily: "Instrument Sans",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          background: "#ffffff",
+          color: "#0d0d12",
+          padding: 88,
+          fontFamily: "Geist",
         }}
       >
-        {/* Hairline frame with brass corner ticks — the framed-print motif */}
+        {/* Soft aura, upper right */}
         <div
           style={{
-            position: "relative",
+            position: "absolute",
+            right: -220,
+            top: -260,
+            width: 700,
+            height: 700,
+            borderRadius: 9999,
+            background:
+              "radial-gradient(50% 50% at 50% 50%, rgb(10 132 255 / 0.25) 0%, rgb(124 58 237 / 0.15) 45%, transparent 72%)",
+            display: "flex",
+          }}
+        />
+
+        {/* Wordmark */}
+        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+          <div
+            style={{
+              width: 18,
+              height: 18,
+              borderRadius: 9999,
+              background: "linear-gradient(135deg, #0a84ff, #7c3aed)",
+              display: "flex",
+            }}
+          />
+          <div style={{ display: "flex", fontSize: 30, fontWeight: 600, letterSpacing: -0.5 }}>
+            Swift Receptionist
+          </div>
+        </div>
+
+        {/* Headline */}
+        <div
+          style={{
             display: "flex",
             flexDirection: "column",
-            justifyContent: "space-between",
-            width: "100%",
-            height: "100%",
-            border: "1px solid #2e2619",
-            padding: 56,
+            fontWeight: 600,
+            fontSize: 124,
+            lineHeight: 1.0,
+            letterSpacing: -5,
           }}
         >
-          <div style={{ ...tick({ top: -1, left: -1 }), borderTop: "2px solid #a9803f", borderLeft: "2px solid #a9803f" }} />
-          <div style={{ ...tick({ top: -1, right: -1 }), borderTop: "2px solid #a9803f", borderRight: "2px solid #a9803f" }} />
-          <div style={{ ...tick({ bottom: -1, left: -1 }), borderBottom: "2px solid #a9803f", borderLeft: "2px solid #a9803f" }} />
-          <div style={{ ...tick({ bottom: -1, right: -1 }), borderBottom: "2px solid #a9803f", borderRight: "2px solid #a9803f" }} />
+          <div style={{ display: "flex" }}>Every call.</div>
+          <div style={{ display: "flex", color: "#a6a6af" }}>Answered.</div>
+        </div>
 
-          {/* Eyebrow */}
-          <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-            <div style={{ width: 34, height: 1, background: "#a9803f", display: "flex" }} />
-            <div
-              style={{
-                fontSize: 21,
-                letterSpacing: "0.28em",
-                textTransform: "uppercase",
-                color: "#c39a56",
-              }}
-            >
-              24/7 AI receptionist · electrical &amp; garage door
-            </div>
+        {/* Footer row */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            fontSize: 26,
+            fontWeight: 400,
+            color: "#6e6e78",
+          }}
+        >
+          <div style={{ display: "flex" }}>
+            The 24/7 AI receptionist for electrical &amp; garage door companies
           </div>
-
-          {/* Headline */}
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              fontFamily: "Fraunces",
-              fontWeight: 300,
-              fontSize: 92,
-              lineHeight: 1.02,
-              letterSpacing: "-0.02em",
-            }}
-          >
-            <div style={{ display: "flex" }}>The call you miss</div>
-            <div style={{ display: "flex" }}>
-              is the job&nbsp;
-              <span
-                style={{
-                  fontFamily: "Fraunces Italic",
-                  fontStyle: "italic",
-                  fontWeight: 500,
-                  color: "#c39a56",
-                }}
-              >
-                they get.
-              </span>
-            </div>
-          </div>
-
-          {/* Wordmark row */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-              <div
-                style={{
-                  width: 44,
-                  height: 44,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  border: "1px solid rgba(195, 154, 86, 0.55)",
-                  borderRadius: 9999,
-                  color: "#c39a56",
-                  fontFamily: "Fraunces Italic",
-                  fontStyle: "italic",
-                  fontWeight: 500,
-                  fontSize: 26,
-                  paddingBottom: 3,
-                }}
-              >
-                S
-              </div>
-              <div style={{ display: "flex", fontFamily: "Fraunces", fontSize: 30 }}>
-                Swift&nbsp;
-                <span
-                  style={{
-                    fontFamily: "Fraunces Italic",
-                    fontStyle: "italic",
-                    color: "#c39a56",
-                  }}
-                >
-                  Receptionist
-                </span>
-              </div>
-            </div>
-            <div style={{ display: "flex", fontSize: 22, color: "#a99c85" }}>
-              {site.domain}
-            </div>
+          <div style={{ display: "flex", color: "#0071e3", fontWeight: 600 }}>
+            {site.domain}
           </div>
         </div>
       </div>
@@ -148,9 +99,8 @@ export default async function OgImage() {
     {
       ...size,
       fonts: [
-        { name: "Fraunces", data: frauncesLight, style: "normal", weight: 300 },
-        { name: "Fraunces Italic", data: frauncesItalic, style: "italic", weight: 500 },
-        { name: "Instrument Sans", data: instrument, style: "normal", weight: 500 },
+        { name: "Geist", data: geist600, style: "normal", weight: 600 },
+        { name: "Geist", data: geist400, style: "normal", weight: 400 },
       ],
     },
   );

@@ -12,15 +12,12 @@ export function LegalPage({
   children: ReactNode;
 }) {
   return (
-    <Section tone="night" className="pt-32 md:pt-40">
+    <Section className="pt-32 md:pt-40">
       <article className="mx-auto max-w-2xl">
-        <h1 className="font-display text-4xl font-light tracking-[-0.02em] text-ivory sm:text-5xl">{title}</h1>
-        <p className="mt-3 text-sm text-espresso-500">Last updated: {updated}</p>
-        {/* Legal text reads on paper, even at night */}
-        <div className="mt-8 border border-line bg-ivory p-7 sm:p-10">
-          <div className="space-y-6 text-base leading-relaxed text-espresso-700 [&_h2]:font-display [&_h2]:mt-10 [&_h2]:first:mt-0 [&_h2]:text-2xl [&_h2]:font-medium [&_h2]:text-espresso-950 [&_ul]:list-disc [&_ul]:space-y-1.5 [&_ul]:pl-6">
-            {children}
-          </div>
+        <h1 className="font-display text-4xl text-carbon-950 sm:text-5xl">{title}</h1>
+        <p className="mt-3 text-sm text-carbon-400">Last updated: {updated}</p>
+        <div className="mt-8 space-y-6 text-base leading-relaxed text-carbon-600 [&_h2]:mt-10 [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:tracking-[-0.01em] [&_h2]:text-carbon-950 [&_ul]:list-disc [&_ul]:space-y-1.5 [&_ul]:pl-6">
+          {children}
         </div>
       </article>
     </Section>

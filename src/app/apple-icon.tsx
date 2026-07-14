@@ -5,10 +5,10 @@ import { join } from "node:path";
 export const size = { width: 180, height: 180 };
 export const contentType = "image/png";
 
-/** Home-screen icon (iOS): serif "S" maker's-mark on espresso. */
+/** Home-screen icon (iOS): white "S" on the signal gradient. */
 export default async function AppleIcon() {
-  const fraunces = await readFile(
-    join(process.cwd(), "src/assets/og/fraunces-500-italic.ttf"),
+  const geist = await readFile(
+    join(process.cwd(), "src/assets/og/geist-600.ttf"),
   );
   return new ImageResponse(
     (
@@ -19,35 +19,19 @@ export default async function AppleIcon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "#17130d",
+          background: "linear-gradient(135deg, #0a84ff, #7c3aed)",
+          color: "#ffffff",
+          fontFamily: "Geist",
+          fontWeight: 600,
+          fontSize: 104,
         }}
       >
-        <div
-          style={{
-            width: 132,
-            height: 132,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            border: "2px solid rgba(195, 154, 86, 0.55)",
-            borderRadius: 9999,
-            color: "#c39a56",
-            fontFamily: "Fraunces",
-            fontStyle: "italic",
-            fontSize: 84,
-            paddingBottom: 10,
-            paddingRight: 4,
-          }}
-        >
-          S
-        </div>
+        S
       </div>
     ),
     {
       ...size,
-      fonts: [
-        { name: "Fraunces", data: fraunces, style: "italic", weight: 500 },
-      ],
+      fonts: [{ name: "Geist", data: geist, style: "normal", weight: 600 }],
     },
   );
 }

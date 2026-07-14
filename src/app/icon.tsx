@@ -5,10 +5,10 @@ import { join } from "node:path";
 export const size = { width: 32, height: 32 };
 export const contentType = "image/png";
 
-/** Browser-tab icon: the serif "S" maker's-mark on espresso. */
+/** Browser-tab icon: white "S" on the signal gradient. */
 export default async function Icon() {
-  const fraunces = await readFile(
-    join(process.cwd(), "src/assets/og/fraunces-500-italic.ttf"),
+  const geist = await readFile(
+    join(process.cwd(), "src/assets/og/geist-600.ttf"),
   );
   return new ImageResponse(
     (
@@ -19,37 +19,20 @@ export default async function Icon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "#17130d",
-          borderRadius: 6,
+          background: "linear-gradient(135deg, #0a84ff, #7c3aed)",
+          borderRadius: 8,
+          color: "#ffffff",
+          fontFamily: "Geist",
+          fontWeight: 600,
+          fontSize: 20,
         }}
       >
-        <div
-          style={{
-            width: 26,
-            height: 26,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            border: "1px solid rgba(195, 154, 86, 0.55)",
-            borderRadius: 9999,
-            color: "#c39a56",
-            fontFamily: "Fraunces",
-            fontStyle: "italic",
-            fontSize: 17,
-            // optical centering: italic serif sits a hair low-right
-            paddingBottom: 2,
-            paddingRight: 1,
-          }}
-        >
-          S
-        </div>
+        S
       </div>
     ),
     {
       ...size,
-      fonts: [
-        { name: "Fraunces", data: fraunces, style: "italic", weight: 500 },
-      ],
+      fonts: [{ name: "Geist", data: geist, style: "normal", weight: 600 }],
     },
   );
 }

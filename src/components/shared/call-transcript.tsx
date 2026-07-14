@@ -45,19 +45,19 @@ export function CallTranscript({
       className={cn(
         night
           ? "border border-espresso-700/60 bg-espresso-900/60 backdrop-blur-sm"
-          : "border border-line bg-ivory-raised",
+          : "rounded-3xl border border-line bg-white shadow-card",
         className,
       )}
     >
       <figcaption
         className={cn(
           "flex items-center gap-3 border-b px-6 py-4 text-[0.66rem] uppercase tracking-[0.22em]",
-          night ? "border-espresso-700/60 text-espresso-300" : "border-line text-espresso-500",
+          night ? "border-espresso-700/60 text-espresso-300" : "border-line text-carbon-400",
         )}
       >
         <span className="relative flex h-2 w-2">
-          <span className={cn("absolute inline-flex h-full w-full animate-ring-pulse rounded-full", night ? "bg-brass-400" : "bg-brass-500")} />
-          <span className={cn("relative inline-flex h-2 w-2 rounded-full", night ? "bg-brass-400" : "bg-brass-500")} />
+          <span className={cn("absolute inline-flex h-full w-full animate-ring-pulse rounded-full", night ? "bg-brass-400" : "bg-azure-500")} />
+          <span className={cn("relative inline-flex h-2 w-2 rounded-full", night ? "bg-brass-400" : "bg-azure-500")} />
         </span>
         {scenario}
       </figcaption>
@@ -74,8 +74,8 @@ export function CallTranscript({
               className={cn(
                 "text-[0.66rem] uppercase tracking-[0.2em]",
                 turn.speaker === "ai"
-                  ? night ? "text-brass-400" : "text-brass-500"
-                  : night ? "text-espresso-500" : "text-espresso-400",
+                  ? night ? "text-brass-400" : "text-azure-600"
+                  : night ? "text-espresso-500" : "text-carbon-400",
               )}
             >
               {turn.speaker === "ai" ? "Swift Receptionist" : "Caller"}
@@ -84,8 +84,8 @@ export function CallTranscript({
               className={cn(
                 "mt-1.5 leading-relaxed",
                 turn.speaker === "ai"
-                  ? cn("font-display text-lg font-light", night ? "text-ivory" : "text-espresso-950")
-                  : cn("text-[0.98rem]", night ? "text-espresso-300" : "text-espresso-600"),
+                  ? cn("text-[1.02rem] font-medium", night ? "text-ivory" : "text-carbon-950")
+                  : cn("text-[0.95rem]", night ? "text-espresso-300" : "text-carbon-600"),
               )}
             >
               {turn.text}
@@ -96,7 +96,7 @@ export function CallTranscript({
       <p
         className={cn(
           "border-t px-6 py-4 text-[0.66rem] uppercase tracking-[0.18em]",
-          night ? "border-espresso-700/60 text-espresso-500" : "border-line text-espresso-400",
+          night ? "border-espresso-700/60 text-espresso-500" : "border-line text-carbon-400",
         )}
       >
         Example conversation — scripts are tailored to your business during setup
