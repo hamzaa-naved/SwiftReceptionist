@@ -69,11 +69,11 @@ export function ScrollCta() {
         <X className="h-4 w-4" aria-hidden />
       </button>
       <p className="font-display text-2xl font-light italic leading-snug">
-        Sixty seconds. Talk to it before you decide anything.
+        Still reading? The demo talks.
       </p>
       <p className="mt-3 text-sm leading-relaxed text-espresso-300">
-        No form, no email, no sales call. Just hear what your customers would
-        hear.
+        Sixty seconds, no form, no sales call. Just hear what your customers
+        would hear.
       </p>
       <Button
         asChild

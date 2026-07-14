@@ -7,32 +7,58 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { track } from "@/lib/integrations/analytics";
+import { cn } from "@/lib/utils";
 import type { NicheFaq } from "@/content/niches/types";
 
 /** Objection-handling FAQ as an editorial index. Pair with faqJsonLd(). */
-export function FaqAccordion({ items }: { items: NicheFaq[] }) {
+export function FaqAccordion({
+  items,
+  tone = "paper",
+}: {
+  items: NicheFaq[];
+  /** "paper" for light grounds, "night" for the midnight scenes. */
+  tone?: "paper" | "night";
+}) {
+  const night = tone === "night";
   return (
     <Accordion
       type="single"
       collapsible
-      className="mx-auto w-full max-w-3xl border-t border-line"
+      className={cn(
+        "mx-auto w-full max-w-3xl border-t",
+        night ? "border-espresso-800" : "border-line",
+      )}
       onValueChange={(value) => {
         if (value) track("faq_opened", { question: value });
       }}
     >
       {items.map((item, i) => (
-        <AccordionItem key={item.q} value={item.q} className="border-b border-line">
+        <AccordionItem
+          key={item.q}
+          value={item.q}
+          className={cn("border-b", night ? "border-espresso-800" : "border-line")}
+        >
           <AccordionTrigger className="group gap-6 py-6 text-left hover:no-underline">
             <span className="flex items-baseline gap-5">
-              <span className="font-display text-sm italic text-brass-500">
+              <span className={cn("font-display text-sm italic", night ? "text-brass-400" : "text-brass-500")}>
                 {String(i + 1).padStart(2, "0")}
               </span>
-              <span className="font-display text-xl font-medium leading-snug text-espresso-950 sm:text-2xl">
+              <span
+                className={cn(
+                  "font-display text-xl font-medium leading-snug sm:text-2xl",
+                  night ? "text-ivory" : "text-espresso-950",
+                )}
+              >
                 {item.q}
               </span>
             </span>
           </AccordionTrigger>
-          <AccordionContent className="pb-7 pl-10 text-[1.02rem] leading-relaxed text-espresso-700">
+          <AccordionContent
+            className={cn(
+              "pb-7 pl-10 text-[1.02rem] leading-relaxed",
+              night ? "text-espresso-300" : "text-espresso-700",
+            )}
+          >
             {item.a}
           </AccordionContent>
         </AccordionItem>

@@ -39,6 +39,7 @@
   --brass-200: #e6d3ad;
   --brass-100: #f0e4cb;
   --oxblood-600: #7c3a2d;  /* rare secondary accent (loss/urgency) */
+  --oxblood-400: #b4614b;  /* loss accent legible on night grounds */
   --moss-600: #2f6144;     /* rare positive accent (answered/confirmed) */
   --moss-500: #3f7d5a;
   --line: #ddd2bd;         /* hairline rules on ivory */
@@ -105,6 +106,7 @@
   --color-brass-200: var(--brass-200);
   --color-brass-100: var(--brass-100);
   --color-oxblood-600: var(--oxblood-600);
+  --color-oxblood-400: var(--oxblood-400);
   --color-moss-600: var(--moss-600);
   --color-moss-500: var(--moss-500);
   --color-line: var(--line);

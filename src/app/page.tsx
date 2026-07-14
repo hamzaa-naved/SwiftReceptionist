@@ -11,7 +11,7 @@ import { RingScene } from "@/components/home/ring-scene";
 import { HowItWorks } from "@/components/home/how-it-works";
 import { DemoBlock } from "@/components/home/demo-block";
 import { Comparison } from "@/components/home/comparison";
-import { NicheGrid } from "@/components/home/niche-grid";
+import { TwoTrades } from "@/components/home/two-trades";
 import { HomeFaq } from "@/components/home/home-faq";
 import { RiskReversal } from "@/components/home/risk-reversal";
 import { ScrollCta } from "@/components/home/scroll-cta";
@@ -56,7 +56,7 @@ export default function Home() {
       <HowItWorks />
       <DemoBlock />
       <Comparison />
-      <NicheGrid />
+      <TwoTrades />
       <HomeFaq />
       <RiskReversal />
 

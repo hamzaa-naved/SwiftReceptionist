@@ -3,9 +3,9 @@ import { Section, SectionHeader } from "@/components/shared/section";
 import { cn } from "@/lib/utils";
 
 /**
- * The comparison as an editorial ledger: hairline rules, serif row
- * labels, the Swift column quietly lifted on a warm plate. Refined, not
- * a SaaS pricing table.
+ * THE LEDGER — the honest comparison set at night. Every option sits in
+ * the dark except one: the Swift column is literally lit, an ivory strip
+ * with a warm halo in a night table. The design is the argument.
  */
 type Cell = { kind: "yes" | "no" | "partial"; note?: string } | { kind: "text"; note: string };
 
@@ -29,7 +29,7 @@ const rows: { label: string; cells: Cell[] }[] = [
 function CellContent({ cell, highlight }: { cell: Cell; highlight?: boolean }) {
   if (cell.kind === "text") {
     return (
-      <span className={cn("text-sm", highlight ? "font-medium text-ivory" : "text-espresso-500")}>
+      <span className={cn("text-sm", highlight ? "font-medium text-espresso-950" : "text-espresso-300")}>
         {cell.note}
       </span>
     );
@@ -37,10 +37,10 @@ function CellContent({ cell, highlight }: { cell: Cell; highlight?: boolean }) {
   const Icon = cell.kind === "yes" ? Check : cell.kind === "no" ? X : Minus;
   const color =
     cell.kind === "yes"
-      ? highlight ? "text-brass-400" : "text-moss-600"
+      ? highlight ? "text-moss-600" : "text-moss-500"
       : cell.kind === "no"
-        ? highlight ? "text-espresso-300" : "text-oxblood-600/70"
-        : highlight ? "text-espresso-300" : "text-espresso-500";
+        ? highlight ? "text-oxblood-600/70" : "text-oxblood-400/80"
+        : "text-espresso-500";
   return (
     <span className="inline-flex items-center gap-2">
       <Icon className={cn("h-4 w-4 shrink-0", color)} strokeWidth={1.75} aria-hidden />
@@ -48,7 +48,7 @@ function CellContent({ cell, highlight }: { cell: Cell; highlight?: boolean }) {
         {cell.kind === "yes" ? "Yes" : cell.kind === "no" ? "No" : "Partially"}
       </span>
       {cell.note && (
-        <span className={cn("text-xs", highlight ? "text-espresso-300" : "text-espresso-500")}>
+        <span className={cn("text-xs", highlight ? "text-espresso-600" : "text-espresso-500")}>
           {cell.note}
         </span>
       )}
@@ -58,9 +58,10 @@ function CellContent({ cell, highlight }: { cell: Cell; highlight?: boolean }) {
 
 export function Comparison() {
   return (
-    <Section>
+    <Section tone="night">
       <SectionHeader
-        kicker="No. 05 — The reckoning"
+        tone="ink"
+        kicker="The ledger"
         title="Who picks up at nine at night?"
         lede="The honest comparison — including the option of changing nothing."
       />
@@ -68,7 +69,7 @@ export function Comparison() {
         <table className="w-full min-w-[720px] border-collapse text-left">
           <caption className="sr-only">Comparison of call-answering options</caption>
           <thead>
-            <tr className="border-b border-espresso-950/20">
+            <tr className="border-b border-espresso-700">
               <th scope="col" className="py-5 pr-4" />
               {columns.map((col, i) => (
                 <th
@@ -76,7 +77,9 @@ export function Comparison() {
                   scope="col"
                   className={cn(
                     "px-5 py-5 text-[0.68rem] font-medium uppercase tracking-[0.18em]",
-                    i === columns.length - 1 ? "bg-espresso-950 text-brass-400" : "text-espresso-500",
+                    i === columns.length - 1
+                      ? "bg-ivory text-espresso-950 shadow-[0_0_60px_-8px_rgba(195,154,86,0.45)]"
+                      : "text-espresso-500",
                   )}
                 >
                   {col}
@@ -86,14 +89,18 @@ export function Comparison() {
           </thead>
           <tbody>
             {rows.map((row) => (
-              <tr key={row.label} className="border-b border-line">
-                <th scope="row" className="font-display py-5 pr-4 text-lg font-medium leading-tight">
+              <tr key={row.label} className="border-b border-espresso-800">
+                <th scope="row" className="font-display py-5 pr-4 text-lg font-medium leading-tight text-ivory">
                   {row.label}
                 </th>
                 {row.cells.map((cell, ci) => (
                   <td
                     key={ci}
-                    className={cn("px-5 py-5 align-middle", ci === row.cells.length - 1 && "bg-espresso-950")}
+                    className={cn(
+                      "px-5 py-5 align-middle",
+                      ci === row.cells.length - 1 &&
+                        "bg-ivory shadow-[0_0_60px_-8px_rgba(195,154,86,0.35)]",
+                    )}
                   >
                     <CellContent cell={cell} highlight={ci === row.cells.length - 1} />
                   </td>
