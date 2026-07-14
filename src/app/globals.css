@@ -148,6 +148,28 @@
   to { transform: translateX(-50%); }
 }
 
+/* CSS-driven entrance for above-the-fold content: starts at first paint,
+   before hydration, so LCP is never blocked on JavaScript. Stagger via
+   --rise-delay. Reduced motion collapses these to the final frame via the
+   global animation-duration override. */
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes word-rise {
+  from { transform: translateY(112%); }
+  to { transform: translateY(0); }
+}
+.rise-in {
+  animation: rise-in 1s var(--ease-luxe) both;
+  animation-delay: var(--rise-delay, 0s);
+}
+.word-rise {
+  display: inline-block;
+  animation: word-rise 0.95s var(--ease-luxe) both;
+  animation-delay: var(--rise-delay, 0s);
+}
+
 html {
   /* Lenis drives scrolling; keep native smooth off to avoid double-easing */
   scroll-behavior: auto;

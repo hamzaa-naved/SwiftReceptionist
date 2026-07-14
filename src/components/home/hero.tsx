@@ -1,10 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { m, useScroll, useTransform, useReducedMotion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { TrackedLink } from "@/components/shared/tracked-link";
-import { KineticText } from "@/components/shared/reveal";
 import { Magnetic } from "@/components/shared/magnetic";
 import { EASE_LUXE as EASE } from "@/lib/motion";
 
@@ -13,7 +12,34 @@ import { EASE_LUXE as EASE } from "@/lib/motion";
  * actually happens. A night ground, a phone ringing in the dark, and
  * the one sentence that carries the whole business. After two rings
  * (or the first scroll), the call is answered: the story in miniature.
+ *
+ * Performance note: the entrance choreography is pure CSS (.rise-in /
+ * .word-rise) so the hero paints and animates before hydration — LCP is
+ * never blocked on JavaScript. Motion handles only scroll parallax and
+ * the answered-state flip, both post-load enhancements.
  */
+
+const delay = (s: number) => ({ "--rise-delay": `${s}s` }) as CSSProperties;
+
+/** Kinetic headline words, driven by CSS so they rise from first paint. */
+function RiseWords({ text, start = 0 }: { text: string; start?: number }) {
+  return (
+    <>
+      {text.split(" ").map((word, i) => (
+        <span
+          key={i}
+          className="inline-flex overflow-hidden pb-[0.12em] align-baseline"
+          style={{ marginRight: "0.26em" }}
+        >
+          <span className="word-rise" style={delay(start + i * 0.07)}>
+            {word}
+          </span>
+        </span>
+      ))}
+    </>
+  );
+}
+
 export function Hero() {
   const reduceMotion = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
@@ -61,59 +87,45 @@ export function Hero() {
       />
 
       {/* The hour, kept like a film slate */}
-      <m.p
+      <p
         aria-hidden
-        className="absolute right-6 top-24 hidden text-[0.68rem] uppercase tracking-[0.3em] text-espresso-500 sm:right-10 sm:block md:top-28"
-        initial={reduceMotion ? false : { opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1.2, delay: 1.4 }}
+        className="rise-in absolute right-6 top-24 hidden text-[0.68rem] uppercase tracking-[0.3em] text-espresso-500 sm:right-10 sm:block md:top-28"
+        style={delay(1.4)}
       >
         Somewhere in your service area · 9<span className="animate-pulse">:</span>47 PM
-      </m.p>
+      </p>
 
       <div className="relative mx-auto flex min-h-[100svh] w-full max-w-6xl flex-col justify-center px-6 pb-24 pt-28 sm:px-10">
         <div className="grid items-center gap-14 lg:grid-cols-[1.18fr_0.82fr]">
           <m.div style={reduceMotion ? undefined : { y: contentY, opacity: contentOpacity }}>
-            <m.p
-              className="eyebrow mb-8 text-brass-400"
-              initial={reduceMotion ? false : { opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 0.2 }}
-            >
+            <p className="rise-in eyebrow mb-8 text-brass-400" style={delay(0.2)}>
               Electrical contractors &amp; garage door pros · after hours, every hour
-            </m.p>
+            </p>
 
-            {/* No headline-glow here: KineticText clips each word, which
-                would box the shadow. The glow lives on non-kinetic lines. */}
             <h1 className="font-display text-[clamp(3rem,8vw,7rem)] font-light leading-[0.95] tracking-[-0.02em]">
-              <KineticText text="The call you miss" as="span" className="block" />
-              <KineticText
-                text="is the job"
-                as="span"
-                className="block"
-                delay={0.28}
-              />
+              <span className="block">
+                <RiseWords text="The call you miss" start={0.05} />
+              </span>
+              <span className="block">
+                <RiseWords text="is the job" start={0.33} />
+              </span>
               <span className="block italic text-brass-400">
-                <KineticText text="they get." as="span" delay={0.5} />
+                <RiseWords text="they get." start={0.55} />
               </span>
             </h1>
 
-            <m.p
-              className="mt-9 max-w-md text-lg leading-relaxed text-espresso-300"
-              initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.9, ease: EASE }}
+            <p
+              className="rise-in mt-9 max-w-md text-lg leading-relaxed text-espresso-300"
+              style={delay(0.9)}
             >
               Swift Receptionist answers your line in seconds — nights,
               weekends, mid-job — books the work, and texts you the ticket.
               No hiring. No contracts. Live in days.
-            </m.p>
+            </p>
 
-            <m.div
-              className="mt-11 flex flex-col gap-3 sm:flex-row"
-              initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 1.05, ease: EASE }}
+            <div
+              className="rise-in mt-11 flex flex-col gap-3 sm:flex-row"
+              style={delay(1.05)}
             >
               <Magnetic>
                 <Button asChild size="lg" className="btn-sheen bg-ivory text-espresso-950 hover:bg-brass-100">
@@ -134,7 +146,7 @@ export function Hero() {
                   </TrackedLink>
                 </Button>
               </Magnetic>
-            </m.div>
+            </div>
           </m.div>
 
           <m.div style={reduceMotion ? undefined : { y: stillY }} className="relative">
@@ -154,18 +166,16 @@ export function Hero() {
       </div>
 
       {/* Scroll cue */}
-      <m.div
+      <div
         aria-hidden
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
-        initial={reduceMotion ? false : { opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 1.6 }}
+        className="rise-in absolute bottom-8 left-1/2 -translate-x-1/2"
+        style={delay(1.6)}
       >
         <div className="flex flex-col items-center gap-3 text-espresso-500">
           <span className="text-[0.65rem] uppercase tracking-[0.3em]">Scroll</span>
           <span className="block h-12 w-px bg-gradient-to-b from-espresso-500 to-transparent" />
         </div>
-      </m.div>
+      </div>
     </div>
   );
 }
@@ -178,11 +188,9 @@ export function Hero() {
 function CallStill({ answered }: { answered: boolean }) {
   const reduceMotion = useReducedMotion();
   return (
-    <m.figure
-      className="relative mx-auto w-full max-w-sm border border-espresso-700/60 bg-espresso-900/50 p-8 backdrop-blur-sm"
-      initial={reduceMotion ? false : { opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 1.1, delay: 0.7, ease: EASE }}
+    <figure
+      className="rise-in relative mx-auto w-full max-w-sm border border-espresso-700/60 bg-espresso-900/50 p-8 backdrop-blur-sm"
+      style={delay(0.7)}
     >
       {/* corner ticks — a framed-print detail */}
       <span aria-hidden className="absolute -left-px -top-px h-4 w-4 border-l border-t border-brass-400" />
@@ -233,6 +241,6 @@ function CallStill({ answered }: { answered: boolean }) {
           </p>
         )}
       </div>
-    </m.figure>
+    </figure>
   );
 }
