@@ -5,7 +5,7 @@ import { getAllPosts } from "@/lib/blog";
 import { getNiche } from "@/content/niches";
 import { site } from "@/lib/site";
 import { Section, SectionHeader } from "@/components/shared/section";
-import { FinalCta } from "@/components/shared/final-cta";
+import { DawnCta } from "@/components/shared/dawn-cta";
 
 export const metadata: Metadata = {
   title: "Resources",
@@ -19,20 +19,21 @@ export default function BlogIndexPage() {
 
   return (
     <>
-      <Section className="pt-32 md:pt-40">
+      <Section tone="night" className="pt-32 md:pt-40">
         <SectionHeader
+          tone="ink"
           kicker="Resources"
           title="Straight talk about your phone line"
           lede="No growth-hacking fluff. Practical math and honest comparisons for owners who'd rather be working than reading."
         />
-        <div className="mx-auto max-w-3xl border-t border-line">
+        <div className="mx-auto max-w-3xl border-t border-espresso-800">
           {posts.map((post) => {
             const niche = post.niche ? getNiche(post.niche) : undefined;
             return (
-              <article key={post.slug} className="border-b border-line">
+              <article key={post.slug} className="border-b border-espresso-800">
                 <Link
                   href={`/blog/${post.slug}`}
-                  className="group block px-2 py-8 transition-colors duration-500 hover:bg-ivory-raised sm:px-6 sm:py-10"
+                  className="group block px-2 py-8 transition-colors duration-500 hover:bg-espresso-900/40 sm:px-6 sm:py-10"
                 >
                   <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[0.7rem] font-medium uppercase tracking-[0.22em] text-espresso-500">
                     <time dateTime={post.date}>
@@ -47,17 +48,17 @@ export default function BlogIndexPage() {
                     {niche && (
                       <>
                         <span aria-hidden>·</span>
-                        <span className="text-brass-500">{niche.shortName}</span>
+                        <span className="text-brass-400">{niche.shortName}</span>
                       </>
                     )}
                   </div>
-                  <h2 className="font-display mt-4 text-2xl font-medium leading-snug transition-colors duration-500 group-hover:text-brass-500 sm:text-3xl">
+                  <h2 className="font-display mt-4 text-2xl font-medium leading-snug text-ivory transition-colors duration-500 group-hover:text-brass-400 sm:text-3xl">
                     {post.title}
                   </h2>
-                  <p className="mt-3 text-sm leading-relaxed text-espresso-700 sm:text-base">
+                  <p className="mt-3 text-sm leading-relaxed text-espresso-300 sm:text-base">
                     {post.description}
                   </p>
-                  <span className="mt-5 inline-flex items-center gap-2 text-[0.7rem] font-medium uppercase tracking-[0.22em] text-brass-500">
+                  <span className="mt-5 inline-flex items-center gap-2 text-[0.7rem] font-medium uppercase tracking-[0.22em] text-brass-400">
                     Read it
                     <ArrowRight className="h-3.5 w-3.5 transition-transform duration-500 group-hover:translate-x-1" aria-hidden />
                   </span>
@@ -67,9 +68,10 @@ export default function BlogIndexPage() {
           })}
         </div>
       </Section>
-      <FinalCta
+      <DawnCta
         title="Done reading? The demo talks."
-        lede="Sixty seconds with the live demo beats another article — hear exactly what your callers would hear."
+        italicLine="Hear what your callers would hear."
+        lede="Sixty seconds with the live demo beats another article."
         location="blog_index"
       />
     </>

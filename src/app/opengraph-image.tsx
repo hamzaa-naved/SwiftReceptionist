@@ -30,8 +30,8 @@ export default async function OgImage() {
           width: "100%",
           height: "100%",
           display: "flex",
-          background: "#f6f1e7",
-          color: "#17130d",
+          background: "#0c0a06",
+          color: "#f6f1e7",
           padding: 40,
           fontFamily: "Instrument Sans",
         }}
@@ -45,7 +45,7 @@ export default async function OgImage() {
             justifyContent: "space-between",
             width: "100%",
             height: "100%",
-            border: "1px solid #ddd2bd",
+            border: "1px solid #2e2619",
             padding: 56,
           }}
         >
@@ -62,10 +62,10 @@ export default async function OgImage() {
                 fontSize: 21,
                 letterSpacing: "0.28em",
                 textTransform: "uppercase",
-                color: "#a9803f",
+                color: "#c39a56",
               }}
             >
-              24/7 AI receptionist · electrical &amp; the trades
+              24/7 AI receptionist · electrical &amp; garage door
             </div>
           </div>
 
@@ -89,7 +89,7 @@ export default async function OgImage() {
                   fontFamily: "Fraunces Italic",
                   fontStyle: "italic",
                   fontWeight: 500,
-                  color: "#a9803f",
+                  color: "#c39a56",
                 }}
               >
                 they get.
@@ -113,8 +113,9 @@ export default async function OgImage() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  border: "1px solid rgba(23, 19, 13, 0.4)",
+                  border: "1px solid rgba(195, 154, 86, 0.55)",
                   borderRadius: 9999,
+                  color: "#c39a56",
                   fontFamily: "Fraunces Italic",
                   fontStyle: "italic",
                   fontWeight: 500,
@@ -130,14 +131,14 @@ export default async function OgImage() {
                   style={{
                     fontFamily: "Fraunces Italic",
                     fontStyle: "italic",
-                    color: "#a9803f",
+                    color: "#c39a56",
                   }}
                 >
                   Receptionist
                 </span>
               </div>
             </div>
-            <div style={{ display: "flex", fontSize: 22, color: "#6b5d47" }}>
+            <div style={{ display: "flex", fontSize: 22, color: "#a99c85" }}>
               {site.domain}
             </div>
           </div>

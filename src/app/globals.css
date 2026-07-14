@@ -169,8 +169,9 @@ html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-stopped { overflow: hidden; }
 
 body {
-  background: var(--ivory);
-  color: var(--espresso-950);
+  /* Midnight Cinema: the page lives at night; light sections are scenes */
+  background: var(--night-990);
+  color: var(--ivory);
   font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;

@@ -97,7 +97,7 @@ export function RoiCalculator({
     <div
       id="roi-calculator"
       className={cn(
-        "grid overflow-hidden border border-line bg-ivory-raised md:grid-cols-[1.1fr_1fr]",
+        "grid overflow-hidden border border-line bg-ivory-raised text-espresso-950 md:grid-cols-[1.1fr_1fr]",
         className,
       )}
     >

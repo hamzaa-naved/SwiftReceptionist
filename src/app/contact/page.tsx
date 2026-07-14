@@ -17,8 +17,9 @@ export default function ContactPage() {
 
   return (
     <>
-      <Section className="pt-32 md:pt-40">
+      <Section tone="night" className="pt-32 md:pt-40">
         <SectionHeader
+          tone="ink"
           kicker="Book a call"
           title="Fifteen minutes. No pitch deck, no pressure."
           lede="We'll ask about your call volume, show you the receptionist handling your kind of calls, and give you an exact price. If it's not a fit, we'll say so."
@@ -35,12 +36,16 @@ export default function ContactPage() {
               />
             </div>
           ) : (
-            <div className="flex h-full min-h-72 flex-col items-center justify-center border border-line bg-ivory-deep p-8 text-center">
-              <CalendarClock className="mb-5 h-8 w-8 text-brass-500" strokeWidth={1.5} aria-hidden />
-              <h2 className="font-display text-2xl font-medium">
+            <div className="relative flex h-full min-h-72 flex-col items-center justify-center border border-espresso-700/60 bg-espresso-900/40 p-8 text-center">
+              <span aria-hidden className="absolute -left-px -top-px h-4 w-4 border-l border-t border-brass-400" />
+              <span aria-hidden className="absolute -right-px -top-px h-4 w-4 border-r border-t border-brass-400" />
+              <span aria-hidden className="absolute -bottom-px -left-px h-4 w-4 border-b border-l border-brass-400" />
+              <span aria-hidden className="absolute -bottom-px -right-px h-4 w-4 border-b border-r border-brass-400" />
+              <CalendarClock className="mb-5 h-8 w-8 text-brass-400" strokeWidth={1.5} aria-hidden />
+              <h2 className="font-display text-2xl font-medium text-ivory">
                 Calendar booking is almost live
               </h2>
-              <p className="mt-3 max-w-sm text-sm leading-relaxed text-espresso-700">
+              <p className="mt-3 max-w-sm text-sm leading-relaxed text-espresso-300">
                 Use the form and we&apos;ll call you back to find a time —
                 usually the same business day.
               </p>
@@ -48,16 +53,19 @@ export default function ContactPage() {
           )}
 
           <div>
-            <h2 className="font-display mb-5 text-2xl font-medium">
+            <h2 className="font-display mb-5 text-2xl font-medium text-ivory">
               Prefer we call you?
             </h2>
-            <LeadForm />
-            <p className="mt-6 flex items-center justify-center gap-2 text-sm text-espresso-700">
-              <Mail className="h-4 w-4 text-brass-500" aria-hidden />
+            {/* The form is a lit island — paper under a desk lamp */}
+            <div className="shadow-[0_0_80px_-20px_rgba(195,154,86,0.25)]">
+              <LeadForm />
+            </div>
+            <p className="mt-6 flex items-center justify-center gap-2 text-sm text-espresso-300">
+              <Mail className="h-4 w-4 text-brass-400" aria-hidden />
               Or email us directly:{" "}
               <a
                 href={`mailto:${site.contact.email}`}
-                className="link-underline font-medium text-espresso-950"
+                className="link-underline font-medium text-ivory"
               >
                 {site.contact.email}
               </a>

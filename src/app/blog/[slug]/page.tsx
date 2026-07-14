@@ -10,7 +10,7 @@ import { site } from "@/lib/site";
 import { breadcrumbJsonLd } from "@/lib/seo";
 import { JsonLd } from "@/components/shared/json-ld";
 import { Section } from "@/components/shared/section";
-import { FinalCta } from "@/components/shared/final-cta";
+import { DawnCta } from "@/components/shared/dawn-cta";
 
 export function generateStaticParams() {
   return getAllPosts().map((p) => ({ slug: p.slug }));
@@ -67,11 +67,11 @@ export default async function BlogPostPage({
           { name: post.title, url: `${site.url}/blog/${post.slug}` },
         ])}
       />
-      <Section className="pt-32 md:pt-40">
+      <Section tone="night" className="pt-32 md:pt-40">
         <article className="mx-auto max-w-2xl">
           <Link
             href="/blog"
-            className="inline-flex items-center gap-2 text-[0.7rem] font-medium uppercase tracking-[0.22em] text-espresso-500 transition-colors duration-500 hover:text-brass-500"
+            className="inline-flex items-center gap-2 text-[0.7rem] font-medium uppercase tracking-[0.22em] text-espresso-500 transition-colors duration-500 hover:text-brass-400"
           >
             <ArrowLeft className="h-3.5 w-3.5" aria-hidden /> All resources
           </Link>
@@ -91,32 +91,35 @@ export default async function BlogPostPage({
                   <span aria-hidden>·</span>
                   <Link
                     href={`/industries/${niche.slug}`}
-                    className="text-brass-500 transition-colors duration-500 hover:text-espresso-950"
+                    className="text-brass-400 transition-colors duration-500 hover:text-ivory"
                   >
                     {niche.shortName}
                   </Link>
                 </>
               )}
             </div>
-            <h1 className="font-display mt-5 text-balance text-4xl font-light leading-[1.05] tracking-[-0.02em] sm:text-5xl">
+            <h1 className="font-display mt-5 text-balance text-4xl font-light leading-[1.05] tracking-[-0.02em] text-ivory sm:text-5xl">
               {post.title}
             </h1>
           </header>
-          <div className="prose-sr mt-8">
-            <MDXRemote source={post.content} />
+          {/* The article itself: paper under a desk lamp */}
+          <div className="mt-10 border border-line bg-ivory p-7 shadow-[0_0_90px_-20px_rgba(195,154,86,0.22)] sm:p-12">
+            <div className="prose-sr">
+              <MDXRemote source={post.content} />
+            </div>
           </div>
           {niche && (
-            <aside className="mt-14 border border-line bg-ivory-raised p-7">
-              <p className="font-display text-xl font-medium">
+            <aside className="mt-10 border border-espresso-700/60 bg-espresso-900/40 p-7">
+              <p className="font-display text-xl font-medium text-ivory">
                 Run {articleFor(niche.noun)} {niche.noun}?
               </p>
-              <p className="mt-2 text-sm leading-relaxed text-espresso-700">
+              <p className="mt-2 text-sm leading-relaxed text-espresso-300">
                 See exactly how the receptionist handles {niche.shortName.toLowerCase()}{" "}
                 calls — emergencies, booking, and all.
               </p>
               <Link
                 href={`/industries/${niche.slug}`}
-                className="link-underline mt-4 inline-block text-sm font-medium text-espresso-950"
+                className="link-underline mt-4 inline-block text-sm font-medium text-ivory"
               >
                 See the {niche.shortName.toLowerCase()} page →
               </Link>
@@ -124,9 +127,10 @@ export default async function BlogPostPage({
           )}
         </article>
       </Section>
-      <FinalCta
+      <DawnCta
         title="Your phone is ringing while you read this."
-        lede="Try the live demo or book a 15-minute call — either way, stop losing jobs to voicemail."
+        italicLine="Stop losing jobs to voicemail."
+        lede="Try the live demo or book a 15-minute call — either way, the next missed call doesn't have to be yours."
         location="blog_post"
       />
     </>

@@ -31,11 +31,11 @@ const instrument = Instrument_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.name} — 24/7 AI Receptionist for Electrical Contractors & the Trades`,
+    default: `${site.name} — 24/7 AI Receptionist for Electrical Contractors & Garage Door Companies`,
     template: `%s | ${site.name}`,
   },
   description:
-    "The call you miss is the job they get. Swift Receptionist answers every inbound call 24/7, books the job, and flags real emergencies — built for electrical contractors, garage door repair, and the trades.",
+    "The call you miss is the job they get. Swift Receptionist answers every inbound call 24/7, books the job, and flags real emergencies — built deep for electrical contractors and garage door companies.",
   openGraph: {
     type: "website",
     siteName: site.name,
@@ -51,8 +51,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  // Matches the ivory ground so mobile browser chrome blends with the site.
-  themeColor: "#f6f1e7",
+  // Matches the night ground so mobile browser chrome blends with the site.
+  themeColor: "#0c0a06",
 };
 
 export default function RootLayout({

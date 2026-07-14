@@ -4,7 +4,8 @@ import { site } from "@/lib/site";
 import { Section, SectionHeader } from "@/components/shared/section";
 import { Reveal } from "@/components/shared/reveal";
 import { HowItWorks } from "@/components/home/how-it-works";
-import { FinalCta } from "@/components/shared/final-cta";
+import { SpotlightCard } from "@/components/shared/spotlight-card";
+import { DawnCta } from "@/components/shared/dawn-cta";
 
 export const metadata: Metadata = {
   title: "How It Works",
@@ -49,8 +50,9 @@ const details = [
 export default function HowItWorksPage() {
   return (
     <>
-      <Section className="pt-32 md:pt-40 pb-0">
+      <Section tone="night" className="pt-32 md:pt-40 pb-0">
         <SectionHeader
+          tone="ink"
           kicker="How it works"
           title="Simpler than hiring. Faster than training."
           lede="If you can forward your phone, you can run this. Here's the whole process, start to finish."
@@ -59,26 +61,28 @@ export default function HowItWorksPage() {
 
       <HowItWorks standalone />
 
-      <Section>
+      <Section tone="night">
         <SectionHeader
+          tone="ink"
           kicker="Under the hood"
           title="What 'it just answers' actually means"
         />
-        <div className="grid gap-px overflow-hidden border-y border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-px overflow-hidden border border-espresso-800 bg-espresso-800 sm:grid-cols-2 lg:grid-cols-3">
           {details.map((d, i) => (
             <Reveal key={d.title} delay={i * 0.05} className="h-full">
-              <div className="h-full bg-ivory p-8 transition-colors duration-500 hover:bg-ivory-raised">
-                <d.icon className="mb-5 h-6 w-6 text-brass-500" strokeWidth={1.5} aria-hidden />
-                <h3 className="font-display mb-2 text-xl font-medium leading-tight">{d.title}</h3>
-                <p className="text-sm leading-relaxed text-espresso-700">{d.body}</p>
-              </div>
+              <SpotlightCard className="h-full bg-espresso-900/40 p-8">
+                <d.icon className="mb-5 h-6 w-6 text-brass-400" strokeWidth={1.5} aria-hidden />
+                <h3 className="font-display mb-2 text-xl font-medium leading-tight text-ivory">{d.title}</h3>
+                <p className="text-sm leading-relaxed text-espresso-300">{d.body}</p>
+              </SpotlightCard>
             </Reveal>
           ))}
         </div>
       </Section>
 
-      <FinalCta
+      <DawnCta
         title="Days from now, your phone answers itself."
+        italicLine="Nothing to install. Nothing to learn."
         lede="Book the setup call — or talk to the demo first and hear what your callers would hear."
         location="how_it_works"
       />

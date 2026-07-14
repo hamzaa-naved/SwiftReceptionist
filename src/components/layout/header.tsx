@@ -12,14 +12,13 @@ import { Button } from "@/components/ui/button";
 import { TrackedLink } from "@/components/shared/tracked-link";
 import { EASE_LUXE as EASE } from "@/lib/motion";
 
-/** Routes that open on a night ground; the transparent header goes light there. */
-function hasDarkHero(pathname: string) {
-  return (
-    pathname === "/" ||
-    pathname.startsWith("/demo") ||
-    pathname.startsWith("/industries") ||
-    pathname.startsWith("/pricing")
-  );
+/**
+ * Midnight Cinema: every route now opens on the night ground, so the
+ * chrome is always the light (ivory-on-dark) treatment. Reintroduce a
+ * pathname check here if a light route ever needs to opt out.
+ */
+function hasDarkHero() {
+  return true;
 }
 
 export function Header() {
@@ -38,7 +37,7 @@ export function Header() {
   const closeMenu = () => setOpen(false);
   // Night routes keep light (ivory-on-dark) chrome even once scrolled —
   // the glass tints night instead of ivory so the scene stays cinematic.
-  const light = hasDarkHero(pathname) && !open;
+  const light = hasDarkHero() && !open;
 
   return (
     <header
