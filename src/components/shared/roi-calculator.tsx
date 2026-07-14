@@ -7,6 +7,7 @@ import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import { TrackedLink } from "@/components/shared/tracked-link";
 import { track } from "@/lib/integrations/analytics";
+import { SPRING_SOFT } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 export interface RoiDefaults {
@@ -210,7 +211,7 @@ export function RoiCalculator({
  */
 function AnimatedUsd({ value }: { value: number }) {
   const reduceMotion = useReducedMotion();
-  const spring = useSpring(value, { stiffness: 120, damping: 24 });
+  const spring = useSpring(value, SPRING_SOFT);
   const display = useTransform(spring, (v) => formatUsd(Math.round(v)));
 
   useEffect(() => {

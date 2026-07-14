@@ -2,8 +2,7 @@
 
 import { m, useReducedMotion } from "motion/react";
 import { type ReactNode } from "react";
-
-const EASE = [0.16, 1, 0.3, 1] as const;
+import { EASE_LUXE as EASE } from "@/lib/motion";
 
 /**
  * Scroll-reveal: a slow, weighted rise + fade with luxe easing. The

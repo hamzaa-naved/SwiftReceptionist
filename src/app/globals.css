@@ -22,6 +22,7 @@
 
 :root {
   /* Canonical palette */
+  --night-990: #0c0a06;    /* deepest ground — the night between scenes */
   --ivory: #f6f1e7;        /* warm paper ground */
   --ivory-raised: #fbf8f1; /* cards / raised surfaces */
   --ivory-deep: #ece4d5;   /* recessed panels */
@@ -87,6 +88,7 @@
   --color-ring: var(--ring);
 
   /* Canonical names */
+  --color-night-990: var(--night-990);
   --color-ivory: var(--ivory);
   --color-ivory-raised: var(--ivory-raised);
   --color-ivory-deep: var(--ivory-deep);
@@ -125,6 +127,7 @@
   --animate-accordion-down: accordion-down 0.3s var(--ease-luxe);
   --animate-accordion-up: accordion-up 0.3s var(--ease-luxe);
   --animate-ring-pulse: ring-pulse 2.6s var(--ease-luxe) infinite;
+  --animate-ring-bloom: ring-bloom 3.8s var(--ease-luxe) infinite;
 }
 
 @keyframes accordion-down { from { height: 0; } to { height: var(--radix-accordion-content-height); } }
@@ -132,6 +135,15 @@
 @keyframes ring-pulse {
   0% { transform: scale(1); opacity: 0.5; }
   80%, 100% { transform: scale(2.2); opacity: 0; }
+}
+/* Larger, slower bloom for hero/dawn ring halos */
+@keyframes ring-bloom {
+  0% { transform: scale(1); opacity: 0.35; }
+  85%, 100% { transform: scale(3.4); opacity: 0; }
+}
+/* Infinite call-outcome marquee: track holds two copies, shifts one width */
+@keyframes ticker-scroll {
+  to { transform: translateX(-50%); }
 }
 
 html {
@@ -169,8 +181,8 @@ body {
   inset: 0;
   z-index: 9999;
   pointer-events: none;
-  opacity: 0.035;
-  mix-blend-mode: multiply;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
@@ -209,6 +221,63 @@ body {
   background: currentColor;
   opacity: 0.5;
 }
+/* ------------------------------------------------------------------ */
+/* Midnight Cinema utilities                                           */
+
+/* Warm brass text glow — ONLY for the hero and dawn CTA headlines */
+.headline-glow {
+  text-shadow:
+    0 0 64px rgb(195 154 86 / 0.32),
+    0 0 22px rgb(195 154 86 / 0.14);
+}
+
+/* Brass sheen that sweeps across a button face on hover */
+.btn-sheen { position: relative; overflow: hidden; }
+.btn-sheen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 42%,
+    rgb(246 241 231 / 0.28) 50%,
+    transparent 58%
+  );
+  transform: translateX(-130%);
+  transition: transform 0.9s var(--ease-luxe);
+  pointer-events: none;
+}
+.btn-sheen:hover::after { transform: translateX(130%); }
+
+/* Pointer-tracked warm light on dark panels (vars set by SpotlightCard) */
+.spotlight-card { position: relative; }
+.spotlight-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.5s var(--ease-luxe);
+  background: radial-gradient(
+    340px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+    rgb(195 154 86 / 0.13),
+    transparent 65%
+  );
+  pointer-events: none;
+}
+.spotlight-card:hover::before { opacity: 1; }
+
+/* Infinite marquee (two copies of the row inside .ticker-track) */
+.ticker-mask {
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+}
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: ticker-scroll 46s linear infinite;
+}
+.ticker-mask:hover .ticker-track { animation-play-state: paused; }
+
 /* Draw-in underline for editorial links */
 .link-underline {
   background-image: linear-gradient(var(--brass-500), var(--brass-500));

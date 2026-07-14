@@ -2,7 +2,12 @@ import { cn } from "@/lib/utils";
 import { type ReactNode } from "react";
 import { Reveal } from "@/components/shared/reveal";
 
-/** Section rhythm with generous editorial air + optional espresso scene. */
+/**
+ * Section rhythm with generous editorial air. Midnight Cinema tones:
+ * "night" is the deepest ground between scenes, "ink" a raised espresso
+ * scene, "dawn" the rare lit "morning" beat, "warm" a recessed light
+ * panel (legacy light pages).
+ */
 export function Section({
   children,
   className,
@@ -11,7 +16,7 @@ export function Section({
 }: {
   children: ReactNode;
   className?: string;
-  tone?: "default" | "ink" | "warm";
+  tone?: "default" | "ink" | "warm" | "night" | "dawn";
   id?: string;
 }) {
   return (
@@ -21,6 +26,8 @@ export function Section({
         "py-24 md:py-36",
         tone === "ink" && "bg-espresso-950 text-ivory",
         tone === "warm" && "bg-ivory-deep",
+        tone === "night" && "bg-night-990 text-ivory",
+        tone === "dawn" && "bg-ivory text-espresso-950",
         className,
       )}
     >

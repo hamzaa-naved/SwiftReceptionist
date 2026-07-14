@@ -2,6 +2,7 @@
 
 import { m, useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
+import { EASE_LUXE } from "@/lib/motion";
 import type { ScriptTurn } from "@/content/niches/types";
 
 /**
@@ -31,7 +32,7 @@ export function CallTranscript({
     hidden: { opacity: 0, y: reduceMotion ? 0 : 10 },
     visible: {
       opacity: 1, y: 0,
-      transition: reduceMotion ? { duration: 0 } : { duration: 0.55, ease: [0.16, 1, 0.3, 1] as const },
+      transition: reduceMotion ? { duration: 0 } : { duration: 0.55, ease: EASE_LUXE },
     },
   };
 

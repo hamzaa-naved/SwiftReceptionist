@@ -10,8 +10,7 @@ import { cn } from "@/lib/utils";
 import { Logo } from "@/components/layout/logo";
 import { Button } from "@/components/ui/button";
 import { TrackedLink } from "@/components/shared/tracked-link";
-
-const EASE = [0.16, 1, 0.3, 1] as const;
+import { EASE_LUXE as EASE } from "@/lib/motion";
 
 /** Routes with an espresso-dark hero; the transparent header goes light there. */
 function hasDarkHero(pathname: string) {

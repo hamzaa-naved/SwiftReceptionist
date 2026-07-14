@@ -26,7 +26,7 @@ const companyLinks = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-espresso-800 bg-espresso-950 text-espresso-300">
+    <footer className="border-t border-espresso-800 bg-night-990 text-espresso-300">
       <div className="mx-auto w-full max-w-6xl px-6 py-20 sm:px-10">
         {/* A closing editorial line */}
         <p className="font-display mb-16 max-w-3xl text-balance text-3xl font-light italic leading-tight text-ivory sm:text-4xl">
