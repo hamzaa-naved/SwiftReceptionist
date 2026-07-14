@@ -6,8 +6,8 @@ import { Section, SectionHeader } from "@/components/shared/section";
 import { RoiCalculator } from "@/components/shared/roi-calculator";
 import { DawnCta } from "@/components/shared/dawn-cta";
 import { Hero } from "@/components/home/hero";
-import { ProofStrip } from "@/components/home/proof-strip";
-import { RingScene } from "@/components/home/ring-scene";
+import { StatBar } from "@/components/home/stat-bar";
+import { TranscriptScene } from "@/components/home/transcript-scene";
 import { HowItWorks } from "@/components/home/how-it-works";
 import { DemoBlock } from "@/components/home/demo-block";
 import { Comparison } from "@/components/home/comparison";
@@ -41,8 +41,8 @@ export default function Home() {
       />
 
       <Hero />
-      <ProofStrip />
-      <RingScene />
+      <StatBar />
+      <TranscriptScene />
 
       <Section tone="dawn">
         <SectionHeader

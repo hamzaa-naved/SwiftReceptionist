@@ -16,7 +16,7 @@ export function Section({
 }: {
   children: ReactNode;
   className?: string;
-  tone?: "default" | "ink" | "warm" | "night" | "dawn";
+  tone?: "default" | "ink" | "warm" | "night" | "dawn" | "cloud";
   id?: string;
 }) {
   return (
@@ -28,6 +28,7 @@ export function Section({
         tone === "warm" && "bg-ivory-deep",
         tone === "night" && "bg-night-990 text-ivory",
         tone === "dawn" && "bg-ivory text-espresso-950",
+        tone === "cloud" && "bg-cloud text-carbon-950",
         className,
       )}
     >
