@@ -32,31 +32,26 @@ export function FaqAccordion({
         if (value) track("faq_opened", { question: value });
       }}
     >
-      {items.map((item, i) => (
+      {items.map((item) => (
         <AccordionItem
           key={item.q}
           value={item.q}
           className={cn("border-b", night ? "border-espresso-800" : "border-line")}
         >
           <AccordionTrigger className="group gap-6 py-6 text-left hover:no-underline">
-            <span className="flex items-baseline gap-5">
-              <span className={cn("font-display text-sm italic", night ? "text-brass-400" : "text-brass-500")}>
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <span
-                className={cn(
-                  "font-display text-xl font-medium leading-snug sm:text-2xl",
-                  night ? "text-ivory" : "text-espresso-950",
-                )}
-              >
-                {item.q}
-              </span>
+            <span
+              className={cn(
+                "text-lg font-semibold leading-snug tracking-[-0.01em] sm:text-xl",
+                night ? "text-ivory" : "text-carbon-950",
+              )}
+            >
+              {item.q}
             </span>
           </AccordionTrigger>
           <AccordionContent
             className={cn(
-              "pb-7 pl-10 text-[1.02rem] leading-relaxed",
-              night ? "text-espresso-300" : "text-espresso-700",
+              "pb-7 pr-10 text-[1rem] leading-relaxed",
+              night ? "text-espresso-300" : "text-carbon-600",
             )}
           >
             {item.a}

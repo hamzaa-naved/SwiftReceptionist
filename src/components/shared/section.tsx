@@ -65,9 +65,9 @@ export function SectionHeader({
       {kicker && (
         <p
           className={cn(
-            "eyebrow mb-6",
+            "eyebrow mb-5",
             align === "center" && "justify-center",
-            tone === "ink" ? "text-brass-400" : "text-brass-500",
+            tone === "ink" ? "text-brass-400" : "text-azure-600",
           )}
         >
           {kicker}
@@ -75,8 +75,8 @@ export function SectionHeader({
       )}
       <h2
         className={cn(
-          "font-display text-balance text-[2.6rem] font-medium leading-[1.02] sm:text-6xl",
-          tone === "ink" ? "text-ivory" : "text-espresso-950",
+          "font-display text-balance text-[2.5rem] leading-[1.03] sm:text-6xl",
+          tone === "ink" ? "text-ivory" : "text-carbon-950",
         )}
       >
         {title}
@@ -84,8 +84,8 @@ export function SectionHeader({
       {lede && (
         <p
           className={cn(
-            "mt-6 max-w-2xl text-lg leading-relaxed sm:text-xl",
-            tone === "ink" ? "text-espresso-300" : "text-espresso-700",
+            "mt-5 max-w-2xl text-lg leading-relaxed sm:text-xl",
+            tone === "ink" ? "text-espresso-300" : "text-carbon-600",
           )}
         >
           {lede}

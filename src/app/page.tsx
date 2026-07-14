@@ -4,16 +4,15 @@ import { organizationJsonLd, serviceJsonLd } from "@/lib/seo";
 import { JsonLd } from "@/components/shared/json-ld";
 import { Section, SectionHeader } from "@/components/shared/section";
 import { RoiCalculator } from "@/components/shared/roi-calculator";
-import { DawnCta } from "@/components/shared/dawn-cta";
+import { FinalCta } from "@/components/shared/final-cta";
 import { Hero } from "@/components/home/hero";
 import { StatBar } from "@/components/home/stat-bar";
 import { TranscriptScene } from "@/components/home/transcript-scene";
-import { HowItWorks } from "@/components/home/how-it-works";
-import { DemoBlock } from "@/components/home/demo-block";
+import { Features } from "@/components/home/features";
 import { Comparison } from "@/components/home/comparison";
 import { TwoTrades } from "@/components/home/two-trades";
+import { HonestyStrip } from "@/components/home/honesty-strip";
 import { HomeFaq } from "@/components/home/home-faq";
-import { RiskReversal } from "@/components/home/risk-reversal";
 import { ScrollCta } from "@/components/home/scroll-cta";
 
 export const metadata: Metadata = {
@@ -34,33 +33,33 @@ export default function Home() {
         data={serviceJsonLd({
           name: `${site.name} — 24/7 AI Receptionist`,
           description:
-            "AI receptionist for local service businesses: answers every call in seconds, books jobs, captures leads, and triages emergencies around the clock.",
+            "AI receptionist for electrical contractors and garage door companies: answers every call in seconds, books jobs, captures leads, and triages emergencies around the clock.",
           url: site.url,
-          audience: "Local service businesses",
+          audience: "Electrical contractors and garage door companies",
         })}
       />
 
       <Hero />
       <StatBar />
       <TranscriptScene />
+      <Features />
 
-      <Section tone="dawn">
+      <Section tone="cloud" id="roi">
         <SectionHeader
-          kicker="The morning math"
-          title="Run the numbers you've been avoiding."
-          lede="Your calls, your job values, your close rate. Move the sliders — the number counts itself against you."
+          kicker="The math"
+          title="Do the math on your missed calls."
+          lede="Your calls, your job values, your close rate. Move the sliders — the number counts itself."
+          align="center"
         />
         <RoiCalculator defaults={roiDefaults} />
       </Section>
 
-      <HowItWorks />
-      <DemoBlock />
-      <Comparison />
       <TwoTrades />
+      <Comparison />
+      <HonestyStrip />
       <HomeFaq />
-      <RiskReversal />
 
-      <DawnCta location="home_final" />
+      <FinalCta location="home_final" />
       <ScrollCta />
     </>
   );

@@ -37,14 +37,14 @@ export const homeFaqs: NicheFaq[] = [
 
 export function HomeFaq() {
   return (
-    <Section tone="night" id="faq">
+    <Section tone="cloud" id="faq">
       <JsonLd data={faqJsonLd(homeFaqs)} />
       <SectionHeader
-        tone="ink"
-        kicker="Asked at 11 PM"
-        title="The questions every owner asks before saying yes"
+        kicker="Fair questions"
+        title="Everything owners ask before saying yes"
+        align="center"
       />
-      <FaqAccordion tone="night" items={homeFaqs} />
+      <FaqAccordion items={homeFaqs} />
     </Section>
   );
 }

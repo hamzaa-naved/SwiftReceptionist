@@ -97,7 +97,7 @@ export function RoiCalculator({
     <div
       id="roi-calculator"
       className={cn(
-        "grid overflow-hidden border border-line bg-ivory-raised text-espresso-950 md:grid-cols-[1.1fr_1fr]",
+        "grid overflow-hidden rounded-3xl border border-line bg-white text-carbon-950 shadow-card md:grid-cols-[1.1fr_1fr]",
         className,
       )}
     >
@@ -143,36 +143,35 @@ export function RoiCalculator({
         />
       </div>
 
-      <div className="flex flex-col justify-between gap-6 bg-espresso-950 p-8 text-ivory sm:p-10">
+      <div className="flex flex-col justify-between gap-6 border-t border-line bg-cloud p-8 md:border-l md:border-t-0 sm:p-10">
         <div>
-          <p className="eyebrow text-brass-400">
-            <TrendingDown className="h-4 w-4" aria-hidden />
-            Leaking to voicemail
+          <p className="eyebrow gap-2 text-carbon-400">
+            <TrendingDown className="h-4 w-4 text-bad" aria-hidden />
+            Lost to voicemail
           </p>
-          <p className="font-display mt-6 text-6xl font-light tabular-nums leading-none text-brass-400 sm:text-7xl">
+          <p
+            className="mt-6 bg-clip-text font-display text-6xl tabular-nums leading-none text-transparent sm:text-7xl"
+            style={{ backgroundImage: "linear-gradient(135deg, #0a84ff, #7c3aed)" }}
+          >
             <AnimatedUsd value={monthlyLoss} />
           </p>
-          <p className="mt-2 text-[0.7rem] uppercase tracking-[0.24em] text-espresso-300">
+          <p className="mt-2 text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-carbon-400">
             every month
           </p>
-          <p className="mt-6 leading-relaxed text-espresso-300">
+          <p className="mt-6 leading-relaxed text-carbon-600">
             That&apos;s{" "}
-            <strong className="font-medium text-ivory">
+            <strong className="font-semibold text-carbon-950">
               {formatUsd(yearlyLoss)} a year
             </strong>{" "}
             in jobs going to whoever answered instead.
           </p>
-          <p className="mt-5 text-[0.72rem] leading-relaxed text-espresso-500">
+          <p className="mt-5 text-[0.72rem] leading-relaxed text-carbon-400">
             {missedCalls} missed calls/week × {WEEKS_PER_MONTH} weeks ×{" "}
             {closeRate}% booking rate × {formatUsd(jobValue)} per job.
           </p>
         </div>
         <div className="flex flex-col gap-2.5 sm:flex-row">
-          <Button
-            asChild
-            size="lg"
-            className="bg-ivory text-espresso-950 hover:bg-brass-100"
-          >
+          <Button asChild size="lg">
             <TrackedLink
               event="cta_book_call"
               eventProps={{ location: "roi_calculator" }}
@@ -186,7 +185,6 @@ export function RoiCalculator({
             size="lg"
             variant="outline"
             onClick={copyShareLink}
-            className="border-espresso-700 bg-transparent text-ivory hover:border-ivory hover:bg-ivory hover:text-espresso-950"
           >
             {copied ? (
               <>
@@ -251,12 +249,12 @@ function CalcSlider({
   return (
     <div>
       <div className="mb-1 flex items-baseline justify-between gap-4">
-        <label className="text-sm font-medium text-espresso-900">{label}</label>
-        <output className="font-display text-xl italic tabular-nums text-espresso-950">
+        <label className="text-sm font-medium text-carbon-950">{label}</label>
+        <output className="text-xl font-semibold tabular-nums text-carbon-950">
           {format(value)}
         </output>
       </div>
-      <p className="mb-4 text-xs text-espresso-500">{hint}</p>
+      <p className="mb-4 text-xs text-carbon-400">{hint}</p>
       <Slider
         value={[value]}
         onValueChange={([v]) => onChange(v)}
