@@ -31,14 +31,18 @@ export function Header() {
 
   const reduceMotion = useReducedMotion();
   const closeMenu = () => setOpen(false);
-  const light = hasDarkHero(pathname) && !scrolled && !open;
+  // Night routes keep light (ivory-on-dark) chrome even once scrolled —
+  // the glass tints night instead of ivory so the scene stays cinematic.
+  const light = hasDarkHero(pathname) && !open;
 
   return (
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-all duration-500 [transition-timing-function:cubic-bezier(0.16,1,0.3,1)]",
         scrolled || open
-          ? "border-b border-line/70 bg-ivory/80 backdrop-blur-xl"
+          ? light
+            ? "border-b border-espresso-800/70 bg-night-990/85 backdrop-blur-xl"
+            : "border-b border-line/70 bg-ivory/80 backdrop-blur-xl"
           : "border-b border-transparent bg-transparent",
       )}
     >

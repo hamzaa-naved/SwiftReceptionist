@@ -4,10 +4,10 @@ import { organizationJsonLd, serviceJsonLd } from "@/lib/seo";
 import { JsonLd } from "@/components/shared/json-ld";
 import { Section, SectionHeader } from "@/components/shared/section";
 import { RoiCalculator } from "@/components/shared/roi-calculator";
-import { FinalCta } from "@/components/shared/final-cta";
+import { DawnCta } from "@/components/shared/dawn-cta";
 import { Hero } from "@/components/home/hero";
 import { ProofStrip } from "@/components/home/proof-strip";
-import { Problem } from "@/components/home/problem";
+import { RingScene } from "@/components/home/ring-scene";
 import { HowItWorks } from "@/components/home/how-it-works";
 import { DemoBlock } from "@/components/home/demo-block";
 import { Comparison } from "@/components/home/comparison";
@@ -42,12 +42,12 @@ export default function Home() {
 
       <Hero />
       <ProofStrip />
-      <Problem />
+      <RingScene />
 
-      <Section tone="warm">
+      <Section tone="dawn">
         <SectionHeader
-          kicker="No. 02 — The arithmetic"
-          title="What is silence costing you, exactly?"
+          kicker="The morning math"
+          title="Run the numbers you've been avoiding."
           lede="Your calls, your job values, your close rate. Move the sliders — the number counts itself against you."
         />
         <RoiCalculator defaults={roiDefaults} />
@@ -60,11 +60,7 @@ export default function Home() {
       <HomeFaq />
       <RiskReversal />
 
-      <FinalCta
-        title="The next missed call is already dialing."
-        lede="Fifteen minutes with us, live within days — or try the demo first and let the AI make its own case."
-        location="home_final"
-      />
+      <DawnCta location="home_final" />
       <ScrollCta />
     </>
   );

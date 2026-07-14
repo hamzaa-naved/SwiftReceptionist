@@ -1,18 +1,18 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { m, useScroll, useTransform, useReducedMotion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { TrackedLink } from "@/components/shared/tracked-link";
 import { KineticText } from "@/components/shared/reveal";
+import { Magnetic } from "@/components/shared/magnetic";
 import { EASE_LUXE as EASE } from "@/lib/motion";
 
 /**
- * Cinematic opening scene. An espresso "night" ground with a single
- * missed-call moment framed like a film still; the headline rises word
- * by word in Fraunces, and the whole scene parallaxes as you begin to
- * scroll. This is the thesis of the page — the quiet cost of a call that
- * goes unanswered.
+ * COLD OPEN. The site begins at 9:47 PM — the hour the missed call
+ * actually happens. A night ground, a phone ringing in the dark, and
+ * the one sentence that carries the whole business. After two rings
+ * (or the first scroll), the call is answered: the story in miniature.
  */
 export function Hero() {
   const reduceMotion = useReducedMotion();
@@ -25,31 +25,54 @@ export function Hero() {
   const contentOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
   const stillY = useTransform(scrollYProgress, [0, 1], ["0%", "-14%"]);
 
+  // The call answers itself after ~two rings; reduced motion starts answered.
+  const [answered, setAnswered] = useState(false);
+  useEffect(() => {
+    if (reduceMotion) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setAnswered(true);
+      return;
+    }
+    const id = setTimeout(() => setAnswered(true), 3600);
+    return () => clearTimeout(id);
+  }, [reduceMotion]);
+
   return (
     <div
       ref={ref}
-      className="relative min-h-[100svh] overflow-hidden bg-espresso-950 text-ivory"
+      className="relative min-h-[100svh] overflow-hidden bg-night-990 text-ivory"
     >
-      {/* Warm vignette + faint aurora of brass light */}
+      {/* Night air: faint brass aurora + deep vignette */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(120% 90% at 80% 10%, rgba(195,154,86,0.14), transparent 55%), radial-gradient(90% 70% at 0% 100%, rgba(124,58,45,0.14), transparent 55%)",
+            "radial-gradient(110% 80% at 82% 8%, rgba(195,154,86,0.12), transparent 55%), radial-gradient(80% 60% at 0% 100%, rgba(124,58,45,0.12), transparent 55%)",
         }}
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-[0.4]"
+        className="pointer-events-none absolute inset-0 opacity-50"
         style={{
           background:
-            "radial-gradient(100% 100% at 50% 40%, transparent 40%, rgba(15,12,8,0.9))",
+            "radial-gradient(100% 100% at 50% 40%, transparent 38%, rgba(8,6,3,0.92))",
         }}
       />
 
-      <div className="relative mx-auto flex min-h-[100svh] w-full max-w-6xl flex-col justify-center px-6 pt-28 pb-20 sm:px-10">
-        <div className="grid items-center gap-14 lg:grid-cols-[1.15fr_0.85fr]">
+      {/* The hour, kept like a film slate */}
+      <m.p
+        aria-hidden
+        className="absolute right-6 top-24 hidden text-[0.68rem] uppercase tracking-[0.3em] text-espresso-500 sm:right-10 sm:block md:top-28"
+        initial={reduceMotion ? false : { opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.2, delay: 1.4 }}
+      >
+        Somewhere in your service area · 9<span className="animate-pulse">:</span>47 PM
+      </m.p>
+
+      <div className="relative mx-auto flex min-h-[100svh] w-full max-w-6xl flex-col justify-center px-6 pb-24 pt-28 sm:px-10">
+        <div className="grid items-center gap-14 lg:grid-cols-[1.18fr_0.82fr]">
           <m.div style={reduceMotion ? undefined : { y: contentY, opacity: contentOpacity }}>
             <m.p
               className="eyebrow mb-8 text-brass-400"
@@ -57,10 +80,12 @@ export function Hero() {
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 0.2 }}
             >
-              24/7 AI receptionist · electrical &amp; the trades
+              Electrical contractors &amp; garage door pros · after hours, every hour
             </m.p>
 
-            <h1 className="font-display text-[clamp(2.9rem,7vw,6rem)] font-light leading-[0.98] tracking-[-0.02em]">
+            {/* No headline-glow here: KineticText clips each word, which
+                would box the shadow. The glow lives on non-kinetic lines. */}
+            <h1 className="font-display text-[clamp(3rem,8vw,7rem)] font-light leading-[0.95] tracking-[-0.02em]">
               <KineticText text="The call you miss" as="span" className="block" />
               <KineticText
                 text="is the job"
@@ -90,26 +115,40 @@ export function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 1.05, ease: EASE }}
             >
-              <Button asChild size="lg" className="bg-ivory text-espresso-950 hover:bg-brass-100">
-                <TrackedLink event="cta_book_call" eventProps={{ location: "hero" }} href="/contact">
-                  Book a 15-minute call
-                </TrackedLink>
-              </Button>
-              <Button
-                asChild
-                size="lg"
-                variant="outline"
-                className="border-ivory/30 text-ivory hover:border-ivory hover:bg-ivory hover:text-espresso-950"
-              >
-                <TrackedLink event="cta_try_demo" eventProps={{ location: "hero" }} href="/demo">
-                  Hear it answer →
-                </TrackedLink>
-              </Button>
+              <Magnetic>
+                <Button asChild size="lg" className="btn-sheen bg-ivory text-espresso-950 hover:bg-brass-100">
+                  <TrackedLink event="cta_book_call" eventProps={{ location: "hero" }} href="/contact">
+                    Book a 15-minute call
+                  </TrackedLink>
+                </Button>
+              </Magnetic>
+              <Magnetic>
+                <Button
+                  asChild
+                  size="lg"
+                  variant="outline"
+                  className="border-ivory/30 text-ivory hover:border-ivory hover:bg-ivory hover:text-espresso-950"
+                >
+                  <TrackedLink event="cta_try_demo" eventProps={{ location: "hero" }} href="/demo">
+                    Hear it answer →
+                  </TrackedLink>
+                </Button>
+              </Magnetic>
             </m.div>
           </m.div>
 
-          <m.div style={reduceMotion ? undefined : { y: stillY }}>
-            <CallStill />
+          <m.div style={reduceMotion ? undefined : { y: stillY }} className="relative">
+            {/* Ring blooms behind the still while the line is ringing */}
+            {!reduceMotion && !answered && (
+              <div aria-hidden className="absolute inset-0 flex items-center justify-center">
+                <span className="absolute h-40 w-40 animate-ring-bloom rounded-full border border-brass-400/40" />
+                <span
+                  className="absolute h-40 w-40 animate-ring-bloom rounded-full border border-brass-400/25"
+                  style={{ animationDelay: "1.2s" }}
+                />
+              </div>
+            )}
+            <CallStill answered={answered} />
           </m.div>
         </div>
       </div>
@@ -120,7 +159,7 @@ export function Hero() {
         className="absolute bottom-8 left-1/2 -translate-x-1/2"
         initial={reduceMotion ? false : { opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 1.4 }}
+        transition={{ duration: 1, delay: 1.6 }}
       >
         <div className="flex flex-col items-center gap-3 text-espresso-500">
           <span className="text-[0.65rem] uppercase tracking-[0.3em]">Scroll</span>
@@ -132,11 +171,11 @@ export function Hero() {
 }
 
 /**
- * The "film still" — a single incoming call caught at 11:48pm, rendered
- * as an elegant framed card. A live pulse marks the ring; the outcome
- * fades in beneath, telling the whole story in one glance.
+ * The film still: one incoming call caught at 9:47 PM. It rings, then —
+ * because Swift is on the line — it answers, and the outcome prints
+ * beneath. The whole pitch in a single framed moment.
  */
-function CallStill() {
+function CallStill({ answered }: { answered: boolean }) {
   const reduceMotion = useReducedMotion();
   return (
     <m.figure
@@ -154,25 +193,45 @@ function CallStill() {
       <figcaption className="flex items-center justify-between text-[0.68rem] uppercase tracking-[0.24em] text-espresso-300">
         <span className="flex items-center gap-2.5">
           <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full animate-ring-pulse rounded-full bg-brass-400" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-brass-400" />
+            <span
+              className={
+                answered
+                  ? "relative inline-flex h-2 w-2 rounded-full bg-moss-500"
+                  : "absolute inline-flex h-full w-full animate-ring-pulse rounded-full bg-brass-400"
+              }
+            />
+            {!answered && (
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-brass-400" />
+            )}
           </span>
-          Incoming
+          {answered ? "Connected" : "Incoming"}
         </span>
-        <span>11:48 PM</span>
+        <span>9:47 PM</span>
       </figcaption>
 
       <p className="font-display mt-7 text-2xl font-light italic leading-snug text-ivory">
         “Half the house just went dark and the breaker won&apos;t reset.”
       </p>
 
-      <div className="mt-7 border-t border-espresso-700/60 pt-5">
-        <p className="text-[0.68rem] uppercase tracking-[0.24em] text-brass-400">
-          Answered in 2 rings
-        </p>
-        <p className="mt-2 text-sm text-espresso-300">
-          Emergency dispatch booked — 7:30 AM. Owner notified by text.
-        </p>
+      <div className="mt-7 min-h-[5.25rem] border-t border-espresso-700/60 pt-5">
+        {answered ? (
+          <m.div
+            initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: EASE }}
+          >
+            <p className="text-[0.68rem] uppercase tracking-[0.24em] text-brass-400">
+              Answered in 2 rings
+            </p>
+            <p className="mt-2 text-sm text-espresso-300">
+              Emergency dispatch booked — 7:30 AM. Owner notified by text.
+            </p>
+          </m.div>
+        ) : (
+          <p className="text-[0.68rem] uppercase tracking-[0.24em] text-espresso-500">
+            Ringing<span className="animate-pulse">…</span>
+          </p>
+        )}
       </div>
     </m.figure>
   );
