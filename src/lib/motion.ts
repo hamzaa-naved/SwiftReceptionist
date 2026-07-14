@@ -5,6 +5,12 @@
  */
 export const EASE_LUXE = [0.16, 1, 0.3, 1] as const;
 
+/** Apple's sheet curve — the DAYLIGHT default (also --ease-crisp in CSS). */
+export const EASE_CRISP = [0.32, 0.72, 0, 1] as const;
+
+/** Snappy pop for message bubbles and small objects. */
+export const SPRING_POP = { stiffness: 340, damping: 24, mass: 0.7 } as const;
+
 /** Soft spring for count-ups and magnetic pulls. */
 export const SPRING_SOFT = { stiffness: 120, damping: 24 } as const;
 

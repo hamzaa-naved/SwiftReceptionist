@@ -10,17 +10,9 @@ import { cn } from "@/lib/utils";
 import { Logo } from "@/components/layout/logo";
 import { Button } from "@/components/ui/button";
 import { TrackedLink } from "@/components/shared/tracked-link";
-import { EASE_LUXE as EASE } from "@/lib/motion";
+import { EASE_CRISP as EASE } from "@/lib/motion";
 
-/**
- * Midnight Cinema: every route now opens on the night ground, so the
- * chrome is always the light (ivory-on-dark) treatment. Reintroduce a
- * pathname check here if a light route ever needs to opt out.
- */
-function hasDarkHero() {
-  return true;
-}
-
+/** DAYLIGHT chrome: white glass over the white void, carbon links. */
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -35,37 +27,31 @@ export function Header() {
 
   const reduceMotion = useReducedMotion();
   const closeMenu = () => setOpen(false);
-  // Night routes keep light (ivory-on-dark) chrome even once scrolled —
-  // the glass tints night instead of ivory so the scene stays cinematic.
-  const light = hasDarkHero() && !open;
 
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-all duration-500 [transition-timing-function:cubic-bezier(0.16,1,0.3,1)]",
+        "fixed inset-x-0 top-0 z-50 transition-all duration-300 [transition-timing-function:cubic-bezier(0.32,0.72,0,1)]",
         scrolled || open
-          ? light
-            ? "border-b border-espresso-800/70 bg-night-990/85 backdrop-blur-xl"
-            : "border-b border-line/70 bg-ivory/80 backdrop-blur-xl"
+          ? "border-b border-line/80 bg-white/70 backdrop-blur-xl"
           : "border-b border-transparent bg-transparent",
       )}
     >
-      <div className="mx-auto flex h-20 w-full max-w-6xl items-center justify-between px-6 sm:px-10">
+      <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-6 sm:px-10 md:h-[4.5rem]">
         <Link href="/" aria-label={`${site.name} home`} className="shrink-0">
-          <Logo tone={light ? "light" : "dark"} />
+          <Logo />
         </Link>
 
-        <nav aria-label="Main" className="hidden items-center gap-8 lg:flex">
+        <nav aria-label="Main" className="hidden items-center gap-7 lg:flex">
           {site.nav.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               className={cn(
-                "link-underline text-sm tracking-wide transition-colors",
-                light
-                  ? "text-espresso-300 hover:text-ivory"
-                  : "text-espresso-700 hover:text-espresso-950",
-                pathname === item.href && (light ? "text-ivory" : "text-espresso-950"),
+                "text-sm transition-colors duration-300",
+                pathname === item.href
+                  ? "font-medium text-carbon-950"
+                  : "text-carbon-600 hover:text-carbon-950",
               )}
             >
               {item.label}
@@ -73,22 +59,13 @@ export function Header() {
           ))}
         </nav>
 
-        <div className="hidden items-center gap-3 lg:flex">
-          <Button
-            asChild
-            variant="ghost"
-            size="sm"
-            className={cn(light && "text-ivory hover:bg-ivory/10 hover:text-ivory")}
-          >
+        <div className="hidden items-center gap-2.5 lg:flex">
+          <Button asChild variant="ghost" size="sm">
             <TrackedLink event="cta_try_demo" eventProps={{ location: "nav" }} href={site.cta.secondary.href}>
               {site.cta.secondary.label}
             </TrackedLink>
           </Button>
-          <Button
-            asChild
-            size="sm"
-            className={cn(light && "bg-ivory text-espresso-950 hover:bg-brass-100")}
-          >
+          <Button asChild size="sm">
             <TrackedLink event="cta_book_call" eventProps={{ location: "nav" }} href={site.cta.primary.href}>
               {site.cta.primary.label}
             </TrackedLink>
@@ -96,11 +73,7 @@ export function Header() {
         </div>
 
         <div className="flex items-center gap-2 lg:hidden">
-          <Button
-            asChild
-            size="sm"
-            className={cn(light && "bg-ivory text-espresso-950 hover:bg-brass-100")}
-          >
+          <Button asChild size="sm">
             <TrackedLink event="cta_book_call" eventProps={{ location: "nav_mobile" }} href={site.cta.primary.href}>
               {site.cta.primary.label}
             </TrackedLink>
@@ -111,10 +84,7 @@ export function Header() {
             aria-expanded={open}
             aria-controls="mobile-nav"
             aria-label={open ? "Close menu" : "Open menu"}
-            className={cn(
-              "rounded-[2px] p-2 focus-visible:outline-2 focus-visible:outline-ring",
-              light ? "text-ivory hover:bg-ivory/10" : "text-espresso-800 hover:bg-espresso-950/5",
-            )}
+            className="rounded-full p-2 text-carbon-600 hover:bg-cloud hover:text-carbon-950"
           >
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
@@ -126,11 +96,11 @@ export function Header() {
           <m.nav
             id="mobile-nav"
             aria-label="Mobile"
-            className="overflow-hidden border-t border-line bg-ivory lg:hidden"
+            className="overflow-hidden border-t border-line bg-white lg:hidden"
             initial={reduceMotion ? { opacity: 0 } : { height: 0, opacity: 0 }}
             animate={reduceMotion ? { opacity: 1 } : { height: "auto", opacity: 1 }}
             exit={reduceMotion ? { opacity: 0 } : { height: 0, opacity: 0 }}
-            transition={{ duration: 0.5, ease: EASE }}
+            transition={{ duration: 0.4, ease: EASE }}
           >
             <div className="px-6 pb-8 pt-3">
               {site.nav.map((item, i) => (
@@ -138,12 +108,12 @@ export function Header() {
                   key={item.href}
                   initial={reduceMotion ? false : { opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.05 + i * 0.04, ease: EASE }}
+                  transition={{ duration: 0.4, delay: 0.04 + i * 0.035, ease: EASE }}
                 >
                   <Link
                     href={item.href}
                     onClick={closeMenu}
-                    className="font-display block py-3 text-2xl font-medium text-espresso-950"
+                    className="block py-3 text-2xl font-semibold tracking-[-0.02em] text-carbon-950"
                   >
                     {item.label}
                   </Link>
@@ -153,7 +123,7 @@ export function Header() {
                 className="mt-5 grid gap-2.5"
                 initial={reduceMotion ? false : { opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.05 + site.nav.length * 0.04, ease: EASE }}
+                transition={{ duration: 0.4, delay: 0.04 + site.nav.length * 0.035, ease: EASE }}
               >
                 <Button asChild size="lg">
                   <TrackedLink

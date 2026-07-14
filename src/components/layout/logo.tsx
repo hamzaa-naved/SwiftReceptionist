@@ -1,57 +1,37 @@
 import { cn } from "@/lib/utils";
 
 /**
- * Brand mark: a serif monogram "S" inside a hairline circle — an
- * editorial maker's-mark. Understated, luxe, and legible at any size.
+ * Brand mark: a clean Geist wordmark with the "line open" dot — a small
+ * signal-gradient point with a live pulse. Product-first, zero ornament.
  */
-export function LogoMark({ className }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 40 40"
-      fill="none"
-      aria-hidden="true"
-      className={cn("h-9 w-9", className)}
-    >
-      <circle cx="20" cy="20" r="19" className="stroke-current" strokeWidth="1" opacity="0.4" />
-      <text
-        x="20"
-        y="20"
-        textAnchor="middle"
-        dominantBaseline="central"
-        className="fill-current"
-        style={{
-          fontFamily: "var(--font-fraunces), Georgia, serif",
-          fontSize: "22px",
-          fontStyle: "italic",
-          fontWeight: 500,
-        }}
-      >
-        S
-      </text>
-    </svg>
-  );
-}
-
 export function Logo({
   className,
   tone = "dark",
 }: {
   className?: string;
-  /** "light" renders for dark grounds */
+  /** "light" renders for dark grounds (rare in DAYLIGHT). */
   tone?: "dark" | "light";
 }) {
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-3",
-        tone === "light" ? "text-ivory" : "text-espresso-950",
+        "inline-flex items-center gap-2.5",
+        tone === "light" ? "text-snow" : "text-carbon-950",
         className,
       )}
     >
-      <LogoMark />
-      <span className="font-display text-[19px] font-medium leading-none tracking-tight">
-        Swift{" "}
-        <span className="italic text-brass-500">Receptionist</span>
+      <span aria-hidden className="relative flex h-2.5 w-2.5">
+        <span
+          className="absolute inline-flex h-full w-full animate-ring-pulse rounded-full"
+          style={{ background: "rgb(10 132 255 / 0.5)" }}
+        />
+        <span
+          className="relative inline-flex h-2.5 w-2.5 rounded-full"
+          style={{ background: "linear-gradient(135deg, #0a84ff, #7c3aed)" }}
+        />
+      </span>
+      <span className="text-[17px] font-semibold tracking-[-0.02em]">
+        Swift Receptionist
       </span>
     </span>
   );

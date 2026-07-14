@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Instrument_Sans } from "next/font/google";
+import { Geist } from "next/font/google";
 import { site } from "@/lib/site";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
@@ -7,24 +7,13 @@ import { MobileCtaBar } from "@/components/layout/mobile-cta-bar";
 import { AnalyticsScripts } from "@/components/shared/analytics-scripts";
 import { MotionProvider } from "@/components/shared/motion-provider";
 import { SmoothScroll } from "@/components/shared/smooth-scroll";
-import { GrainOverlay } from "@/components/shared/grain-overlay";
 import "./globals.css";
 
-// Display: Fraunces — a soft, high-contrast old-style serif with an
-// optical-size axis; warm and crafted, ideal for cinematic headlines.
-const fraunces = Fraunces({
+// One family, like Apple: Geist. Display weight/tracking is handled by
+// the .font-display utility; body runs 400/500.
+const geist = Geist({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  style: ["normal", "italic"],
-  variable: "--font-fraunces",
-  display: "swap",
-});
-
-// Body: Instrument Sans — a refined grotesque with subtle character that
-// pairs with the serif without the default-Inter look.
-const instrument = Instrument_Sans({
-  subsets: ["latin"],
-  variable: "--font-body",
+  variable: "--font-geist",
   display: "swap",
 });
 
@@ -51,8 +40,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  // Matches the night ground so mobile browser chrome blends with the site.
-  themeColor: "#0c0a06",
+  // Matches the snow ground so mobile browser chrome blends with the site.
+  themeColor: "#ffffff",
 };
 
 export default function RootLayout({
@@ -61,16 +50,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${fraunces.variable} ${instrument.variable}`}
-    >
+    <html lang="en" className={geist.variable}>
       <body className="flex min-h-screen flex-col">
         <MotionProvider>
           <SmoothScroll />
           <a
             href="#main"
-            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-md focus:bg-espresso-950 focus:px-4 focus:py-2 focus:text-ivory"
+            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-carbon-950 focus:px-4 focus:py-2 focus:text-snow"
           >
             Skip to content
           </a>
@@ -80,7 +66,6 @@ export default function RootLayout({
           </main>
           <Footer />
           <MobileCtaBar />
-          <GrainOverlay />
         </MotionProvider>
         <AnalyticsScripts />
       </body>

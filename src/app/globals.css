@@ -21,7 +21,23 @@
 */
 
 :root {
-  /* Canonical palette */
+  /* DAYLIGHT palette — Apple-clean light */
+  --snow: #ffffff;         /* page ground */
+  --cloud: #f5f5f7;        /* recessed / alternate sections */
+  --carbon-950: #0d0d12;   /* headlines, primary pills */
+  --carbon-800: #2a2a33;   /* pill hover */
+  --carbon-600: #6e6e78;   /* secondary text */
+  --carbon-400: #a6a6af;   /* captions, tracked caps */
+  --daylight-line: #e8e8ed;/* hairlines on snow */
+  --azure-600: #0071e3;    /* THE accent — links, CTAs, checks */
+  --azure-500: #0a84ff;    /* bright/live accents */
+  --violet-600: #7c3aed;   /* gradient partner only */
+  --good: #1a9e58;
+  --bad: #e0442e;
+  --pulse: linear-gradient(135deg, #0a84ff, #7c3aed);
+
+  /* Retiring palette (Midnight Cinema) — kept alive during the D-phase
+     conversion, deleted in D6 */
   --night-990: #0c0a06;    /* deepest ground — the night between scenes */
   --ivory: #f6f1e7;        /* warm paper ground */
   --ivory-raised: #fbf8f1; /* cards / raised surfaces */
@@ -45,26 +61,26 @@
   --line: #ddd2bd;         /* hairline rules on ivory */
 
   /* shadcn/ui contract */
-  --background: var(--ivory);
-  --foreground: var(--espresso-950);
-  --card: var(--ivory-raised);
-  --card-foreground: var(--espresso-950);
-  --popover: var(--ivory-raised);
-  --popover-foreground: var(--espresso-950);
-  --primary: var(--espresso-950);
-  --primary-foreground: var(--ivory);
-  --secondary: var(--ivory-deep);
-  --secondary-foreground: var(--espresso-900);
-  --muted: var(--ivory-deep);
-  --muted-foreground: #6a5d47;
-  --accent: var(--brass-100);
-  --accent-foreground: #6a4a1c;
-  --destructive: var(--oxblood-600);
-  --destructive-foreground: var(--ivory);
-  --border: var(--line);
-  --input: #cabfa6;
-  --ring: var(--brass-500);
-  --radius: 2px;
+  --background: var(--snow);
+  --foreground: var(--carbon-950);
+  --card: var(--snow);
+  --card-foreground: var(--carbon-950);
+  --popover: var(--snow);
+  --popover-foreground: var(--carbon-950);
+  --primary: var(--carbon-950);
+  --primary-foreground: var(--snow);
+  --secondary: var(--cloud);
+  --secondary-foreground: var(--carbon-950);
+  --muted: var(--cloud);
+  --muted-foreground: var(--carbon-600);
+  --accent: #eaf3ff;
+  --accent-foreground: var(--azure-600);
+  --destructive: var(--bad);
+  --destructive-foreground: var(--snow);
+  --border: var(--daylight-line);
+  --input: var(--daylight-line);
+  --ring: var(--azure-600);
+  --radius: 14px;
 }
 
 @theme inline {
@@ -88,7 +104,20 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  /* Canonical names */
+  /* DAYLIGHT names */
+  --color-snow: var(--snow);
+  --color-cloud: var(--cloud);
+  --color-carbon-950: var(--carbon-950);
+  --color-carbon-800: var(--carbon-800);
+  --color-carbon-600: var(--carbon-600);
+  --color-carbon-400: var(--carbon-400);
+  --color-azure-600: var(--azure-600);
+  --color-azure-500: var(--azure-500);
+  --color-violet-600: var(--violet-600);
+  --color-good: var(--good);
+  --color-bad: var(--bad);
+
+  /* Retiring names (deleted in D6) */
   --color-night-990: var(--night-990);
   --color-ivory: var(--ivory);
   --color-ivory-raised: var(--ivory-raised);
@@ -109,22 +138,26 @@
   --color-oxblood-400: var(--oxblood-400);
   --color-moss-600: var(--moss-600);
   --color-moss-500: var(--moss-500);
-  --color-line: var(--line);
+  /* border-line now draws the neutral daylight hairline everywhere */
+  --color-line: var(--daylight-line);
 
-  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
-  --font-mono: var(--font-body), ui-sans-serif, sans-serif;
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist), ui-sans-serif, sans-serif;
 
-  --radius-sm: 2px;
-  --radius-md: 2px;
-  --radius-lg: 3px;
-  --radius-xl: 4px;
-  --radius-2xl: 4px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+  --radius-2xl: 28px;
 
-  --shadow-card: 0 1px 2px rgb(23 19 13 / 0.04), 0 18px 40px -28px rgb(23 19 13 / 0.28);
-  --shadow-lift: 0 2px 6px rgb(23 19 13 / 0.06), 0 30px 60px -32px rgb(23 19 13 / 0.4);
+  --shadow-card: 0 4px 24px rgb(13 13 18 / 0.06);
+  --shadow-lift: 0 8px 40px rgb(13 13 18 / 0.1);
+  --shadow-float: 0 32px 80px -24px rgb(13 13 18 / 0.22);
 
   --ease-luxe: cubic-bezier(0.16, 1, 0.3, 1);
+  /* Apple's sheet curve — the DAYLIGHT default */
+  --ease-crisp: cubic-bezier(0.32, 0.72, 0, 1);
 
   --animate-accordion-down: accordion-down 0.3s var(--ease-luxe);
   --animate-accordion-up: accordion-up 0.3s var(--ease-luxe);
@@ -161,90 +194,75 @@
   to { transform: translateY(0); }
 }
 .rise-in {
-  animation: rise-in 1s var(--ease-luxe) both;
+  animation: rise-in 0.8s var(--ease-crisp) both;
   animation-delay: var(--rise-delay, 0s);
 }
 .word-rise {
   display: inline-block;
-  animation: word-rise 0.95s var(--ease-luxe) both;
+  animation: word-rise 0.75s var(--ease-crisp) both;
   animation-delay: var(--rise-delay, 0s);
 }
+
+/* Soft breathing for the product aura */
+@keyframes aura-breathe {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.06); opacity: 1; }
+}
+.aura-breathe { animation: aura-breathe 7s ease-in-out infinite; }
 
 html {
   /* Lenis drives scrolling; keep native smooth off to avoid double-easing */
   scroll-behavior: auto;
-  /* Thin brand scrollbar (standard properties; Chromium/Firefox) */
+  /* Quiet neutral scrollbar */
   scrollbar-width: thin;
-  scrollbar-color: var(--brass-500) transparent;
+  scrollbar-color: #c7c7cf transparent;
 }
 /* Safari fallback — ignored by engines that honor scrollbar-color above */
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-  background: var(--brass-500);
-  border: 3px solid var(--ivory);
+  background: #c7c7cf;
+  border: 3px solid var(--snow);
   border-radius: 8px;
 }
-::-webkit-scrollbar-thumb:hover { background: var(--espresso-700); }
+::-webkit-scrollbar-thumb:hover { background: var(--carbon-400); }
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 .lenis.lenis-stopped { overflow: hidden; }
 
 body {
-  /* Midnight Cinema: the page lives at night; light sections are scenes */
-  background: var(--night-990);
-  color: var(--ivory);
-  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  /* DAYLIGHT: white void; sections add cloud or nothing */
+  background: var(--snow);
+  color: var(--carbon-950);
+  font-family: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   font-feature-settings: "ss01";
 }
 
-/* Film-grain overlay for editorial warmth (applied via <GrainOverlay/>) */
-.grain-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  pointer-events: none;
-  opacity: 0.05;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
+::selection { background: #cfe6ff; color: var(--carbon-950); }
 
-::selection { background: var(--brass-200); color: var(--espresso-950); }
-
-/* One focus language everywhere: a brass hairline ring, offset from the
-   element so it reads on both ivory and espresso grounds. */
+/* One focus language everywhere: the azure ring */
 :focus-visible {
-  outline: 2px solid var(--brass-500);
+  outline: 2px solid var(--azure-600);
   outline-offset: 2px;
-  border-radius: 1px;
+  border-radius: 4px;
 }
 
 .font-display {
-  font-family: var(--font-fraunces), Georgia, serif;
-  font-optical-sizing: auto;
-  letter-spacing: -0.015em;
-  font-weight: 400;
+  font-family: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: -0.035em;
+  font-weight: 600;
 }
 
-/* Editorial eyebrow: hairline + tracked small-caps label */
+/* Tracked caps label — plain, Apple-quiet (no hairline ornament) */
 .eyebrow {
   display: inline-flex;
   align-items: center;
-  gap: 14px;
-  font-family: var(--font-body), sans-serif;
-  font-size: 0.72rem;
-  font-weight: 500;
+  font-size: 0.75rem;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.28em;
-}
-.eyebrow::before {
-  content: "";
-  width: 34px;
-  height: 1px;
-  background: currentColor;
-  opacity: 0.5;
+  letter-spacing: 0.14em;
 }
 /* ------------------------------------------------------------------ */
 /* Midnight Cinema utilities                                           */
@@ -303,49 +321,48 @@ body {
 }
 .ticker-mask:hover .ticker-track { animation-play-state: paused; }
 
-/* Draw-in underline for editorial links */
+/* Draw-in underline for inline links */
 .link-underline {
-  background-image: linear-gradient(var(--brass-500), var(--brass-500));
+  background-image: linear-gradient(var(--azure-600), var(--azure-600));
   background-size: 0% 1.5px;
   background-position: 0 100%;
   background-repeat: no-repeat;
-  transition: background-size 0.5s var(--ease-luxe);
+  transition: background-size 0.4s var(--ease-crisp);
 }
 .link-underline:hover { background-size: 100% 1.5px; }
 
 .text-balance { text-wrap: balance; }
 
-/* Article typography */
-.prose-sr { color: var(--espresso-700); font-size: 1.08rem; line-height: 1.8; }
+/* Article typography — DAYLIGHT */
+.prose-sr { color: #3c3c43; font-size: 1.08rem; line-height: 1.75; }
 .prose-sr h2 {
-  font-family: var(--font-fraunces), Georgia, serif;
-  color: var(--espresso-950); font-size: 1.9rem; font-weight: 500;
-  letter-spacing: -0.02em; margin: 2.4rem 0 0.8rem;
+  color: var(--carbon-950); font-size: 1.8rem; font-weight: 600;
+  letter-spacing: -0.025em; margin: 2.4rem 0 0.8rem;
 }
 .prose-sr h3 {
-  font-family: var(--font-fraunces), Georgia, serif;
-  color: var(--espresso-950); font-size: 1.4rem; font-weight: 500; margin: 1.9rem 0 0.5rem;
+  color: var(--carbon-950); font-size: 1.35rem; font-weight: 600;
+  letter-spacing: -0.015em; margin: 1.9rem 0 0.5rem;
 }
 .prose-sr p { margin: 1.1rem 0; }
 .prose-sr a {
-  color: var(--espresso-950); font-weight: 600;
-  text-decoration: underline; text-decoration-color: var(--brass-500);
+  color: var(--azure-600); font-weight: 500;
+  text-decoration: underline; text-decoration-color: rgb(0 113 227 / 0.35);
   text-decoration-thickness: 1.5px; text-underline-offset: 4px;
 }
+.prose-sr a:hover { text-decoration-color: var(--azure-600); }
 .prose-sr ul, .prose-sr ol { margin: 1.1rem 0; padding-left: 1.5rem; }
 .prose-sr ul { list-style: none; }
 .prose-sr ul li { position: relative; }
 .prose-sr ul li::before {
-  content: ""; position: absolute; left: -1.25rem; top: 0.72em;
-  width: 6px; height: 6px; background: var(--brass-500); transform: rotate(45deg);
+  content: ""; position: absolute; left: -1.25rem; top: 0.68em;
+  width: 6px; height: 6px; border-radius: 9999px; background: var(--azure-600);
 }
 .prose-sr ol { list-style: decimal; }
 .prose-sr li { margin: 0.4rem 0; }
-.prose-sr strong { color: var(--espresso-950); font-weight: 700; }
+.prose-sr strong { color: var(--carbon-950); font-weight: 600; }
 .prose-sr blockquote {
-  border-left: 2px solid var(--brass-500); padding-left: 1.25rem;
-  font-family: var(--font-fraunces), Georgia, serif; font-style: italic;
-  font-size: 1.3rem; color: var(--espresso-900); margin: 1.75rem 0;
+  border-left: 3px solid var(--azure-600); padding-left: 1.25rem;
+  font-size: 1.25rem; font-weight: 500; color: var(--carbon-950); margin: 1.75rem 0;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -355,5 +372,4 @@ body {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  .grain-overlay { display: none; }
 }

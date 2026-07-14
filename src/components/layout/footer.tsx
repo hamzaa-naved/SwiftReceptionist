@@ -26,28 +26,25 @@ const companyLinks = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-espresso-800 bg-night-990 text-espresso-300">
-      <div className="mx-auto w-full max-w-6xl px-6 py-20 sm:px-10">
-        {/* A closing editorial line */}
-        <p className="font-display mb-16 max-w-3xl text-balance text-3xl font-light italic leading-tight text-ivory sm:text-4xl">
-          The phone is still ringing.
-          <span className="text-brass-400"> Someone should answer it.</span>
+    <footer className="border-t border-line bg-cloud text-carbon-600">
+      <div className="mx-auto w-full max-w-6xl px-6 py-16 sm:px-10 md:py-20">
+        <p className="mb-14 max-w-2xl text-balance text-3xl font-semibold tracking-[-0.03em] text-carbon-950 sm:text-4xl">
+          Never miss another call.
         </p>
 
         <div className="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div>
             <Link href="/" aria-label={`${site.name} home`}>
-              <Logo tone="light" />
+              <Logo />
             </Link>
-            <p className="mt-5 max-w-xs text-sm leading-relaxed text-espresso-300">
-              24/7 AI receptionists for electrical contractors and the trades.
-              Every call answered, every job captured — while you&apos;re on
-              the job.
+            <p className="mt-5 max-w-xs text-sm leading-relaxed">
+              The 24/7 AI receptionist for electrical contractors and garage
+              door companies. Every call answered, every job captured.
             </p>
             <p className="mt-5 text-sm">
               <a
                 href={`mailto:${site.contact.email}`}
-                className="link-underline text-ivory"
+                className="link-underline font-medium text-carbon-950"
               >
                 {site.contact.email}
               </a>
@@ -59,7 +56,7 @@ export function Footer() {
           <FooterColumn title="Company" links={companyLinks} />
         </div>
 
-        <div className="mt-16 flex flex-col gap-3 border-t border-espresso-800 pt-6 text-xs leading-relaxed text-espresso-500 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-14 flex flex-col gap-3 border-t border-line pt-6 text-xs leading-relaxed text-carbon-400 sm:flex-row sm:items-center sm:justify-between">
           <p>
             © {new Date().getFullYear()}{" "}
             {isPlaceholder(site.legal.entityName) ? site.name : site.legal.entityName}
@@ -85,13 +82,13 @@ function FooterColumn({
 }) {
   return (
     <nav aria-label={title}>
-      <h3 className="eyebrow mb-5 text-brass-400">{title}</h3>
+      <h3 className="eyebrow mb-5 text-carbon-400">{title}</h3>
       <ul className="space-y-3">
         {links.map((link) => (
           <li key={link.href}>
             <Link
               href={link.href}
-              className="link-underline text-sm text-espresso-300 transition-colors hover:text-ivory"
+              className="text-sm text-carbon-600 transition-colors duration-300 hover:text-carbon-950"
             >
               {link.label}
             </Link>

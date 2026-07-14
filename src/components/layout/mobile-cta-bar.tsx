@@ -30,26 +30,17 @@ export function MobileCtaBar() {
   return (
     <div
       aria-hidden={!visible}
-      className={`fixed inset-x-0 bottom-0 z-40 border-t border-espresso-800 bg-night-990/95 px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-[0_-8px_30px_-12px_rgb(0_0_0/0.5)] backdrop-blur-xl transition-transform duration-500 [transition-timing-function:cubic-bezier(0.16,1,0.3,1)] md:hidden ${
+      className={`fixed inset-x-0 bottom-0 z-40 border-t border-line bg-white/80 px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-[0_-8px_30px_-12px_rgb(13_13_18/0.12)] backdrop-blur-xl transition-transform duration-300 [transition-timing-function:cubic-bezier(0.32,0.72,0,1)] md:hidden ${
         visible ? "translate-y-0" : "translate-y-full"
       }`}
     >
       <div className="grid grid-cols-2 gap-2.5">
-        <Button
-          asChild
-          variant="outline"
-          className="border-ivory/30 text-ivory hover:border-ivory hover:bg-ivory hover:text-espresso-950"
-          tabIndex={visible ? 0 : -1}
-        >
+        <Button asChild variant="outline" tabIndex={visible ? 0 : -1}>
           <TrackedLink event="cta_try_demo" eventProps={{ location: "mobile_bar" }} href={site.cta.secondary.href}>
             Try the demo
           </TrackedLink>
         </Button>
-        <Button
-          asChild
-          className="bg-ivory text-espresso-950 hover:bg-brass-100"
-          tabIndex={visible ? 0 : -1}
-        >
+        <Button asChild tabIndex={visible ? 0 : -1}>
           <TrackedLink event="cta_book_call" eventProps={{ location: "mobile_bar" }} href={site.cta.primary.href}>
             {site.cta.primary.label}
           </TrackedLink>

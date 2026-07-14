@@ -58,26 +58,26 @@ export function ScrollCta() {
       role="dialog"
       aria-label="Before you go"
       tabIndex={-1}
-      className="fixed bottom-6 right-6 z-50 hidden w-96 animate-in fade-in slide-in-from-bottom-4 border border-espresso-700 bg-espresso-950 p-7 text-ivory shadow-lift duration-500 focus-visible:outline-2 focus-visible:outline-ring md:block"
+      className="fixed bottom-6 right-6 z-50 hidden w-96 animate-in fade-in slide-in-from-bottom-4 rounded-2xl border border-line bg-white p-7 text-carbon-950 shadow-float duration-500 md:block"
     >
       <button
         type="button"
         onClick={dismiss}
         aria-label="Dismiss"
-        className="absolute right-3 top-3 rounded-[2px] p-1.5 text-espresso-500 hover:bg-espresso-800 hover:text-ivory focus-visible:outline-2 focus-visible:outline-ring"
+        className="absolute right-3 top-3 rounded-full p-1.5 text-carbon-400 hover:bg-cloud hover:text-carbon-950"
       >
         <X className="h-4 w-4" aria-hidden />
       </button>
-      <p className="font-display text-2xl font-light italic leading-snug">
-        Still reading? The demo talks.
+      <p className="text-xl font-semibold tracking-[-0.02em]">
+        Hear it before you go.
       </p>
-      <p className="mt-3 text-sm leading-relaxed text-espresso-300">
+      <p className="mt-2.5 text-sm leading-relaxed text-carbon-600">
         Sixty seconds, no form, no sales call. Just hear what your customers
         would hear.
       </p>
       <Button
         asChild
-        className="mt-5 w-full bg-ivory text-espresso-950 hover:bg-brass-100"
+        className="mt-5 w-full"
         onClick={() => track("exit_cta_clicked")}
       >
         <TrackedLink
