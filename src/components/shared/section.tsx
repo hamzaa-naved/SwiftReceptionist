@@ -2,12 +2,7 @@ import { cn } from "@/lib/utils";
 import { type ReactNode } from "react";
 import { Reveal } from "@/components/shared/reveal";
 
-/**
- * Section rhythm with generous editorial air. Midnight Cinema tones:
- * "night" is the deepest ground between scenes, "ink" a raised espresso
- * scene, "dawn" the rare lit "morning" beat, "warm" a recessed light
- * panel (legacy light pages).
- */
+/** Section rhythm. DAYLIGHT tones: snow (default) or cloud. */
 export function Section({
   children,
   className,
@@ -16,18 +11,14 @@ export function Section({
 }: {
   children: ReactNode;
   className?: string;
-  tone?: "default" | "ink" | "warm" | "night" | "dawn" | "cloud";
+  tone?: "default" | "cloud";
   id?: string;
 }) {
   return (
     <section
       id={id}
       className={cn(
-        "py-24 md:py-36",
-        tone === "ink" && "bg-espresso-950 text-ivory",
-        tone === "warm" && "bg-ivory-deep",
-        tone === "night" && "bg-night-990 text-ivory",
-        tone === "dawn" && "bg-ivory text-espresso-950",
+        "py-24 md:py-32",
         tone === "cloud" && "bg-cloud text-carbon-950",
         className,
       )}
@@ -37,21 +28,16 @@ export function Section({
   );
 }
 
-/**
- * Editorial section header: a numbered eyebrow + large Fraunces headline
- * with a serif lede. Left-anchored, generous, magazine-like.
- */
+/** Section header: tracked-caps kicker + colossal Geist headline. */
 export function SectionHeader({
   kicker,
   title,
   lede,
-  tone = "default",
   align = "left",
 }: {
   kicker?: string;
   title: string;
   lede?: string;
-  tone?: "default" | "ink";
   align?: "center" | "left";
 }) {
   return (
@@ -65,29 +51,18 @@ export function SectionHeader({
       {kicker && (
         <p
           className={cn(
-            "eyebrow mb-5",
+            "eyebrow mb-5 text-azure-600",
             align === "center" && "justify-center",
-            tone === "ink" ? "text-brass-400" : "text-azure-600",
           )}
         >
           {kicker}
         </p>
       )}
-      <h2
-        className={cn(
-          "font-display text-balance text-[2.5rem] leading-[1.03] sm:text-6xl",
-          tone === "ink" ? "text-ivory" : "text-carbon-950",
-        )}
-      >
+      <h2 className="font-display text-balance text-[2.5rem] leading-[1.03] text-carbon-950 sm:text-6xl">
         {title}
       </h2>
       {lede && (
-        <p
-          className={cn(
-            "mt-5 max-w-2xl text-lg leading-relaxed sm:text-xl",
-            tone === "ink" ? "text-espresso-300" : "text-carbon-600",
-          )}
-        >
+        <p className={cn("mt-5 max-w-2xl text-lg leading-relaxed text-carbon-600 sm:text-xl", align === "center" && "mx-auto")}>
           {lede}
         </p>
       )}

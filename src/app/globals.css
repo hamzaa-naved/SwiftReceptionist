@@ -2,22 +2,14 @@
 @import "tw-animate-css";
 
 /*
-  Swift Receptionist — "THE QUIET COST" editorial system.
+  Swift Receptionist — "DAYLIGHT".
 
-  Light editorial luxe × cinematic bold. A warm-ivory magazine feature on
-  the cost of a phone that isn't answered: exquisite serif display
-  (Fraunces), a clean humanist body (Instrument Sans), a single burnished
-  brass accent, deep espresso full-bleed "scenes," generous air, film
-  grain, and scroll-driven motion (Lenis smooth scroll + Motion reveals).
+  Apple-clean light: a white void, one geometric family (Geist) at
+  colossal sizes, restrained color with a single azure accent and one
+  rationed azure→violet gradient, generous radii, soft ambient shadows,
+  and buttery scroll choreography (Lenis + Motion + CSS-first entrances).
 
-  Deliberately NOT the flagged AI-default cream+terracotta cluster: the
-  accent is brass/ochre (not #D97757), grounds run ivory → espresso for
-  cinematic contrast, and the identity lives in the serif + scroll
-  choreography, not a default palette.
-
-  One canonical token set — ivory / espresso / brass / oxblood / moss /
-  line. (The earlier Dispatch Board aliases have been fully removed now
-  that every surface uses the canonical names.)
+  One canonical token set — snow / cloud / carbon / azure / good / bad.
 */
 
 :root {
@@ -35,30 +27,6 @@
   --good: #1a9e58;
   --bad: #e0442e;
   --pulse: linear-gradient(135deg, #0a84ff, #7c3aed);
-
-  /* Retiring palette (Midnight Cinema) — kept alive during the D-phase
-     conversion, deleted in D6 */
-  --night-990: #0c0a06;    /* deepest ground — the night between scenes */
-  --ivory: #f6f1e7;        /* warm paper ground */
-  --ivory-raised: #fbf8f1; /* cards / raised surfaces */
-  --ivory-deep: #ece4d5;   /* recessed panels */
-  --espresso-950: #17130d; /* cinematic dark ground (warm near-black) */
-  --espresso-900: #211b13;
-  --espresso-800: #2e2619;
-  --espresso-700: #443a2a;
-  --espresso-600: #574b38; /* between 700 and 500 — muted labels */
-  --espresso-500: #6b5d47; /* muted brown-grey */
-  --espresso-400: #8a7c66; /* between 500 and 300 — soft captions */
-  --espresso-300: #a99c85; /* soft on-dark text */
-  --brass-500: #a9803f;    /* burnished accent — large/bold or hairlines */
-  --brass-400: #c39a56;    /* accent on dark grounds */
-  --brass-200: #e6d3ad;
-  --brass-100: #f0e4cb;
-  --oxblood-600: #7c3a2d;  /* rare secondary accent (loss/urgency) */
-  --oxblood-400: #b4614b;  /* loss accent legible on night grounds */
-  --moss-600: #2f6144;     /* rare positive accent (answered/confirmed) */
-  --moss-500: #3f7d5a;
-  --line: #ddd2bd;         /* hairline rules on ivory */
 
   /* shadcn/ui contract */
   --background: var(--snow);
@@ -116,29 +84,7 @@
   --color-violet-600: var(--violet-600);
   --color-good: var(--good);
   --color-bad: var(--bad);
-
-  /* Retiring names (deleted in D6) */
-  --color-night-990: var(--night-990);
-  --color-ivory: var(--ivory);
-  --color-ivory-raised: var(--ivory-raised);
-  --color-ivory-deep: var(--ivory-deep);
-  --color-espresso-950: var(--espresso-950);
-  --color-espresso-900: var(--espresso-900);
-  --color-espresso-800: var(--espresso-800);
-  --color-espresso-700: var(--espresso-700);
-  --color-espresso-600: var(--espresso-600);
-  --color-espresso-500: var(--espresso-500);
-  --color-espresso-400: var(--espresso-400);
-  --color-espresso-300: var(--espresso-300);
-  --color-brass-500: var(--brass-500);
-  --color-brass-400: var(--brass-400);
-  --color-brass-200: var(--brass-200);
-  --color-brass-100: var(--brass-100);
-  --color-oxblood-600: var(--oxblood-600);
-  --color-oxblood-400: var(--oxblood-400);
-  --color-moss-600: var(--moss-600);
-  --color-moss-500: var(--moss-500);
-  /* border-line now draws the neutral daylight hairline everywhere */
+  /* border-line draws the neutral daylight hairline */
   --color-line: var(--daylight-line);
 
   --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
@@ -162,7 +108,6 @@
   --animate-accordion-down: accordion-down 0.3s var(--ease-luxe);
   --animate-accordion-up: accordion-up 0.3s var(--ease-luxe);
   --animate-ring-pulse: ring-pulse 2.6s var(--ease-luxe) infinite;
-  --animate-ring-bloom: ring-bloom 3.8s var(--ease-luxe) infinite;
 }
 
 @keyframes accordion-down { from { height: 0; } to { height: var(--radix-accordion-content-height); } }
@@ -170,11 +115,6 @@
 @keyframes ring-pulse {
   0% { transform: scale(1); opacity: 0.5; }
   80%, 100% { transform: scale(2.2); opacity: 0; }
-}
-/* Larger, slower bloom for hero/dawn ring halos */
-@keyframes ring-bloom {
-  0% { transform: scale(1); opacity: 0.35; }
-  85%, 100% { transform: scale(3.4); opacity: 0; }
 }
 /* Infinite call-outcome marquee: track holds two copies, shifts one width */
 @keyframes ticker-scroll {
@@ -189,9 +129,12 @@
   from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: translateY(0); }
 }
+/* Opacity+rise (not clip): the word paints from its first animation
+   frame, so the headline's LCP fires with FCP instead of after the
+   choreography completes. */
 @keyframes word-rise {
-  from { transform: translateY(112%); }
-  to { transform: translateY(0); }
+  from { opacity: 0; transform: translateY(0.35em); }
+  to { opacity: 1; transform: translateY(0); }
 }
 .rise-in {
   animation: rise-in 0.8s var(--ease-crisp) both;
@@ -264,51 +207,6 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.14em;
 }
-/* ------------------------------------------------------------------ */
-/* Midnight Cinema utilities                                           */
-
-/* Warm brass text glow — ONLY for the hero and dawn CTA headlines */
-.headline-glow {
-  text-shadow:
-    0 0 64px rgb(195 154 86 / 0.32),
-    0 0 22px rgb(195 154 86 / 0.14);
-}
-
-/* Brass sheen that sweeps across a button face on hover */
-.btn-sheen { position: relative; overflow: hidden; }
-.btn-sheen::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    105deg,
-    transparent 42%,
-    rgb(246 241 231 / 0.28) 50%,
-    transparent 58%
-  );
-  transform: translateX(-130%);
-  transition: transform 0.9s var(--ease-luxe);
-  pointer-events: none;
-}
-.btn-sheen:hover::after { transform: translateX(130%); }
-
-/* Pointer-tracked warm light on dark panels (vars set by SpotlightCard) */
-.spotlight-card { position: relative; }
-.spotlight-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  transition: opacity 0.5s var(--ease-luxe);
-  background: radial-gradient(
-    340px circle at var(--spot-x, 50%) var(--spot-y, 50%),
-    rgb(195 154 86 / 0.13),
-    transparent 65%
-  );
-  pointer-events: none;
-}
-.spotlight-card:hover::before { opacity: 1; }
-
 /* Infinite marquee (two copies of the row inside .ticker-track) */
 .ticker-mask {
   overflow: hidden;

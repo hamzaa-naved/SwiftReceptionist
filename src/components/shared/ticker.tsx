@@ -20,11 +20,11 @@ export function Ticker({
         <span
           key={i}
           className={cn(
-            "flex items-center gap-3 whitespace-nowrap px-6 text-[0.7rem] uppercase tracking-[0.22em]",
+            "flex items-center gap-3 whitespace-nowrap px-6 text-[0.7rem] uppercase tracking-[0.12em]",
             itemClassName,
           )}
         >
-          <span aria-hidden className="h-1 w-1 rounded-full bg-brass-400/70" />
+          <span aria-hidden className="h-1 w-1 rounded-full bg-azure-500/70" />
           {item}
         </span>
       ))}
