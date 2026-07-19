@@ -124,26 +124,34 @@
 /* CSS-driven entrance for above-the-fold content: starts at first paint,
    before hydration, so LCP is never blocked on JavaScript. Stagger via
    --rise-delay. Reduced motion collapses these to the final frame via the
-   global animation-duration override. */
+   global animation-duration override.
+   The blur clears on a fast front-loaded curve so the content reads sharp
+   almost immediately — the softness is a whisper on arrival, not a haze. */
 @keyframes rise-in {
-  from { opacity: 0; transform: translateY(16px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(20px); filter: blur(8px); }
+  55%  { filter: blur(0); }
+  to   { opacity: 1; transform: translateY(0); filter: blur(0); }
 }
-/* Opacity+rise (not clip): the word paints from its first animation
-   frame, so the headline's LCP fires with FCP instead of after the
-   choreography completes. */
+/* Opacity+blur+rise (not clip): the word paints from its first animation
+   frame — a blurred, rendered glyph still counts for LCP — so the
+   headline's LCP fires with FCP instead of after the choreography
+   completes. The blur→sharp resolve is the DAYLIGHT signature. */
 @keyframes word-rise {
-  from { opacity: 0; transform: translateY(0.35em); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(0.42em) scale(0.965); filter: blur(12px); }
+  60%  { filter: blur(0); }
+  to   { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
 }
 .rise-in {
-  animation: rise-in 0.8s var(--ease-crisp) both;
+  animation: rise-in 0.85s var(--ease-crisp) both;
   animation-delay: var(--rise-delay, 0s);
+  will-change: transform, opacity, filter;
 }
 .word-rise {
   display: inline-block;
-  animation: word-rise 0.75s var(--ease-crisp) both;
+  transform-origin: bottom center;
+  animation: word-rise 0.9s var(--ease-crisp) both;
   animation-delay: var(--rise-delay, 0s);
+  will-change: transform, opacity, filter;
 }
 
 /* Soft breathing for the product aura */

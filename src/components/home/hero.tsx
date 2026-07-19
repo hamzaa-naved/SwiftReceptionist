@@ -64,20 +64,20 @@ export function Hero() {
     <div ref={ref} className="relative overflow-hidden bg-snow pb-16 pt-36 md:pb-24 md:pt-44">
       <div className="relative mx-auto w-full max-w-6xl px-6 text-center sm:px-10">
         <m.div style={reduceMotion ? undefined : { scale: typeScale, opacity: typeOpacity }}>
-          <p className="rise-in eyebrow justify-center text-carbon-400" style={delay(0.05)}>
+          <p className="rise-in eyebrow justify-center text-carbon-400" style={delay(0)}>
             For electrical contractors &amp; garage door companies
           </p>
 
           <h1 className="mx-auto mt-6 max-w-4xl text-balance font-display text-[clamp(3rem,9vw,7.5rem)] leading-[0.98]">
-            <RiseWords text="Every call." start={0.1} />
+            <RiseWords text="Every call." start={0.08} />
             <span className="text-carbon-400">
-              <RiseWords text="Answered." start={0.26} />
+              <RiseWords text="Answered." start={0.24} />
             </span>
           </h1>
 
           <p
             className="rise-in mx-auto mt-7 max-w-xl text-balance text-lg leading-relaxed text-carbon-600 sm:text-xl"
-            style={delay(0.42)}
+            style={delay(0.36)}
           >
             The AI receptionist that picks up in two rings, books the job,
             and texts you the ticket. Nights, weekends, mid-job. 24/7.
@@ -85,7 +85,7 @@ export function Hero() {
 
           <div
             className="rise-in mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row"
-            style={delay(0.55)}
+            style={delay(0.48)}
           >
             <Magnetic>
               <Button asChild size="lg">
@@ -105,7 +105,7 @@ export function Hero() {
         {/* The product object */}
         <m.div
           className="rise-in relative mx-auto mt-16 w-full max-w-md md:mt-20"
-          style={{ ...delay(0.7), ...(reduceMotion ? {} : { y: cardY }) }}
+          style={{ ...delay(0.62), ...(reduceMotion ? {} : { y: cardY }) }}
         >
           <Aura intensity={0.32} />
           <CallCard answered={answered} />
