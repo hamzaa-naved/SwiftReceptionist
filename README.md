@@ -115,24 +115,34 @@ and A/B test against it.
 - [ ] **Proof strip**: swap the homepage niche strip for real client
       logos/stats when you have permission to show them
 
-## Design system — "The Dispatch Board"
+## Design system — "DAYLIGHT"
 
-High-vis industrial, grounded in the trades this sells to (electrical
-contractors, garage door techs). Tokens live in `src/app/globals.css`:
+Apple-clean light: a white void, one geometric family at colossal sizes,
+restrained color with a single azure accent, generous radii, soft ambient
+shadows, and buttery scroll choreography. Tokens live in
+`src/app/globals.css` — one canonical set: snow / cloud / carbon / azure /
+good / bad.
 
-- **Color:** `--graphite-*` (breaker-panel charcoal grounds), `--concrete-*`
-  (shop-floor off-white), `--volt-400` `#FFC400` (rationed safety-yellow
-  accent — CTAs always pair it with graphite text for WCAG AA), `--live-500`
-  `#2FBF71` (LED green, status only). The legacy `--ink-*/--flame-*/--paper*`
-  names remain as documented aliases of these tokens.
-- **Type:** Barlow Condensed (display, uppercase), Barlow (body), IBM Plex
-  Mono (timestamps, prices, labels — the dispatch-log texture). All via
-  `next/font`.
-- **Layout:** flat panels (2–4px radii, chunky borders, near-flat shadows)
-  and gapless spec-sheet grids instead of floating rounded cards.
-- **Signature element:** the **Call Board** — the hero renders incoming
-  calls as dispatch-log rows whose LED flips RINGING → ANSWERED with the
-  booked outcome. The LED + mono-label device recurs as every section
-  kicker, and call transcripts are styled as call logs.
+- **Color:** `--snow` `#ffffff` (page ground), `--cloud` `#f5f5f7`
+  (recessed/alternate sections), `--carbon-950…400` (`#0d0d12` → `#a6a6af`
+  headline-to-caption text scale), `--azure-600` `#0071e3` (THE accent —
+  links, CTAs, checks), `--azure-500` `#0a84ff` (bright/live), `--violet-600`
+  `#7c3aed` (gradient partner only — never solid), `--good` `#1a9e58` /
+  `--bad` `#e0442e`. One rationed azure→violet `--pulse` gradient.
+- **Type:** one family — **Geist** — for display and body via `next/font`.
+  Display weight/tracking through the `.font-display` utility (600, -0.035em);
+  body runs 400/500. Tracked-caps `.eyebrow` labels.
+- **Layout:** generous rounded radii (10/14/18/24/28px) and soft ambient
+  shadows (`--shadow-card/lift/float`) — floating rounded cards, not flat
+  panels.
+- **Motion:** Lenis smooth scroll + CSS-first entrances (`.rise-in` /
+  `.word-rise`) so LCP never waits on hydration. Entrances **resolve into
+  focus** — a blur→sharp clear plus rise (and a whisper of scale on headline
+  words); scroll sections reveal the same way via `Reveal`. Curves:
+  `--ease-crisp` (Apple's sheet curve, the default) and `--ease-luxe`.
+- **Signature element:** the **live Call Card** — the hero renders one
+  incoming call whose status dot flips *Incoming* (azure→violet pulse) →
+  *On the line* (LED green) with the booked outcome, answering itself after
+  ~two rings while you watch. The whole product in one object.
 
 Motion respects `prefers-reduced-motion` throughout.
