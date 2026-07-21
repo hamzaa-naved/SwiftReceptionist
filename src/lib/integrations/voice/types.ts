@@ -5,7 +5,7 @@
  */
 
 export type VoiceSessionState =
-  | "idle"
+    | "idle"
   | "connecting"
   | "listening" // caller can speak
   | "speaking" // assistant is speaking
@@ -13,23 +13,29 @@ export type VoiceSessionState =
   | "error";
 
 export interface VoiceSessionEvents {
-  onStateChange: (state: VoiceSessionState) => void;
-  /** Rolling transcript lines, if the provider surfaces them */
+    onStateChange: (state: VoiceSessionState) => void;
+    /** Rolling transcript lines, if the provider surfaces them */
   onTranscript?: (line: { speaker: "ai" | "caller"; text: string }) => void;
-  onError?: (message: string) => void;
+    onError?: (message: string) => void;
 }
 
 export interface VoiceStartOptions {
-  /** Personalization forwarded to the assistant (biz/city/niche) */
+    /** Personalization forwarded to the assistant (biz/city/niche) */
   variables: Record<string, string>;
-  /** Hard cap on session length, seconds (enforced by the adapter) */
+    /** Hard cap on session length, seconds (enforced by the adapter) */
   maxDurationSeconds: number;
+    /**
+     * Optional business-specific agent id (Retell only). When set, the demo
+     * calls that dedicated agent instead of the shared default one — used by
+     * /demo/[slug] pages built for individual outreach leads.
+     */
+  agentId?: string;
 }
 
 export interface VoiceAdapter {
-  readonly providerName: string;
-  /** False when required env vars are missing — UI falls back to chat */
+    readonly providerName: string;
+    /** False when required env vars are missing — UI falls back to chat */
   isConfigured(): boolean;
-  start(options: VoiceStartOptions, events: VoiceSessionEvents): Promise<void>;
-  stop(): void;
+    start(options: VoiceStartOptions, events: VoiceSessionEvents): Promise<void>;
+    stop(): void;
 }
