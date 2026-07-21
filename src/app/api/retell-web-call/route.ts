@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { demoLeads } from "@/content/demo-leads";
 
 const WINDOW_MS = 10 * 60 * 1000;
 const MAX_PER_WINDOW = 5;
@@ -39,44 +40,16 @@ export async function POST(request: NextRequest) {
   const businessName = safeValue(variables.businessName) || "the business";
   const city = safeValue(variables.city, 40);
   const niche = safeValue(variables.niche, 40) || "electrical";
-  const normalizedBusinessName = businessName.toLowerCase();
-  const isBobScott = normalizedBusinessName === "bob scott light, power, sign";
-  const isDelSol = normalizedBusinessName === "del sol electric, llc";
-  const agentId = isDelSol
-    ? process.env.RETELL_DEL_SOL_AGENT_ID ?? "agent_269605b91fcc387240ac673b3c"
-    : process.env.RETELL_VOICE_AGENT_ID ?? "agent_296cc3bdf0d5948c755d932b43";
-  const dynamicVariables = isBobScott
-    ? {
-        company_name: "Bob Scott Light, Power & Sign",
-        owner_name: "Bob",
-        city: "Hollywood",
-        service_area: "South Florida",
-        published_hours: "Hours not published",
-        services: "commercial building lighting, tennis court lights, commercial sign lighting, parking-lot lighting",
-        differentiator: "commercial lighting specialists serving South Florida since 1973",
-        caller_scenario: "a property manager reporting a parking-lot light outage",
-        booking_mode: "simulated",
-        niche,
-      }
-    : isDelSol
-      ? {
-          company_name: "Del Sol Electric, LLC",
-          owner_name: "Wigberto",
-          agent_name: "Avery",
-          city: "Gainesville",
-          service_area: "Gainesville, Florida",
-          published_hours: "24/7 emergency service",
-          services: "electrical troubleshooting and repair, electrical installation, emergency electrical response",
-          differentiator: "active Florida Certified Electrical Contractor based in Gainesville",
-          caller_scenario: "a homeowner reporting sparks and a burning smell near a breaker panel after hours",
-          booking_mode: "simulated",
-          niche,
-        }
-    : {
-        company_name: businessName,
-        city,
-        niche,
-      };
+  const lead = demoLeads.find(
+    (item) => item.business.toLowerCase() === businessName.toLowerCase(),
+  );
+  const agentId =
+    lead?.agentId ?? process.env.RETELL_VOICE_AGENT_ID ?? "agent_296cc3bdf0d5948c755d932b43";
+  const dynamicVariables = {
+    company_name: lead?.business ?? businessName,
+    city: lead?.city || city,
+    niche,
+  };
 
   const retell = await fetch("https://api.retellai.com/v2/create-web-call", {
     method: "POST",

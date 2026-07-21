@@ -19,11 +19,19 @@ function sanitizeParam(value: string | null, max = 40): string {
   return value.replace(/[<>{}[\]\\]/g, "").trim().slice(0, max);
 }
 
-export function DemoExperience() {
+export function DemoExperience({
+  bizOverride,
+  cityOverride,
+  nicheOverride,
+}: {
+  bizOverride?: string;
+  cityOverride?: string;
+  nicheOverride?: string;
+} = {}) {
   const params = useSearchParams();
-  const biz = sanitizeParam(params.get("biz")) || "your business";
-  const city = sanitizeParam(params.get("city"), 30);
-  const niche = getNiche(params.get("niche") ?? "") ?? niches[0];
+  const biz = bizOverride ?? (sanitizeParam(params.get("biz")) || "your business");
+  const city = cityOverride ?? sanitizeParam(params.get("city"), 30);
+  const niche = getNiche(nicheOverride ?? params.get("niche") ?? "") ?? niches[0];
 
   return (
     <div className="mx-auto w-full max-w-2xl">
