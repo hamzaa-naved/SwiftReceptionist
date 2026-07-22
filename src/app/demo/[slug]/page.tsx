@@ -43,9 +43,9 @@ export default async function DemoLeadPage({
       <div className="relative mx-auto w-full max-w-6xl px-5 sm:px-8">
         <Suspense fallback={null}>
           <DemoExperience
-            bizOverride={lead.business}
-            cityOverride={lead.city}
-            nicheOverride="electrical"
+            initialBusiness={lead.business}
+            initialCity={lead.city}
+            initialNiche="electrical"
           />
         </Suspense>
 
