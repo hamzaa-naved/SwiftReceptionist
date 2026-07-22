@@ -28,14 +28,24 @@ function sanitizeParam(value: string | null, max = 40): string {
   return value.replace(/[<>{}[\]\\]/g, "").trim().slice(0, max);
 }
 
-export function DemoExperience() {
+export function DemoExperience({
+  demoToken,
+  initialBusiness,
+  initialCity,
+  initialNiche,
+}: {
+  demoToken?: string;
+  initialBusiness?: string;
+  initialCity?: string;
+  initialNiche?: string;
+} = {}) {
   const params = useSearchParams();
-  const biz = sanitizeParam(params.get("biz")) || "your business";
-  const city = sanitizeParam(params.get("city"), 30);
-  const niche = getNiche(params.get("niche") ?? "") ?? niches[0];
+  const biz = initialBusiness || sanitizeParam(params.get("biz")) || "your business";
+  const city = initialCity || sanitizeParam(params.get("city"), 30);
+  const niche = getNiche(initialNiche ?? params.get("niche") ?? "") ?? niches[0];
 
   const adapter = getVoiceAdapter();
-  const voiceAvailable = adapter.isConfigured();
+  const voiceAvailable = adapter.isConfigured() && (adapter.providerName !== "Retell" || Boolean(demoToken));
   const [mode, setMode] = useState<"voice" | "chat">(voiceAvailable ? "voice" : "chat");
   const reduceMotion = useReducedMotion();
 
@@ -95,7 +105,7 @@ export function DemoExperience() {
             transition={{ duration: 0.2 }}
           >
             {mode === "voice" ? (
-              <VoicePanel bizName={biz} nicheSlug={niche.slug} city={city} />
+              <VoicePanel bizName={biz} nicheSlug={niche.slug} city={city} demoToken={demoToken} />
             ) : (
               <ChatPanel bizName={biz} nicheSlug={niche.slug} />
             )}
@@ -139,10 +149,12 @@ function VoicePanel({
   bizName,
   nicheSlug,
   city,
+  demoToken,
 }: {
   bizName: string;
   nicheSlug: string;
   city: string;
+  demoToken?: string;
 }) {
   const adapter = getVoiceAdapter();
   const [state, setState] = useState<VoiceSessionState>("idle");
@@ -189,7 +201,7 @@ function VoicePanel({
     try {
       await adapter.start(
         {
-          variables: { businessName: bizName, city, niche: nicheSlug },
+          variables: { businessName: bizName, city, niche: nicheSlug, ...(demoToken ? { demoToken } : {}) },
           maxDurationSeconds: DEMO_MAX_DURATION_SECONDS,
         },
         {

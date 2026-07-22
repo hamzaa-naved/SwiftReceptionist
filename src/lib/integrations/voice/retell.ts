@@ -1,27 +1,52 @@
-import type { VoiceAdapter } from "./types";
+import type { VoiceAdapter, VoiceSessionEvents, VoiceStartOptions } from "./types";
 
-/**
- * Retell adapter — intentionally unimplemented stub.
- *
- * To switch the demo to Retell:
- * 1. `npm install retell-client-js-sdk`
- * 2. Implement start()/stop() below mirroring vapi.ts (dynamic import,
- *    state events, transcript events, duration cap)
- * 3. Set NEXT_PUBLIC_VOICE_PROVIDER=retell plus the Retell env vars
- *
- * Until then isConfigured() returns false, so the demo UI shows the chat
- * fallback rather than a broken mic button.
- */
+type RetellInstance = {
+  startCall: (config: { accessToken: string }) => Promise<void>;
+  stopCall: () => void;
+  on: (event: string, handler: (...args: unknown[]) => void) => void;
+};
+
+let instance: RetellInstance | null = null;
+let stopTimer: ReturnType<typeof setTimeout> | null = null;
+
 export const retellAdapter: VoiceAdapter = {
   providerName: "Retell",
 
   isConfigured() {
-    return false;
+    return process.env.NEXT_PUBLIC_VOICE_PROVIDER === "retell";
   },
 
-  async start() {
-    throw new Error("Retell adapter not implemented yet — see src/lib/integrations/voice/retell.ts");
+  async start(options: VoiceStartOptions, events: VoiceSessionEvents) {
+    const demoToken = options.variables.demoToken;
+    if (!demoToken) throw new Error("Open a personalized demo link to start the Retell voice call.");
+    this.stop();
+    events.onStateChange("connecting");
+    const response = await fetch(`/api/demo/${encodeURIComponent(demoToken)}/call`, { method: "POST" });
+    const body = (await response.json()) as { accessToken?: string; error?: string };
+    if (!response.ok || !body.accessToken) throw new Error(body.error ?? "Couldn't start the voice demo.");
+    const { RetellWebClient } = await import("retell-client-js-sdk");
+    const client = new RetellWebClient() as unknown as RetellInstance;
+    instance = client;
+    client.on("call_ready", () => events.onStateChange("listening"));
+    client.on("call_started", () => { stopTimer = setTimeout(() => this.stop(), options.maxDurationSeconds * 1000); });
+    client.on("agent_start_talking", () => events.onStateChange("speaking"));
+    client.on("agent_stop_talking", () => events.onStateChange("listening"));
+    client.on("call_ended", () => {
+      if (stopTimer) clearTimeout(stopTimer);
+      stopTimer = null;
+      events.onStateChange("ended");
+    });
+    client.on("error", (message: unknown) => {
+      events.onError?.(typeof message === "string" ? message : "Voice session error");
+      events.onStateChange("error");
+    });
+    await client.startCall({ accessToken: body.accessToken });
   },
 
-  stop() {},
+  stop() {
+    if (stopTimer) clearTimeout(stopTimer);
+    stopTimer = null;
+    instance?.stopCall();
+    instance = null;
+  },
 };
