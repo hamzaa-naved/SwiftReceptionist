@@ -6,6 +6,15 @@ cold-outreach traffic into booked demo calls.
 
 Primary niche: **electrical contractors**; secondary: **garage door repair**.
 
+## Personalized demo outreach
+
+The outreach system uses one Retell demo agent and injects each lead's business details into a short-lived web call. It is inactive until the environment variables in `.env.example` are configured.
+
+1. Install Neon Postgres from the Vercel Marketplace, then set `DATABASE_URL`.
+2. Reconnect Hostinger Mail to `hamza@swiftreceptionist.org`, create an API token, and set the three `HOSTINGER_MAIL_*` values.
+3. Add the existing Retell agent ID and API key, then run `pnpm outreach:migrate` followed by `pnpm outreach:import <remaining-leads.xlsx>`.
+4. Use authenticated `POST /api/ops/prepare-daily-batch` to prepare 25 emails, `preview-batch` to inspect them, and `send-batch` only after approval. Individual calls use `create-demo` and `send-demo`.
+
 **Stack:** Next.js 16 (App Router) · TypeScript · Tailwind CSS v4 · shadcn/ui ·
 Motion (Framer Motion) · MDX · deployed on Vercel.
 

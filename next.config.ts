@@ -3,6 +3,13 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   async redirects() {
     return [
+      // Legacy outreach links used demo.html with query-string personalization.
+      // Keep them alive while the new tokenized links use /demo/[token].
+      {
+        source: "/demo.html",
+        destination: "/demo",
+        permanent: true,
+      },
       // Septic was removed as a featured niche; the old URL was live and
       // may be indexed/linked, so send it to the current flagship.
       {
