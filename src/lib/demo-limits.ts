@@ -7,7 +7,9 @@
  * provider's dashboard too.
  */
 
-const STORAGE_KEY = "sr-demo-sessions";
+// Bump the key when the public allowance changes so prior test sessions do not
+// make a newly configured demo appear partially used.
+const STORAGE_KEY = "sr-demo-sessions-v2";
 
 export const DEMO_MAX_SESSIONS_PER_DAY = Number(
   process.env.NEXT_PUBLIC_DEMO_MAX_SESSIONS ?? 3,
