@@ -6,6 +6,20 @@ import type { Demo, EmailPreview, Lead } from "./types";
 
 const BASE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://swiftreceptionist.com").replace(/\/$/, "");
 const activeEmailQualities = ["verified-crawled", "guessed-deliverable"];
+// Keeps the first approved prospect demo available while the database connection
+// is being finalized. The token is opaque, carries no lead data, and expires on
+// the same 30-day schedule as database-backed demos.
+const DIKORT_FALLBACK_TOKEN = "Q8u2Pm7zR4nXc9Lk5Vh1Ty6Da3Ws0FeB";
+const DIKORT_FALLBACK_EXPIRES_AT = "2026-08-21T23:59:59.999Z";
+const DIKORT_FALLBACK_DEMO = {
+  business: "Dikort Electric",
+  owner: "Alexander Castaneda",
+  city: "Port St. Lucie",
+  state: "Florida",
+  focus: "Residential and commercial electrical services",
+  advertises_24x7: false,
+  id: "dikort-fallback-demo",
+};
 
 function toLead(row: Record<string, unknown>): Lead {
   return {
@@ -86,6 +100,9 @@ export async function sendBatch(batchId: string) {
 }
 
 export async function resolveDemo(token: string) {
+  if (token === DIKORT_FALLBACK_TOKEN && new Date(DIKORT_FALLBACK_EXPIRES_AT) > new Date()) {
+    return DIKORT_FALLBACK_DEMO;
+  }
   const rows = (await getSql()`SELECT l.business, l.owner, l.city, l.state, l.focus, l.advertises_24x7, d.id FROM outreach_demos d JOIN outreach_leads l ON l.id = d.lead_id WHERE d.token_hash = ${tokenHash(token)} AND d.revoked_at IS NULL AND d.expires_at > now() LIMIT 1`) as Record<string, unknown>[];
   return rows[0] as Record<string, unknown> | undefined;
 }
