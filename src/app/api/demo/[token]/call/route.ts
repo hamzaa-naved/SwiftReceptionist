@@ -13,10 +13,13 @@ export async function POST(_request: NextRequest, context: RouteContext<"/api/de
     if (!demo) return NextResponse.json({ error: "This demo link has expired." }, { status: 404 });
     const apiKey = process.env.RETELL_API_KEY;
     const business = String(demo.business);
-    const agentId =
-      business.trim().toLowerCase() === "neighbors electric"
-        ? process.env.RETELL_NEIGHBORS_ELECTRIC_AGENT_ID ?? process.env.RETELL_DEMO_AGENT_ID
-        : process.env.RETELL_DEMO_AGENT_ID;
+    const normalizedBusiness = business.trim().toLowerCase();
+    const personalizedAgentIds: Record<string, string | undefined> = {
+      "neighbors electric": process.env.RETELL_NEIGHBORS_ELECTRIC_AGENT_ID,
+      "kingdom electric inc": "agent_61ff9d9676636de50f1db22fea",
+      "dial one electrical services": "agent_0b30525c2f2e67a827f2cbeb19",
+    };
+    const agentId = personalizedAgentIds[normalizedBusiness] ?? process.env.RETELL_DEMO_AGENT_ID;
     if (!apiKey || !agentId) return NextResponse.json({ error: "Voice demo is not configured." }, { status: 503 });
     const profile = getDemoProfile(business);
     const client = new Retell({ apiKey });
