@@ -40,6 +40,13 @@ const MORRISON_ELECTRIC: DemoProfile = {
   testScenarios: "A caller smells burning near the panel; a homeowner needs a remodel; a customer wants outdoor lighting; a homeowner wants an EV charger; a caller asks about a free quote.",
 };
 
+const NORTH_SPRINGS_ELECTRIC: DemoProfile = {
+  city: "Sandy Springs and Metro Atlanta, Georgia",
+  services: "residential, commercial, warehouse, and industrial electrical service; troubleshooting and repairs; electrical inspections and outlet testing; circuit breakers; panel upgrades and replacements; service replacements; new outlets, circuits, and 240-volt circuits; EV chargers; generator connections; lighting systems; dedicated circuits; home-purchase inspections; and commercial electrical improvements",
+  qualificationFocus: "Screen immediate electrical danger first. Ask what is happening or being planned, whether the property is residential, commercial, warehouse, or managed property, the service address, callback number, name, and useful timing. For panels ask what prompted the request and whether the caller knows the current service size. For EV charging ask the vehicle or charger, parking location, and plug-in versus hardwired preference. For generator connections ask the equipment and whether it is new installation or modification. Do not diagnose, invent pricing, promise arrival times, or claim a real appointment is booked.",
+  testScenarios: "A homeowner has a breaker that keeps tripping; a customer needs a panel upgrade; a driver wants an EV charger; a property manager needs recurring electrical work; a business needs a dedicated 240-volt circuit; a caller asks about the $99 Basic Service.",
+};
+
 const DEFAULT: DemoProfile = {
   city: "",
   services: "electrical troubleshooting, repairs, wiring, lighting, and panel work",
@@ -54,5 +61,6 @@ export function getDemoProfile(business: string): DemoProfile {
   if (normalizedBusiness === "kingdom electric inc") return KINGDOM_ELECTRIC;
   if (normalizedBusiness === "dial one electrical services") return DIAL_ONE_ELECTRICAL;
   if (normalizedBusiness === "morrison electric") return MORRISON_ELECTRIC;
+  if (normalizedBusiness === "north springs electric") return NORTH_SPRINGS_ELECTRIC;
   return DEFAULT;
 }
