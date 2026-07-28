@@ -31,6 +31,28 @@ const NEIGHBORS_ELECTRIC_FALLBACK_DEMO = {
   advertises_24x7: true,
   id: "neighbors-electric-fallback-demo",
 };
+const KINGDOM_ELECTRIC_FALLBACK_TOKEN = "7kvXCytdSjhcEDabk50f-cInhzRqId5O";
+const KINGDOM_ELECTRIC_FALLBACK_EXPIRES_AT = "2026-08-27T23:59:59.999Z";
+const KINGDOM_ELECTRIC_FALLBACK_DEMO = {
+  business: "Kingdom Electric Inc",
+  owner: "there",
+  city: "Naples",
+  state: "Florida",
+  focus: "Residential, commercial, new-construction, renovation, and outdoor-lighting electrical services",
+  advertises_24x7: false,
+  id: "kingdom-electric-fallback-demo",
+};
+const DIAL_ONE_FALLBACK_TOKEN = "MWfjEVtfzbOt9kMTJuBOPP9dA8JWy1TG";
+const DIAL_ONE_FALLBACK_EXPIRES_AT = "2026-08-27T23:59:59.999Z";
+const DIAL_ONE_FALLBACK_DEMO = {
+  business: "Dial One Electrical Services",
+  owner: "there",
+  city: "Austin",
+  state: "Texas",
+  focus: "Residential, commercial, and 24-hour emergency electrical services",
+  advertises_24x7: true,
+  id: "dial-one-fallback-demo",
+};
 
 function toLead(row: Record<string, unknown>): Lead {
   return {
@@ -119,6 +141,15 @@ export async function resolveDemo(token: string) {
     new Date(NEIGHBORS_ELECTRIC_FALLBACK_EXPIRES_AT) > new Date()
   ) {
     return NEIGHBORS_ELECTRIC_FALLBACK_DEMO;
+  }
+  if (
+    token === KINGDOM_ELECTRIC_FALLBACK_TOKEN &&
+    new Date(KINGDOM_ELECTRIC_FALLBACK_EXPIRES_AT) > new Date()
+  ) {
+    return KINGDOM_ELECTRIC_FALLBACK_DEMO;
+  }
+  if (token === DIAL_ONE_FALLBACK_TOKEN && new Date(DIAL_ONE_FALLBACK_EXPIRES_AT) > new Date()) {
+    return DIAL_ONE_FALLBACK_DEMO;
   }
   const rows = (await getSql()`SELECT l.business, l.owner, l.city, l.state, l.focus, l.advertises_24x7, d.id FROM outreach_demos d JOIN outreach_leads l ON l.id = d.lead_id WHERE d.token_hash = ${tokenHash(token)} AND d.revoked_at IS NULL AND d.expires_at > now() LIMIT 1`) as Record<string, unknown>[];
   return rows[0] as Record<string, unknown> | undefined;
