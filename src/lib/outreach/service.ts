@@ -54,6 +54,18 @@ const DIAL_ONE_FALLBACK_DEMO = {
   id: "dial-one-fallback-demo",
 };
 
+const MORRISON_ELECTRIC_FALLBACK_TOKEN = "YpcS0sOkKQq_Ktws_WulTvyaJ1SGgqau";
+const MORRISON_ELECTRIC_FALLBACK_EXPIRES_AT = "2026-08-27T23:59:59.999Z";
+const MORRISON_ELECTRIC_FALLBACK_DEMO = {
+  business: "Morrison Electric",
+  owner: "there",
+  city: "Augusta",
+  state: "Georgia",
+  focus: "Residential electrical, construction, lighting, and 24-hour emergency service across the CSRA",
+  advertises_24x7: true,
+  id: "morrison-electric-fallback-demo",
+};
+
 function toLead(row: Record<string, unknown>): Lead {
   return {
     id: String(row.id), business: String(row.business), owner: stringOrNull(row.owner), phone: stringOrNull(row.phone), email: String(row.email),
@@ -150,6 +162,12 @@ export async function resolveDemo(token: string) {
   }
   if (token === DIAL_ONE_FALLBACK_TOKEN && new Date(DIAL_ONE_FALLBACK_EXPIRES_AT) > new Date()) {
     return DIAL_ONE_FALLBACK_DEMO;
+  }
+  if (
+    token === MORRISON_ELECTRIC_FALLBACK_TOKEN &&
+    new Date(MORRISON_ELECTRIC_FALLBACK_EXPIRES_AT) > new Date()
+  ) {
+    return MORRISON_ELECTRIC_FALLBACK_DEMO;
   }
   const rows = (await getSql()`SELECT l.business, l.owner, l.city, l.state, l.focus, l.advertises_24x7, d.id FROM outreach_demos d JOIN outreach_leads l ON l.id = d.lead_id WHERE d.token_hash = ${tokenHash(token)} AND d.revoked_at IS NULL AND d.expires_at > now() LIMIT 1`) as Record<string, unknown>[];
   return rows[0] as Record<string, unknown> | undefined;
