@@ -78,6 +78,18 @@ const NORTH_SPRINGS_ELECTRIC_FALLBACK_DEMO = {
   id: "north-springs-electric-fallback-demo",
 };
 
+const DEANS_ELECTRICAL_SERVICE_FALLBACK_TOKEN = "TwPj2cVncAUWpX9eJKtb8tQhUVNQHTbz";
+const DEANS_ELECTRICAL_SERVICE_FALLBACK_EXPIRES_AT = "2026-08-27T23:59:59.999Z";
+const DEANS_ELECTRICAL_SERVICE_FALLBACK_DEMO = {
+  business: "Dean's Electrical Service",
+  owner: "Dean",
+  city: "Tampa",
+  state: "Florida",
+  focus: "Residential, commercial, construction, remodel, lighting, and full-service electrical work across Tampa Bay",
+  advertises_24x7: false,
+  id: "deans-electrical-service-fallback-demo",
+};
+
 function toLead(row: Record<string, unknown>): Lead {
   return {
     id: String(row.id), business: String(row.business), owner: stringOrNull(row.owner), phone: stringOrNull(row.phone), email: String(row.email),
@@ -186,6 +198,12 @@ export async function resolveDemo(token: string) {
     new Date(NORTH_SPRINGS_ELECTRIC_FALLBACK_EXPIRES_AT) > new Date()
   ) {
     return NORTH_SPRINGS_ELECTRIC_FALLBACK_DEMO;
+  }
+  if (
+    token === DEANS_ELECTRICAL_SERVICE_FALLBACK_TOKEN &&
+    new Date(DEANS_ELECTRICAL_SERVICE_FALLBACK_EXPIRES_AT) > new Date()
+  ) {
+    return DEANS_ELECTRICAL_SERVICE_FALLBACK_DEMO;
   }
   const rows = (await getSql()`SELECT l.business, l.owner, l.city, l.state, l.focus, l.advertises_24x7, d.id FROM outreach_demos d JOIN outreach_leads l ON l.id = d.lead_id WHERE d.token_hash = ${tokenHash(token)} AND d.revoked_at IS NULL AND d.expires_at > now() LIMIT 1`) as Record<string, unknown>[];
   return rows[0] as Record<string, unknown> | undefined;
