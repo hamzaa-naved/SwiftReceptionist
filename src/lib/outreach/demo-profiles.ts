@@ -33,6 +33,13 @@ const DIAL_ONE_ELECTRICAL: DemoProfile = {
   testScenarios: "A caller has a hot buzzing panel; a homeowner wants an EV charger; a business needs parking-lot lighting; a caller asks about the first-time discount; a customer needs emergency service after hours.",
 };
 
+const MORRISON_ELECTRIC: DemoProfile = {
+  city: "Augusta and the CSRA, Georgia",
+  services: "24-hour emergency electrical service and repair, troubleshooting, new construction and remodel electrical work, service changes and upgrades, whole-house surge protection, circuit breakers and panels, interior and outdoor lighting design, wiring repair, generators, ceiling fans, outlets and switches, wired smoke and carbon-monoxide detector installation and maintenance, solar-related work, and EV charging",
+  qualificationFocus: "Screen immediate electrical danger first. Ask what is happening or being planned, the service address, callback number, name, and timing. For construction ask project type and stage. For lighting ask whether repair, replacement, interior design, or outdoor landscape lighting. For EV charging ask vehicle or charger, parking location, and plug-in versus hardwired. Do not diagnose, invent pricing, promise arrival times, or claim a real appointment is booked.",
+  testScenarios: "A caller smells burning near the panel; a homeowner needs a remodel; a customer wants outdoor lighting; a homeowner wants an EV charger; a caller asks about a free quote.",
+};
+
 const DEFAULT: DemoProfile = {
   city: "",
   services: "electrical troubleshooting, repairs, wiring, lighting, and panel work",
@@ -46,5 +53,6 @@ export function getDemoProfile(business: string): DemoProfile {
   if (normalizedBusiness === "neighbors electric") return NEIGHBORS_ELECTRIC;
   if (normalizedBusiness === "kingdom electric inc") return KINGDOM_ELECTRIC;
   if (normalizedBusiness === "dial one electrical services") return DIAL_ONE_ELECTRICAL;
+  if (normalizedBusiness === "morrison electric") return MORRISON_ELECTRIC;
   return DEFAULT;
 }
