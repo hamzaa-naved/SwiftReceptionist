@@ -47,6 +47,13 @@ const NORTH_SPRINGS_ELECTRIC: DemoProfile = {
   testScenarios: "A homeowner has a breaker that keeps tripping; a customer needs a panel upgrade; a driver wants an EV charger; a property manager needs recurring electrical work; a business needs a dedicated 240-volt circuit; a caller asks about the $99 Basic Service.",
 };
 
+const DEANS_ELECTRICAL_SERVICE: DemoProfile = {
+  city: "Tampa Bay, Florida",
+  services: "residential and commercial electrical work, new construction, remodels, rewiring, insurance repairs, lighting installations, kitchen and recessed lighting, chandeliers, outlets and switches, security and landscape lighting, GFCI and AFCI work, lighting checks, home inspections, service upgrades, bulbs and ballasts, dedicated circuits, smoke detectors, exhaust and ceiling fans, surge protection, and meter-can replacement",
+  qualificationFocus: "Screen immediate electrical danger first. Ask whether the work is residential or commercial, what is happening or being planned, the service address, callback number, name, and useful timing. For construction and remodels ask the project type, stage, and general contractor if applicable. For lighting ask the location, fixture type, and whether the work is repair, replacement, or new design. For service upgrades ask what prompted the request and whether the caller knows the current service size. Do not diagnose, invent pricing or discount amounts, promise arrival times, or claim a real appointment is booked.",
+  testScenarios: "A homeowner needs a service upgrade; a contractor is planning a remodel; a customer wants under-cabinet lighting; a homeowner needs a dedicated circuit; a caller asks about military, veteran, or senior discounts.",
+};
+
 const DEFAULT: DemoProfile = {
   city: "",
   services: "electrical troubleshooting, repairs, wiring, lighting, and panel work",
@@ -62,5 +69,6 @@ export function getDemoProfile(business: string): DemoProfile {
   if (normalizedBusiness === "dial one electrical services") return DIAL_ONE_ELECTRICAL;
   if (normalizedBusiness === "morrison electric") return MORRISON_ELECTRIC;
   if (normalizedBusiness === "north springs electric") return NORTH_SPRINGS_ELECTRIC;
+  if (normalizedBusiness === "dean's electrical service") return DEANS_ELECTRICAL_SERVICE;
   return DEFAULT;
 }
