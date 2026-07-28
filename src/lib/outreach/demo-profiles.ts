@@ -12,6 +12,13 @@ const DIKORT: DemoProfile = {
   testScenarios: "A breaker will not reset; a homeowner needs a panel upgrade; a customer wants landscape lighting; a commercial customer needs a lighting installation.",
 };
 
+const NEIGHBORS_ELECTRIC: DemoProfile = {
+  city: "Dallas–Fort Worth, Texas",
+  services: "electrical panel upgrades, EV charger installation, whole-home generator installation, ceiling fans, light fixtures, outlets, wiring and rewiring, circuit breakers, light switches, electrical troubleshooting, 24-hour emergency electrical service, and commercial electrical service",
+  qualificationFocus: "Ask what is happening, screen immediate electrical danger first, then collect only missing essentials one at a time: service address, best callback number, name, and timing if useful. For EV chargers ask the vehicle or charger, parking location, and plug-in versus hardwired preference. For generators ask whether it is running and where. Do not diagnose, invent pricing, promise arrival times, or claim a real appointment is booked.",
+  testScenarios: "A panel is hot and buzzing; a homeowner wants a Level 2 EV charger; a caller asks about the UPGRADE15 promotion; a property manager needs commercial lighting work; a homeowner asks about the Neighbor’s Plan.",
+};
+
 const DEFAULT: DemoProfile = {
   city: "",
   services: "electrical troubleshooting, repairs, wiring, lighting, and panel work",
@@ -20,5 +27,8 @@ const DEFAULT: DemoProfile = {
 };
 
 export function getDemoProfile(business: string): DemoProfile {
-  return business.trim().toLowerCase() === "dikort electric" ? DIKORT : DEFAULT;
+  const normalizedBusiness = business.trim().toLowerCase();
+  if (normalizedBusiness === "dikort electric") return DIKORT;
+  if (normalizedBusiness === "neighbors electric") return NEIGHBORS_ELECTRIC;
+  return DEFAULT;
 }
