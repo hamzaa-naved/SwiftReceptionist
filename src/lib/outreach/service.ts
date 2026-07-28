@@ -66,6 +66,18 @@ const MORRISON_ELECTRIC_FALLBACK_DEMO = {
   id: "morrison-electric-fallback-demo",
 };
 
+const NORTH_SPRINGS_ELECTRIC_FALLBACK_TOKEN = "7p4omCH9pYt30m9qZvQsrBXu6LjmVt6k";
+const NORTH_SPRINGS_ELECTRIC_FALLBACK_EXPIRES_AT = "2026-08-27T23:59:59.999Z";
+const NORTH_SPRINGS_ELECTRIC_FALLBACK_DEMO = {
+  business: "North Springs Electric",
+  owner: "there",
+  city: "Sandy Springs",
+  state: "Georgia",
+  focus: "Residential, commercial, warehouse, property-management, and Metro Atlanta electrical services",
+  advertises_24x7: false,
+  id: "north-springs-electric-fallback-demo",
+};
+
 function toLead(row: Record<string, unknown>): Lead {
   return {
     id: String(row.id), business: String(row.business), owner: stringOrNull(row.owner), phone: stringOrNull(row.phone), email: String(row.email),
@@ -168,6 +180,12 @@ export async function resolveDemo(token: string) {
     new Date(MORRISON_ELECTRIC_FALLBACK_EXPIRES_AT) > new Date()
   ) {
     return MORRISON_ELECTRIC_FALLBACK_DEMO;
+  }
+  if (
+    token === NORTH_SPRINGS_ELECTRIC_FALLBACK_TOKEN &&
+    new Date(NORTH_SPRINGS_ELECTRIC_FALLBACK_EXPIRES_AT) > new Date()
+  ) {
+    return NORTH_SPRINGS_ELECTRIC_FALLBACK_DEMO;
   }
   const rows = (await getSql()`SELECT l.business, l.owner, l.city, l.state, l.focus, l.advertises_24x7, d.id FROM outreach_demos d JOIN outreach_leads l ON l.id = d.lead_id WHERE d.token_hash = ${tokenHash(token)} AND d.revoked_at IS NULL AND d.expires_at > now() LIMIT 1`) as Record<string, unknown>[];
   return rows[0] as Record<string, unknown> | undefined;
