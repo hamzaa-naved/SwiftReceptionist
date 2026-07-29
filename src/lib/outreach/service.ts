@@ -20,6 +20,17 @@ const DIKORT_FALLBACK_DEMO = {
   advertises_24x7: false,
   id: "dikort-fallback-demo",
 };
+const BUAC_ELECTRIC_FALLBACK_TOKEN = "eefcb0ddffc14815b2079b1e841e5d90";
+const BUAC_ELECTRIC_FALLBACK_EXPIRES_AT = "2026-08-28T23:59:59.999Z";
+const BUAC_ELECTRIC_FALLBACK_DEMO = {
+  business: "BUAC Electric",
+  owner: "Rajko",
+  city: "Holiday",
+  state: "Florida",
+  focus: "Residential, commercial, and industrial electrical services",
+  advertises_24x7: false,
+  id: "buac-electric-fallback-demo",
+};
 
 function toLead(row: Record<string, unknown>): Lead {
   return {
@@ -102,6 +113,12 @@ export async function sendBatch(batchId: string) {
 export async function resolveDemo(token: string) {
   if (token === DIKORT_FALLBACK_TOKEN && new Date(DIKORT_FALLBACK_EXPIRES_AT) > new Date()) {
     return DIKORT_FALLBACK_DEMO;
+  }
+  if (
+    token === BUAC_ELECTRIC_FALLBACK_TOKEN &&
+    new Date(BUAC_ELECTRIC_FALLBACK_EXPIRES_AT) > new Date()
+  ) {
+    return BUAC_ELECTRIC_FALLBACK_DEMO;
   }
   const rows = (await getSql()`SELECT l.business, l.owner, l.city, l.state, l.focus, l.advertises_24x7, d.id FROM outreach_demos d JOIN outreach_leads l ON l.id = d.lead_id WHERE d.token_hash = ${tokenHash(token)} AND d.revoked_at IS NULL AND d.expires_at > now() LIMIT 1`) as Record<string, unknown>[];
   return rows[0] as Record<string, unknown> | undefined;
