@@ -21,6 +21,7 @@ export async function POST(_request: NextRequest, context: RouteContext<"/api/de
       "morrison electric": "agent_63353a6b955b19e94dc60067be",
       "north springs electric": "agent_445198df316b40e5ba4d814fe5",
       "dean's electrical service": "agent_48161f3dc2c2d223afe45fe602",
+      "buac electric": process.env.RETELL_BUAC_ELECTRIC_AGENT_ID,
     };
     const agentId = personalizedAgentIds[normalizedBusiness] ?? process.env.RETELL_DEMO_AGENT_ID;
     if (!apiKey || !agentId) return NextResponse.json({ error: "Voice demo is not configured." }, { status: 503 });
