@@ -20,6 +20,17 @@ const DIKORT_FALLBACK_DEMO = {
   advertises_24x7: false,
   id: "dikort-fallback-demo",
 };
+const NEIGHBORS_ELECTRIC_FALLBACK_TOKEN = "cclm-WtCV8FTSmAvc7PNsUOrGQJ3yn1M";
+const NEIGHBORS_ELECTRIC_FALLBACK_EXPIRES_AT = "2026-08-27T23:59:59.999Z";
+const NEIGHBORS_ELECTRIC_FALLBACK_DEMO = {
+  business: "Neighbors Electric",
+  owner: "there",
+  city: "Crowley",
+  state: "Texas",
+  focus: "Residential and commercial electrical services across Dallas–Fort Worth",
+  advertises_24x7: true,
+  id: "neighbors-electric-fallback-demo",
+};
 const BUAC_ELECTRIC_FALLBACK_TOKEN = "eefcb0ddffc14815b2079b1e841e5d90";
 const BUAC_ELECTRIC_FALLBACK_EXPIRES_AT = "2026-08-28T23:59:59.999Z";
 const BUAC_ELECTRIC_FALLBACK_DEMO = {
@@ -30,6 +41,17 @@ const BUAC_ELECTRIC_FALLBACK_DEMO = {
   focus: "Residential, commercial, and industrial electrical services",
   advertises_24x7: false,
   id: "buac-electric-fallback-demo",
+};
+const RO_YU_ELECTRIC_FALLBACK_TOKEN = "gJ-Z4x3L3W7q4jdjk6a49uC0ePGrGsRH";
+const RO_YU_ELECTRIC_FALLBACK_EXPIRES_AT = "2026-08-29T23:59:59.999Z";
+const RO_YU_ELECTRIC_FALLBACK_DEMO = {
+  business: "Ro&Yu Electric Company",
+  owner: "Yunior",
+  city: "Hollywood",
+  state: "Florida",
+  focus: "Bilingual residential and commercial electrical services across South Florida",
+  advertises_24x7: true,
+  id: "ro-yu-electric-fallback-demo",
 };
 
 function toLead(row: Record<string, unknown>): Lead {
@@ -115,10 +137,22 @@ export async function resolveDemo(token: string) {
     return DIKORT_FALLBACK_DEMO;
   }
   if (
+    token === NEIGHBORS_ELECTRIC_FALLBACK_TOKEN &&
+    new Date(NEIGHBORS_ELECTRIC_FALLBACK_EXPIRES_AT) > new Date()
+  ) {
+    return NEIGHBORS_ELECTRIC_FALLBACK_DEMO;
+  }
+  if (
     token === BUAC_ELECTRIC_FALLBACK_TOKEN &&
     new Date(BUAC_ELECTRIC_FALLBACK_EXPIRES_AT) > new Date()
   ) {
     return BUAC_ELECTRIC_FALLBACK_DEMO;
+  }
+  if (
+    token === RO_YU_ELECTRIC_FALLBACK_TOKEN &&
+    new Date(RO_YU_ELECTRIC_FALLBACK_EXPIRES_AT) > new Date()
+  ) {
+    return RO_YU_ELECTRIC_FALLBACK_DEMO;
   }
   const rows = (await getSql()`SELECT l.business, l.owner, l.city, l.state, l.focus, l.advertises_24x7, d.id FROM outreach_demos d JOIN outreach_leads l ON l.id = d.lead_id WHERE d.token_hash = ${tokenHash(token)} AND d.revoked_at IS NULL AND d.expires_at > now() LIMIT 1`) as Record<string, unknown>[];
   return rows[0] as Record<string, unknown> | undefined;
