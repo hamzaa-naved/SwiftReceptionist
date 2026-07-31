@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS outreach_leads (
   id uuid PRIMARY KEY, business text NOT NULL, owner text, phone text, email text,
   email_quality text, city text, state text, tier text, score numeric, focus text,
   advertises_24x7 boolean NOT NULL DEFAULT false, hook text, email_opener text, reviews integer, retell_agent_id text,
-  ready boolean NOT NULL DEFAULT false, source text, dedupe_key text NOT NULL,
+  ready boolean NOT NULL DEFAULT false, source text, dedupe_key text NOT NULL, niche text,
   created_at timestamptz NOT NULL DEFAULT now()
 );
 -- Stable identity: business + phone + city. Allows phone-only leads (no email).

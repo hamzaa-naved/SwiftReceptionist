@@ -19,7 +19,7 @@ export default async function PersonalizedDemoPage({ params }: PageProps<"/demo/
           demoToken={token}
           initialBusiness={String(demo.business)}
           initialCity={typeof demo.city === "string" && demo.city.toLowerCase() !== String(demo.state ?? "").toLowerCase() ? demo.city : ""}
-          initialNiche="electrical"
+          initialNiche={typeof demo.niche === "string" && demo.niche ? demo.niche : "electrical"}
         />
         <div className="relative mx-auto mt-16 max-w-2xl rounded-3xl border border-line bg-white p-8 text-center shadow-card sm:p-10">
           <h2 className="text-2xl font-semibold tracking-[-0.02em] text-carbon-950 sm:text-3xl">

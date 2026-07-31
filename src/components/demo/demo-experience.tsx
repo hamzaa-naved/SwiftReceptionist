@@ -30,14 +30,20 @@ export function DemoExperience({
   const params = useSearchParams();
   const biz = initialBusiness || sanitizeParam(params.get("biz")) || "your business";
   const city = initialCity || sanitizeParam(params.get("city"), 30);
-  const niche = getNiche(initialNiche ?? params.get("niche") ?? "") ?? niches[0];
+  const requestedNiche = initialNiche ?? params.get("niche") ?? "";
+  const matchedNiche = getNiche(requestedNiche);
+  // A lead whose trade isn't one we've built a niche page for (the lead lists
+  // are scraped and occasionally misclassified). Fall back to the flagship
+  // niche for behaviour, but don't label the demo with a trade they aren't in.
+  const niche = matchedNiche ?? niches[0];
+  const showNicheLabel = Boolean(matchedNiche) || !requestedNiche;
 
   return (
     <div className="mx-auto w-full max-w-2xl">
       {/* Personalized headline */}
       <div className="text-center">
         <p className="eyebrow mb-6 inline-flex text-azure-600">
-          Live demo · {niche.name}
+          Live demo{showNicheLabel ? ` · ${niche.name}` : ""}
         </p>
         <h1 className="font-display text-balance text-4xl font-light leading-[1.02] text-carbon-950 sm:text-6xl">
           This is who&apos;d answer the phone at{" "}
