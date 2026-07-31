@@ -12,6 +12,7 @@ export default async function PersonalizedDemoPage({ params }: PageProps<"/demo/
   const { token } = await params;
   const demo = await resolveDemo(token);
   if (!demo) notFound();
+  const row = demo as Record<string, unknown>;
   return (
     <div className="relative min-h-screen overflow-hidden bg-snow pb-24 pt-32 md:pt-40">
       <div className="relative mx-auto w-full max-w-6xl px-5 sm:px-8">
@@ -19,7 +20,7 @@ export default async function PersonalizedDemoPage({ params }: PageProps<"/demo/
           demoToken={token}
           initialBusiness={String(demo.business)}
           initialCity={typeof demo.city === "string" && demo.city.toLowerCase() !== String(demo.state ?? "").toLowerCase() ? demo.city : ""}
-          initialNiche={typeof demo.niche === "string" && demo.niche ? demo.niche : "electrical"}
+          initialNiche={typeof row.niche === "string" && row.niche ? row.niche : "electrical"}
         />
         <div className="relative mx-auto mt-16 max-w-2xl rounded-3xl border border-line bg-white p-8 text-center shadow-card sm:p-10">
           <h2 className="text-2xl font-semibold tracking-[-0.02em] text-carbon-950 sm:text-3xl">
