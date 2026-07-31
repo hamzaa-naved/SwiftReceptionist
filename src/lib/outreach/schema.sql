@@ -1,10 +1,12 @@
 CREATE TABLE IF NOT EXISTS outreach_leads (
-  id uuid PRIMARY KEY, business text NOT NULL, owner text, phone text, email text NOT NULL,
+  id uuid PRIMARY KEY, business text NOT NULL, owner text, phone text, email text,
   email_quality text, city text, state text, tier text, score numeric, focus text,
   advertises_24x7 boolean NOT NULL DEFAULT false, hook text, email_opener text, reviews integer, retell_agent_id text,
-  ready boolean NOT NULL DEFAULT false, source text, created_at timestamptz NOT NULL DEFAULT now()
+  ready boolean NOT NULL DEFAULT false, source text, dedupe_key text NOT NULL,
+  created_at timestamptz NOT NULL DEFAULT now()
 );
-CREATE UNIQUE INDEX IF NOT EXISTS outreach_leads_email_business_idx ON outreach_leads (email, business);
+-- Stable identity: business + phone + city. Allows phone-only leads (no email).
+CREATE UNIQUE INDEX IF NOT EXISTS outreach_leads_dedupe_idx ON outreach_leads (dedupe_key);
 CREATE TABLE IF NOT EXISTS outreach_demos (
   id uuid PRIMARY KEY, lead_id uuid NOT NULL REFERENCES outreach_leads(id), token_hash text NOT NULL UNIQUE,
   token text NOT NULL UNIQUE, expires_at timestamptz NOT NULL, revoked_at timestamptz, created_at timestamptz NOT NULL DEFAULT now()

@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "outreach:migrate": "node scripts/migrate-outreach.mjs",
-    "outreach:import": "node scripts/import-electrical-leads.mjs"
+    "outreach:import": "node scripts/import-electrical-leads.mjs",
+    "demo": "node scripts/demo.mjs"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",
