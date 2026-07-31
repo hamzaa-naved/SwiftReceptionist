@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { leadSchema } from "@/lib/lead-schema";
+import { sendRawEmail } from "@/lib/outreach/email";
 
 /**
  * Lead capture endpoint.
@@ -73,13 +74,19 @@ export async function POST(request: NextRequest) {
     submittedAt: new Date().toISOString(),
   };
 
-  const results = await Promise.allSettled([forwardToCrm(lead), notifyByEmail(lead)]);
+  const results = await Promise.allSettled([
+    forwardToCrm(lead),
+    notifyByEmail(lead),
+    notifyViaHostinger(lead),
+  ]);
   const attempted = results.filter((r) => r.status !== "fulfilled" || r.value !== "skipped");
   const failures = attempted.filter((r) => r.status === "rejected");
 
   // Nothing configured: log so leads aren't silently lost in preview envs.
   if (attempted.length === 0) {
-    console.warn("[lead] No CRM_WEBHOOK_URL or RESEND_API_KEY configured. Lead:", lead);
+    // Nothing is configured at all — log loudly so a real lead is at least
+    // recoverable from the platform logs rather than silently dropped.
+    console.error("[lead] NO DELIVERY DESTINATION CONFIGURED — lead only exists in this log:", lead);
   }
   if (failures.length > 0 && failures.length === attempted.length) {
     console.error("[lead] All delivery destinations failed", failures);
@@ -90,6 +97,37 @@ export async function POST(request: NextRequest) {
   }
 
   return NextResponse.json({ ok: true });
+}
+
+/**
+ * Primary notification path. Uses the Hostinger mailbox the business already
+ * sends from, so no extra provider is needed and the notification comes from
+ * a domain that authenticates (SPF + DKIM + DMARC all pass).
+ */
+async function notifyViaHostinger(lead: Record<string, unknown>): Promise<"sent" | "skipped"> {
+  const to = process.env.LEAD_NOTIFY_EMAIL;
+  if (!to || !process.env.HOSTINGER_MAIL_API_TOKEN) return "skipped";
+  const line = (label: string, value: unknown) => `${label}: ${String(value ?? "—")}`;
+  const text = [
+    `New lead from ${String(lead.business || "unknown business")}.`,
+    "",
+    line("Name", lead.name),
+    line("Business", lead.business),
+    line("Email", lead.email),
+    line("Phone", lead.phone),
+    line("Industry", lead.niche),
+    line("Submitted", lead.submittedAt),
+    "",
+    "Message:",
+    String(lead.message || "(no message)"),
+  ].join("\n");
+  await sendRawEmail({
+    to,
+    subject: `New lead: ${String(lead.business || "website enquiry")}`,
+    text,
+    replyTo: typeof lead.email === "string" ? lead.email : undefined,
+  });
+  return "sent";
 }
 
 async function forwardToCrm(lead: Record<string, unknown>): Promise<"sent" | "skipped"> {

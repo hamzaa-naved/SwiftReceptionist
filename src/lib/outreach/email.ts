@@ -37,6 +37,39 @@ export function makePreview(lead: Lead, demo: EmailPreview["demo"]): EmailPrevie
   return { lead, demo, subject, text, html };
 }
 
+/**
+ * Low-level send through the Hostinger Mail API. Shared by outreach batches
+ * and by transactional notifications (e.g. website lead alerts).
+ */
+export async function sendRawEmail(options: {
+  to: string;
+  subject: string;
+  text: string;
+  html?: string;
+  replyTo?: string;
+  displayName?: string;
+}) {
+  const token = process.env.HOSTINGER_MAIL_API_TOKEN;
+  const mailboxId = process.env.HOSTINGER_MAILBOX_ID;
+  const baseUrl = process.env.HOSTINGER_MAIL_API_BASE_URL;
+  if (!token || !mailboxId || !baseUrl) throw new Error("Hostinger Mail is not configured.");
+  const response = await fetch(`${baseUrl.replace(/\/$/, "")}/api/v1/mailboxes/${mailboxId}/send`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+    body: JSON.stringify({
+      to: [options.to],
+      subject: options.subject,
+      text: options.text,
+      ...(options.html ? { html: options.html } : {}),
+      ...(options.replyTo ? { replyTo: options.replyTo } : {}),
+      displayName: options.displayName ?? "Swift Receptionist",
+    }),
+  });
+  if (!response.ok) {
+    throw new Error(`Hostinger Mail returned ${response.status}: ${(await response.text()).slice(0, 200)}`);
+  }
+}
+
 export async function sendEmail(preview: EmailPreview) {
   const token = process.env.HOSTINGER_MAIL_API_TOKEN;
   const mailboxId = process.env.HOSTINGER_MAILBOX_ID;
