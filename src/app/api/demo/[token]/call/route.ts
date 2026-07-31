@@ -14,14 +14,19 @@ export async function POST(_request: NextRequest, context: RouteContext<"/api/de
     const apiKey = process.env.RETELL_API_KEY;
     const business = String(demo.business);
     const normalizedBusiness = business.trim().toLowerCase();
+    // Prefer a dedicated agent built specifically for this lead (see
+    // scripts/clone-agent-for-lead.mjs). Falls back to the small set of
+    // hardcoded per-business overrides from earlier manual setups, then to
+    // the shared generic demo agent personalized via dynamic variables.
     const agentId =
-      normalizedBusiness === "neighbors electric"
+      (demo.retell_agent_id as string | null | undefined) ??
+      (normalizedBusiness === "neighbors electric"
         ? process.env.RETELL_NEIGHBORS_ELECTRIC_AGENT_ID ?? process.env.RETELL_DEMO_AGENT_ID
         : normalizedBusiness === "buac electric"
           ? process.env.RETELL_BUAC_ELECTRIC_AGENT_ID ?? process.env.RETELL_DEMO_AGENT_ID
           : normalizedBusiness === "ro&yu electric company"
             ? process.env.RETELL_RO_YU_ELECTRIC_AGENT_ID ?? process.env.RETELL_DEMO_AGENT_ID
-          : process.env.RETELL_DEMO_AGENT_ID;
+          : process.env.RETELL_DEMO_AGENT_ID);
     if (!apiKey || !agentId) return NextResponse.json({ error: "Voice demo is not configured." }, { status: 503 });
     const profile = getDemoProfile(business);
     const client = new Retell({ apiKey });

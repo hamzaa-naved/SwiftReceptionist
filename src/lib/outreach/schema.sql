@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS outreach_leads (
   id uuid PRIMARY KEY, business text NOT NULL, owner text, phone text, email text NOT NULL,
   email_quality text, city text, state text, tier text, score numeric, focus text,
-  advertises_24x7 boolean NOT NULL DEFAULT false, hook text, email_opener text, reviews integer,
+  advertises_24x7 boolean NOT NULL DEFAULT false, hook text, email_opener text, reviews integer, retell_agent_id text,
   ready boolean NOT NULL DEFAULT false, source text, created_at timestamptz NOT NULL DEFAULT now()
 );
 CREATE UNIQUE INDEX IF NOT EXISTS outreach_leads_email_business_idx ON outreach_leads (email, business);
