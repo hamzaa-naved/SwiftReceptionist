@@ -116,9 +116,43 @@ if (has("--shared")) {
   if (tpl.response_engine?.type !== "conversation-flow") die(`Template ${templateId} is not a conversation-flow agent.`);
   const tplFlow = await retell(`/get-conversation-flow/${tpl.response_engine.conversation_flow_id}`);
 
-  // The template's own business name, so we can swap it out everywhere.
+  // Strip the template company's identity everywhere it appears — not just the
+  // global prompt. Node instructions carry the greeting and most behaviour, and
+  // missing them means the agent introduces itself as the wrong company.
   const tplName = tpl.agent_name.split("—")[0].trim();
-  const swap = (t) => (t ? t.replace(new RegExp(tplName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi"), lead.business) : t);
+  const TEMPLATE_IDENTITY = {
+    "Ro&Yu Electric Company": ["Ro&Yu Electric Company", "Ro and Yu Electric Company", "Ro&Yu",
+      "Yunior Rodriguez", "Hollywood, Florida", "Hollywood", "royuelectric.com",
+      "Miami-Dade, Broward, and Palm Beach", "Sofia"],
+    "Dean's Electrical Service": ["Dean's Electrical Service", "Dean's", "Dean and David",
+      "Tampa Bay", "Tampa", "813-961-8406", "Maya"],
+    "Dikort Electric": ["Dikort Electric", "Dikort", "Port St. Lucie"],
+  };
+  const terms = [...new Set([tplName, ...(TEMPLATE_IDENTITY[tplName] ?? []),
+    ...Object.values(TEMPLATE_IDENTITY).flat()])]
+    .filter(Boolean).sort((a, b) => b.length - a.length); // longest first
+  const esc = (t) => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const swap = (text) => {
+    if (typeof text !== "string") return text;
+    let out = text;
+    for (const t of terms) {
+      const replacement =
+        /Sofia|Maya|Yunior|Dean and David/i.test(t) ? "Riley"
+        : /\.com$/.test(t) ? "their website"
+        : /^\d|\d{3}-\d{4}/.test(t) ? "the shop number"
+        : /Hollywood|Tampa|Port St\. Lucie|Miami-Dade/i.test(t)
+          ? ([lead.city, lead.state].filter(Boolean).join(", ") || "their service area")
+        : lead.business;
+      out = out.replace(new RegExp(esc(t), "gi"), replacement);
+    }
+    return out;
+  };
+  // Recursively sanitise every string in the flow, nodes included.
+  const deepSwap = (v) =>
+    typeof v === "string" ? swap(v)
+    : Array.isArray(v) ? v.map(deepSwap)
+    : v && typeof v === "object" ? Object.fromEntries(Object.entries(v).map(([k, x]) => [k, deepSwap(x)]))
+    : v;
 
   const context = [
     "# Business-specific context (authoritative — overrides anything below that conflicts)",
@@ -133,13 +167,22 @@ if (has("--shared")) {
   ].filter(Boolean).join("\n");
 
   const { conversation_flow_id: _f, last_modification_timestamp: _t, is_published: _p, version: _v, ...flowRest } = tplFlow;
+  const cleaned = deepSwap(flowRest);
+  cleaned.default_dynamic_variables = {
+    ...(cleaned.default_dynamic_variables ?? {}),
+    company_name: lead.business,
+    business_location: [lead.city, lead.state].filter(Boolean).join(", "),
+  };
   const flow = await retell("/create-conversation-flow", {
     method: "POST",
-    body: JSON.stringify({ ...flowRest, global_prompt: context + swap(tplFlow.global_prompt) }),
+    body: JSON.stringify({ ...cleaned, global_prompt: context + swap(tplFlow.global_prompt) }),
   });
 
+  // Boosted keywords carry the template's brand too — filter against the full
+  // identity list, not just the template's display name.
   const keywords = [...new Set([lead.business, lead.city, lead.state,
-    ...(tpl.boosted_keywords ?? []).filter((k) => !k.toLowerCase().includes(tplName.toLowerCase()))].filter(Boolean))];
+    ...(tpl.boosted_keywords ?? []).filter((k) =>
+      !terms.some((t) => String(k).toLowerCase().includes(String(t).toLowerCase())))].filter(Boolean))];
 
   const { agent_id: _a, last_modification_timestamp: _t2, is_published: _p2, version: _v2, base_version: _b,
           response_engine: _r, agent_name: _n, boosted_keywords: _k, ...agentRest } = tpl;
@@ -151,8 +194,26 @@ if (has("--shared")) {
       boosted_keywords: keywords }),
   });
 
+  // Safety gate: read the agent and flow back from Retell and refuse to attach
+  // anything still carrying another company's identity. A demo that greets a
+  // prospect with a competitor's name is worse than no demo at all.
+  const savedAgent = await retell(`/get-agent/${agent.agent_id}`);
+  const savedFlow = await retell(`/get-conversation-flow/${flow.conversation_flow_id}`);
+  const haystack = JSON.stringify(savedAgent) + JSON.stringify(savedFlow);
+  const ownWords = new Set([lead.business, lead.city, lead.state].filter(Boolean)
+    .flatMap((v) => String(v).toLowerCase().split(/\s+/)));
+  const leaks = terms.filter((t) => {
+    if (String(t).toLowerCase().split(/\s+/).every((w) => ownWords.has(w))) return false;
+    return new RegExp(esc(t), "i").test(haystack);
+  });
+  if (leaks.length) {
+    log(`\n  ✗ ABORTED — the new agent still mentions: ${leaks.join(", ")}`);
+    log(`    Agent ${agent.agent_id} was created but NOT attached to ${lead.business}.`);
+    log(`    Delete it in Retell, or build this one by hand.\n`);
+    process.exit(3);
+  }
   await sql`UPDATE outreach_leads SET retell_agent_id = ${agent.agent_id} WHERE id = ${lead.id}`;
-  log(`  agent: created ${agent.agent_id}`);
+  log(`  agent: created ${agent.agent_id} (leak audit passed)`);
 }
 
 /* ------------------------------------ 4. smoke test ---------------------------------- */
