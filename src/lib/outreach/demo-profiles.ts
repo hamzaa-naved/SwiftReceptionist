@@ -1,50 +1,66 @@
-type DemoProfile = {
+/**
+ * Niche-level demo defaults.
+ *
+ * These are fallbacks used to shape the shared demo agent when a lead has no
+ * dedicated agent of its own. They are deliberately trade-level, not
+ * per-business: business specifics come from the lead record, and a lead with
+ * genuinely bespoke needs gets its own agent via scripts/demo.mjs.
+ */
+export type DemoProfile = {
   city: string;
   services: string;
   qualificationFocus: string;
   testScenarios: string;
 };
 
-const DIKORT: DemoProfile = {
-  city: "Port St. Lucie, Florida",
-  services: "electrical troubleshooting and repairs, faulty breakers, residential wiring and rewiring, custom indoor and outdoor lighting, panel replacements and upgrades, landscape lighting, and whole-home surge protection for residential and commercial customers",
-  qualificationFocus: "Ask whether the caller needs residential or commercial work, what is happening, how urgent it is, their service address, and the best callback number. Do not quote prices, promise an arrival time, or claim a real appointment is booked.",
-  testScenarios: "A breaker will not reset; a homeowner needs a panel upgrade; a customer wants landscape lighting; a commercial customer needs a lighting installation.",
+type LeadLike = {
+  business?: unknown;
+  city?: unknown;
+  state?: unknown;
+  focus?: unknown;
+  niche?: unknown;
 };
 
-const NEIGHBORS_ELECTRIC: DemoProfile = {
-  city: "Dallas–Fort Worth, Texas",
-  services: "electrical panel upgrades, EV charger installation, whole-home generator installation, ceiling fans, light fixtures, outlets, wiring and rewiring, circuit breakers, light switches, electrical troubleshooting, 24-hour emergency electrical service, and commercial electrical service",
-  qualificationFocus: "Ask what is happening, screen immediate electrical danger first, then collect only missing essentials one at a time: service address, best callback number, name, and timing if useful. For EV chargers ask the vehicle or charger, parking location, and plug-in versus hardwired preference. For generators ask whether it is running and where. Do not diagnose, invent pricing, promise arrival times, or claim a real appointment is booked.",
-  testScenarios: "A panel is hot and buzzing; a homeowner wants a Level 2 EV charger; a caller asks about the UPGRADE15 promotion; a property manager needs commercial lighting work; a homeowner asks about the Neighbor’s Plan.",
+const NICHES: Record<string, DemoProfile> = {
+  electrical: {
+    city: "",
+    services:
+      "electrical troubleshooting and repairs, breaker and panel issues, wiring and rewiring, indoor and outdoor lighting, panel upgrades, EV charger installation, and surge protection",
+    qualificationFocus:
+      "Screen immediate electrical danger first. Then ask one short question at a time: what is happening, whether the work is residential or commercial, the service address, the best callback number, and useful timing. Do not diagnose, invent pricing, promise arrival times, or claim an appointment is booked.",
+    testScenarios:
+      "A breaker will not reset; a homeowner needs a panel upgrade; a customer wants an EV charger; a property manager needs commercial lighting work.",
+  },
+  "garage-door": {
+    city: "",
+    services:
+      "garage door repair, broken springs and cables, opener repair and replacement, doors off track, panel replacement, and new door installation",
+    qualificationFocus:
+      "Screen for anyone trapped or a door that could fall. Then ask what the door is doing, whether a vehicle is stuck inside, the service address, the best callback number, and useful timing. Never advise adjusting or releasing a spring — that is genuinely dangerous.",
+    testScenarios:
+      "A door will not close and the car is stuck inside; a spring snapped overnight; a customer wants a quote on a new door.",
+  },
 };
 
-const BUAC_ELECTRIC: DemoProfile = {
-  city: "Holiday, Florida",
-  services: "residential, commercial, and industrial electrical service, electrical panels and service upgrades, EV charging, lighting, solar electrical work, HVAC electrical, and automation and control systems",
-  qualificationFocus: "Screen immediate electrical danger first. Then ask one short question at a time to understand whether the work is residential, commercial, or industrial; what is needed; the service address; the best callback number; and useful timing. For EV charging ask about the vehicle or charger and installation location. For panels, solar, HVAC electrical, or automation and controls, ask what prompted the request and the project stage. BUAC advertises same-day response, but do not promise availability, pricing, arrival times, or a booked appointment.",
-  testScenarios: "A homeowner needs an electrical panel upgrade; a business needs automation and control work; a customer wants an EV charger; a caller asks about same-day service; an industrial customer needs electrical troubleshooting.",
-};
-
-const RO_YU_ELECTRIC: DemoProfile = {
-  city: "Hollywood and South Florida",
-  services: "electrical panels and power, panel repair and upgrades, EV charger installation, solar electrical work, 24/7 emergency electrical service, outlets, switches, wiring, lighting, smart-home electrical work, water-heater and appliance electrical work, residential electrical service, commercial electrical service, and specialty projects across Miami-Dade, Broward, and Palm Beach counties",
-  qualificationFocus: "Continue naturally in English or Latin American Spanish based on the caller. Screen immediate electrical danger first, then collect only missing essentials one at a time: the issue or project, service address, best callback number, name, and useful timing. For EV charging ask the vehicle or charger, parking location, and plug-in versus hardwired preference. For solar equipment screen for smoke, heat, odor, hissing, gas, or popping. Do not diagnose, invent pricing, promise arrival times, or claim a real appointment is booked.",
-  testScenarios: "A Spanish-speaking homeowner has a breaker that keeps tripping; a caller needs an EV charger in Broward County; a customer smells burning near a panel; a property manager needs commercial lighting; a homeowner asks about solar electrical work or the published online booking prices.",
-};
-
-const DEFAULT: DemoProfile = {
+const GENERIC: DemoProfile = {
   city: "",
-  services: "electrical troubleshooting, repairs, wiring, lighting, and panel work",
-  qualificationFocus: "Ask what is happening, how urgent it is, the service address, and the best callback number. Do not quote prices or promise an appointment.",
-  testScenarios: "A breaker will not reset; a customer needs electrical troubleshooting; a homeowner wants an upgrade.",
+  services: "the services this business offers",
+  qualificationFocus:
+    "Find out what the caller needs, how urgent it is, their location, and the best callback number. Ask one question at a time. Never quote prices, promise timing, or claim an appointment is booked.",
+  testScenarios:
+    "A routine service request; an urgent problem; a caller asking for a quote.",
 };
 
-export function getDemoProfile(business: string): DemoProfile {
-  const normalizedBusiness = business.trim().toLowerCase();
-  if (normalizedBusiness === "dikort electric") return DIKORT;
-  if (normalizedBusiness === "neighbors electric") return NEIGHBORS_ELECTRIC;
-  if (normalizedBusiness === "buac electric") return BUAC_ELECTRIC;
-  if (normalizedBusiness === "ro&yu electric company") return RO_YU_ELECTRIC;
-  return DEFAULT;
+/** Build the profile for a lead, layering its own data over its niche defaults. */
+export function getDemoProfile(lead: LeadLike): DemoProfile {
+  const str = (v: unknown) => (typeof v === "string" && v.trim() ? v.trim() : "");
+  const base = NICHES[str(lead.niche).toLowerCase()] ?? NICHES.electrical ?? GENERIC;
+  const location = [str(lead.city), str(lead.state)].filter(Boolean).join(", ");
+  const focus = str(lead.focus);
+  return {
+    ...base,
+    city: location || base.city,
+    // A lead's own recorded focus is more specific than any trade default.
+    services: focus && focus.length > 12 ? focus : base.services,
+  };
 }

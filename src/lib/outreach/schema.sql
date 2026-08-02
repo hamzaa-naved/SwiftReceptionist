@@ -15,3 +15,10 @@ CREATE TABLE IF NOT EXISTS outreach_batches (id uuid PRIMARY KEY, batch_date dat
 CREATE TABLE IF NOT EXISTS outreach_batch_items (batch_id uuid NOT NULL REFERENCES outreach_batches(id), lead_id uuid NOT NULL REFERENCES outreach_leads(id), position integer NOT NULL, demo_id uuid NOT NULL REFERENCES outreach_demos(id), subject text NOT NULL, text_body text NOT NULL, html_body text NOT NULL, PRIMARY KEY(batch_id, lead_id));
 CREATE TABLE IF NOT EXISTS outreach_send_events (id uuid PRIMARY KEY, lead_id uuid NOT NULL REFERENCES outreach_leads(id), demo_id uuid REFERENCES outreach_demos(id), status text NOT NULL, recipient_email text NOT NULL, subject text NOT NULL, created_at timestamptz NOT NULL DEFAULT now());
 CREATE TABLE IF NOT EXISTS outreach_suppressions (email text PRIMARY KEY, reason text NOT NULL, created_at timestamptz NOT NULL DEFAULT now());
+CREATE TABLE IF NOT EXISTS demo_call_events (
+  id bigserial PRIMARY KEY, token text NOT NULL, ip text NOT NULL,
+  created_at timestamptz NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS demo_call_events_token_time_idx ON demo_call_events (token, created_at DESC);
+CREATE INDEX IF NOT EXISTS demo_call_events_ip_time_idx ON demo_call_events (ip, created_at DESC);
+CREATE INDEX IF NOT EXISTS demo_call_events_time_idx ON demo_call_events (created_at DESC);

@@ -6,53 +6,6 @@ import type { Demo, EmailPreview, Lead } from "./types";
 
 const BASE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://swiftreceptionist.com").replace(/\/$/, "");
 const activeEmailQualities = ["verified-crawled", "guessed-deliverable"];
-// Keeps the first approved prospect demo available while the database connection
-// is being finalized. The token is opaque, carries no lead data, and expires on
-// the same 30-day schedule as database-backed demos.
-const DIKORT_FALLBACK_TOKEN = "Q8u2Pm7zR4nXc9Lk5Vh1Ty6Da3Ws0FeB";
-const DIKORT_FALLBACK_EXPIRES_AT = "2026-08-21T23:59:59.999Z";
-const DIKORT_FALLBACK_DEMO = {
-  business: "Dikort Electric",
-  owner: "Alexander Castaneda",
-  city: "Port St. Lucie",
-  state: "Florida",
-  focus: "Residential and commercial electrical services",
-  advertises_24x7: false,
-  id: "dikort-fallback-demo",
-};
-const NEIGHBORS_ELECTRIC_FALLBACK_TOKEN = "cclm-WtCV8FTSmAvc7PNsUOrGQJ3yn1M";
-const NEIGHBORS_ELECTRIC_FALLBACK_EXPIRES_AT = "2026-08-27T23:59:59.999Z";
-const NEIGHBORS_ELECTRIC_FALLBACK_DEMO = {
-  business: "Neighbors Electric",
-  owner: "there",
-  city: "Crowley",
-  state: "Texas",
-  focus: "Residential and commercial electrical services across Dallas–Fort Worth",
-  advertises_24x7: true,
-  id: "neighbors-electric-fallback-demo",
-};
-const BUAC_ELECTRIC_FALLBACK_TOKEN = "eefcb0ddffc14815b2079b1e841e5d90";
-const BUAC_ELECTRIC_FALLBACK_EXPIRES_AT = "2026-08-28T23:59:59.999Z";
-const BUAC_ELECTRIC_FALLBACK_DEMO = {
-  business: "BUAC Electric",
-  owner: "Rajko",
-  city: "Holiday",
-  state: "Florida",
-  focus: "Residential, commercial, and industrial electrical services",
-  advertises_24x7: false,
-  id: "buac-electric-fallback-demo",
-};
-const RO_YU_ELECTRIC_FALLBACK_TOKEN = "gJ-Z4x3L3W7q4jdjk6a49uC0ePGrGsRH";
-const RO_YU_ELECTRIC_FALLBACK_EXPIRES_AT = "2026-08-29T23:59:59.999Z";
-const RO_YU_ELECTRIC_FALLBACK_DEMO = {
-  business: "Ro&Yu Electric Company",
-  owner: "Yunior",
-  city: "Hollywood",
-  state: "Florida",
-  focus: "Bilingual residential and commercial electrical services across South Florida",
-  advertises_24x7: true,
-  id: "ro-yu-electric-fallback-demo",
-};
 
 function toLead(row: Record<string, unknown>): Lead {
   return {
@@ -133,27 +86,6 @@ export async function sendBatch(batchId: string) {
 }
 
 export async function resolveDemo(token: string) {
-  if (token === DIKORT_FALLBACK_TOKEN && new Date(DIKORT_FALLBACK_EXPIRES_AT) > new Date()) {
-    return DIKORT_FALLBACK_DEMO;
-  }
-  if (
-    token === NEIGHBORS_ELECTRIC_FALLBACK_TOKEN &&
-    new Date(NEIGHBORS_ELECTRIC_FALLBACK_EXPIRES_AT) > new Date()
-  ) {
-    return NEIGHBORS_ELECTRIC_FALLBACK_DEMO;
-  }
-  if (
-    token === BUAC_ELECTRIC_FALLBACK_TOKEN &&
-    new Date(BUAC_ELECTRIC_FALLBACK_EXPIRES_AT) > new Date()
-  ) {
-    return BUAC_ELECTRIC_FALLBACK_DEMO;
-  }
-  if (
-    token === RO_YU_ELECTRIC_FALLBACK_TOKEN &&
-    new Date(RO_YU_ELECTRIC_FALLBACK_EXPIRES_AT) > new Date()
-  ) {
-    return RO_YU_ELECTRIC_FALLBACK_DEMO;
-  }
   const rows = (await getSql()`SELECT l.business, l.owner, l.city, l.state, l.focus, l.advertises_24x7, l.retell_agent_id, l.niche, d.id FROM outreach_demos d JOIN outreach_leads l ON l.id = d.lead_id WHERE d.token_hash = ${tokenHash(token)} AND d.revoked_at IS NULL AND d.expires_at > now() LIMIT 1`) as Record<string, unknown>[];
   return rows[0] as Record<string, unknown> | undefined;
 }
