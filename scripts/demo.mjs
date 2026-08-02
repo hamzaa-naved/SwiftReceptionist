@@ -17,8 +17,11 @@ import { neon } from "@neondatabase/serverless";
 import { randomUUID, randomBytes, createHash } from "node:crypto";
 
 const TEMPLATES = {
-  bilingual: "agent_0ffa04cf70d06c438582c2e7f7", // Ro&Yu — EN/ES, South Florida
-  english: "agent_48161f3dc2c2d223afe45fe602",   // Dean's Electrical — EN only
+  // Neutral base: contains no company or place names at all, only variables.
+  // A clone of this cannot leak another business's identity by construction.
+  base: "agent_57680ce42b159f12ae97d212e2",
+  english: "agent_57680ce42b159f12ae97d212e2",
+  bilingual: "agent_0ffa04cf70d06c438582c2e7f7", // Ro&Yu — EN/ES. Still branded; use only for bilingual leads.
 };
 // Leads in these states get the bilingual template by default.
 const BILINGUAL_STATES = new Set(["florida", "fl"]);
@@ -33,7 +36,7 @@ const optOf = (name) => {
   const i = argv.indexOf(`--${name}`);
   return i >= 0 ? argv[i + 1] : undefined;
 };
-const VALUE_FLAGS = ["template", "city", "owner", "phone", "state"];
+const VALUE_FLAGS = ["template", "city", "owner", "phone", "state", "services", "persona"];
 const positional = [];
 for (let i = 0; i < argv.length; i++) {
   if (argv[i].startsWith("--")) { if (VALUE_FLAGS.includes(argv[i].slice(2))) i++; continue; }
@@ -108,7 +111,7 @@ if (has("--shared")) {
 } else if (lead.retell_agent_id && !has("--refresh")) {
   log(`  agent: existing dedicated (${lead.retell_agent_id})`);
 } else {
-  const choice = optOf("template") ?? (BILINGUAL_STATES.has(String(lead.state ?? "").trim().toLowerCase()) ? "bilingual" : "english");
+  const choice = optOf("template") ?? "base";
   const templateId = TEMPLATES[choice] ?? choice;
   log(`  agent: cloning ${choice}…`);
 
@@ -168,10 +171,16 @@ if (has("--shared")) {
 
   const { conversation_flow_id: _f, last_modification_timestamp: _t, is_published: _p, version: _v, ...flowRest } = tplFlow;
   const cleaned = deepSwap(flowRest);
+  // Researched services beat the lead's one-word focus, which beats the base default.
+  const services = optOf("services") ?? (String(lead.focus ?? "").length > 12 ? lead.focus : null);
   cleaned.default_dynamic_variables = {
     ...(cleaned.default_dynamic_variables ?? {}),
+    agent_name: optOf("persona") ?? "Riley",
+    business_name: lead.business,
     company_name: lead.business,
     business_location: [lead.city, lead.state].filter(Boolean).join(", "),
+    advertises_24_7: lead.advertises_24x7 ? "yes" : "no",
+    ...(services ? { business_services: services } : {}),
   };
   const flow = await retell("/create-conversation-flow", {
     method: "POST",
