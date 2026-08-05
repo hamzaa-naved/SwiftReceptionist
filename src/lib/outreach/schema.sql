@@ -22,3 +22,7 @@ CREATE TABLE IF NOT EXISTS demo_call_events (
 CREATE INDEX IF NOT EXISTS demo_call_events_token_time_idx ON demo_call_events (token, created_at DESC);
 CREATE INDEX IF NOT EXISTS demo_call_events_ip_time_idx ON demo_call_events (ip, created_at DESC);
 CREATE INDEX IF NOT EXISTS demo_call_events_time_idx ON demo_call_events (created_at DESC);
+
+-- Voice provider is per-lead: some agents live on Retell, others on ElevenLabs.
+ALTER TABLE outreach_leads ADD COLUMN IF NOT EXISTS elevenlabs_agent_id text;
+ALTER TABLE outreach_leads ADD COLUMN IF NOT EXISTS voice_provider text NOT NULL DEFAULT 'retell';

@@ -28,15 +28,41 @@ export async function POST(request: NextRequest, context: RouteContext<"/api/dem
       return NextResponse.json({ error: limit.message }, { status: 429 });
     }
 
+    const profile = getDemoProfile(demo);
+    const text = (v: unknown, fallback = "") =>
+      typeof v === "string" && v.trim() ? v.trim() : fallback;
+
+    // Provider is a property of the lead. Rate limiting above covers both paths.
+    if (demo.voice_provider === "elevenlabs" && demo.elevenlabs_agent_id) {
+      const elevenKey = process.env.ELEVENLABS_API_KEY;
+      if (!elevenKey) {
+        return NextResponse.json({ error: "Voice demo is not configured." }, { status: 503 });
+      }
+      const agent = String(demo.elevenlabs_agent_id);
+      const signed = await fetch(
+        `https://api.elevenlabs.io/v1/convai/conversation/get-signed-url?agent_id=${encodeURIComponent(agent)}`,
+        { headers: { "xi-api-key": elevenKey } },
+      );
+      if (!signed.ok) {
+        console.error("[outreach:elevenlabs]", signed.status, await signed.text());
+        return NextResponse.json({ error: "Couldn't start the voice demo." }, { status: 502 });
+      }
+      const { signed_url: signedUrl } = (await signed.json()) as { signed_url: string };
+      return NextResponse.json({
+        provider: "elevenlabs",
+        signedUrl,
+        dynamicVariables: {
+          business_name: text(demo.business, "this business"),
+          business_location: profile.city,
+        },
+      });
+    }
+
     const apiKey = process.env.RETELL_API_KEY;
     const agentId = (demo.retell_agent_id as string | null) ?? process.env.RETELL_DEMO_AGENT_ID;
     if (!apiKey || !agentId) {
       return NextResponse.json({ error: "Voice demo is not configured." }, { status: 503 });
     }
-
-    const profile = getDemoProfile(demo);
-    const text = (v: unknown, fallback = "") =>
-      typeof v === "string" && v.trim() ? v.trim() : fallback;
 
     const client = new Retell({ apiKey });
     const response = await client.call.createWebCall({
@@ -54,7 +80,7 @@ export async function POST(request: NextRequest, context: RouteContext<"/api/dem
         demo_test_scenarios: profile.testScenarios,
       },
     });
-    return NextResponse.json({ accessToken: response.access_token });
+    return NextResponse.json({ provider: "retell", accessToken: response.access_token });
   } catch (error) {
     console.error("[outreach:retell]", error);
     return NextResponse.json({ error: "Couldn't start the voice demo." }, { status: 502 });

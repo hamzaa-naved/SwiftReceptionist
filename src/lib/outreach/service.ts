@@ -86,7 +86,7 @@ export async function sendBatch(batchId: string) {
 }
 
 export async function resolveDemo(token: string) {
-  const rows = (await getSql()`SELECT l.business, l.owner, l.city, l.state, l.focus, l.advertises_24x7, l.retell_agent_id, l.niche, d.id FROM outreach_demos d JOIN outreach_leads l ON l.id = d.lead_id WHERE d.token_hash = ${tokenHash(token)} AND d.revoked_at IS NULL AND d.expires_at > now() LIMIT 1`) as Record<string, unknown>[];
+  const rows = (await getSql()`SELECT l.business, l.owner, l.city, l.state, l.focus, l.advertises_24x7, l.retell_agent_id, l.elevenlabs_agent_id, l.voice_provider, l.niche, d.id FROM outreach_demos d JOIN outreach_leads l ON l.id = d.lead_id WHERE d.token_hash = ${tokenHash(token)} AND d.revoked_at IS NULL AND d.expires_at > now() LIMIT 1`) as Record<string, unknown>[];
   return rows[0] as Record<string, unknown> | undefined;
 }
 
