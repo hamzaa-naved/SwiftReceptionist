@@ -1,0 +1,417 @@
+{
+  "_meta": {
+    "note": "Verified live on agent_5501kz8ht502eq2sj3xn6v17zvby, 2026-08-05. 12 nodes, 31 edges, verbatim conditions, positions and edge_order. Lossless — rebuilds the workflow from nothing."
+  },
+  "nodes": {
+    "start_node": {
+      "type": "start",
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "edge_order": [
+        "start_to_triage"
+      ]
+    },
+    "triage": {
+      "label": "Greeting & Triage",
+      "overrides": {
+        "turn_eagerness": "eager"
+      },
+      "prompt": "Open with the greeting, then work out two things before anything else: is anyone in danger right now, and what does this person actually want.\n\nLet them say why they're calling before you ask anything — don't open by asking who they are. But once they've told you what's going on, get their name straight away: \"sorry — what's your name?\" Then use it. That one move changes the whole call.\n\nIf they've already told you the problem, don't make them say it again.\n\nIf they ask what this line does, say it shows how {{business_name}}'s phone could handle emergencies, service calls and after-hours callers without anything going to voicemail.",
+      "position": {
+        "x": 0,
+        "y": 200
+      },
+      "edge_order": [
+        "triage_to_safety",
+        "triage_to_hazard",
+        "triage_to_urgent",
+        "triage_to_existing",
+        "triage_to_commercial",
+        "triage_to_residential",
+        "triage_to_pricing",
+        "triage_to_message",
+        "triage_to_recap"
+      ],
+      "type": "override_agent"
+    },
+    "safety": {
+      "label": "Immediate Danger",
+      "overrides": {
+        "stability": 0.78,
+        "speed": 0.9,
+        "turn_eagerness": "patient"
+      },
+      "prompt": "Safety only. No intake, no questions about the job, no name, no address.\n\nActive fire or smoke: get everyone away from the area now, don't try to put it out, call 911.\n\nBurning smell with no visible fire: don't touch the panel or any switches, call 911 to be safe.\n\nShock or injury: call 911 now. Don't touch the person if they might still be in contact with electricity. Cut power at the breaker only if it's safe to reach.\n\nSay it clearly and unhurriedly. Short sentences. One instruction at a time. Then confirm they're moving and calling 911, and close warmly — you don't need anything else from them.",
+      "position": {
+        "x": -700,
+        "y": 500
+      },
+      "edge_order": [
+        "safety_to_recap"
+      ],
+      "type": "override_agent"
+    },
+    "hazard": {
+      "label": "Live Hazard",
+      "overrides": {
+        "stability": 0.62,
+        "speed": 0.95,
+        "turn_eagerness": "patient"
+      },
+      "prompt": "Sparking, arcing, a hot or buzzing panel, water near electrical equipment, exposed wiring, a downed line. Serious but not yet a fire or an injury.\n\nSafety first: don't touch it, don't reset it, keep people and water away, and call 911 if it gets worse — smoke, flames, or a burning smell. For a downed line, stay well clear and call both 911 and the utility.\n\nThis is where \"we get these all the time\" matters most, if it's true — they're frightened and it's the fastest way to steady them.\n\nOnly once safety is said, take the essentials so someone can respond: what's happening, the service address, and the best callback number read back once in small groups.\n\nNever promise a technician, an arrival time, or say anyone's been dispatched.",
+      "position": {
+        "x": -350,
+        "y": 500
+      },
+      "edge_order": [
+        "hazard_to_safety",
+        "hazard_recap",
+        "hazard_to_message"
+      ],
+      "type": "override_agent"
+    },
+    "urgent": {
+      "label": "Urgent, Not Dangerous",
+      "overrides": {
+        "stability": 0.48,
+        "speed": 1.0,
+        "turn_eagerness": "patient"
+      },
+      "prompt": "Outage, a breaker that won't reset, no power to part of the property.\n\nRule out danger first — ask whether there's any burning smell, buzzing, heat or scorching at the panel. If yes, that changes things.\n\nIf not: what's affected, when it started, and whether anything changed just before. Never tell them to keep resetting a breaker.\n\nA breaker that won't hold is one of the most common calls there is — say so if it helps them relax.\n\nThen the address, the callback number read back once, residential or commercial, and how soon they need someone.",
+      "position": {
+        "x": 0,
+        "y": 500
+      },
+      "edge_order": [
+        "urgent_to_hazard",
+        "urgent_to_recap",
+        "urgent_to_message"
+      ],
+      "type": "override_agent"
+    },
+    "residential": {
+      "label": "Residential Work",
+      "overrides": {
+        "stability": 0.34,
+        "speed": 1.03,
+        "turn_eagerness": "patient"
+      },
+      "prompt": "Planned work at a home — repair, installation, upgrade or project. Nobody's in trouble here, so this is where you're most yourself. Curious, warm, interested in what they're building.\n\nFind out what they want done and roughly when. Conversational, one question at a time.\n\nUseful specifics depending on the job: panel or service upgrade — what prompted it, and do they know the current size. EV charger — which vehicle and where they park. Lighting — which rooms or outdoor areas, and repair or new. Generator — whole home or part of it.\n\nThen the service address, the callback number read back once, and their name if you somehow still don't have it.\n\nDon't quote, don't estimate how long it takes, don't say a visit is booked.",
+      "position": {
+        "x": 350,
+        "y": 500
+      },
+      "edge_order": [
+        "residential_to_hazard",
+        "residential_pricing",
+        "residential_recap",
+        "residential_to_message"
+      ],
+      "type": "override_agent"
+    },
+    "commercial": {
+      "label": "Commercial & Property Management",
+      "overrides": {
+        "stability": 0.46,
+        "speed": 1.0,
+        "turn_eagerness": "patient",
+        "llm": "gemini-3.5-flash"
+      },
+      "prompt": "Commercial callers need different questions than homeowners. Slightly more businesslike — still warm, but they're at work and you respect that.\n\nGet the property or business name, their role there, and the site address.\n\nAsk what's affected and whether it's stopping work or hitting tenants or customers — that's what drives priority.\n\nAsk about access: hours the crew can be on site, and whether someone needs to let them in.\n\nAsk who signs off on the work if it isn't them.\n\nCallback number read back once. Never quote, never commit to a schedule, never say a crew's been assigned.",
+      "position": {
+        "x": 700,
+        "y": 500
+      },
+      "edge_order": [
+        "commercial_to_hazard",
+        "commercial_pricing",
+        "commercial_recap",
+        "commercial_to_message"
+      ],
+      "type": "override_agent"
+    },
+    "existing_job": {
+      "label": "Existing Job Support",
+      "overrides": {
+        "stability": 0.46,
+        "speed": 0.98,
+        "turn_eagerness": "patient",
+        "llm": "gemini-3.5-flash"
+      },
+      "prompt": "This person already trusted the business with work. Be reassuring and take it seriously.\n\nGet their name, the address the work is at, and roughly when it was done or scheduled. Ask what they'd like to know so the team can answer properly.\n\nBe calm and clear that you can't see the schedule or where the technician is, and that someone will come back to them. Say it once, without apologising repeatedly.\n\nNever guess at progress, never give a date, never suggest the job is on track or running late. Confirm the best number to reach them.",
+      "position": {
+        "x": 1050,
+        "y": 500
+      },
+      "edge_order": [
+        "existing_to_message",
+        "existing_to_recap"
+      ],
+      "type": "override_agent"
+    },
+    "pricing": {
+      "label": "Pricing, Availability & Coverage",
+      "overrides": {
+        "stability": 0.4,
+        "speed": 1.02,
+        "turn_eagerness": "normal"
+      },
+      "prompt": "Be straight rather than evasive. You can't give prices or availability because electrical work depends on what's actually found on site, and the team gives that directly — and the quote is free. Say it once, plainly, without apologising three times over.\n\nIf they say they're shopping around or comparing quotes, that's completely reasonable and you're not remotely bothered by it. Don't get defensive, don't oversell, don't start listing reasons to choose this company. Just make it easy for them to get a real number.\n\nOn service area, answer only from {{business_location}}. If where they are isn't clearly covered, say you'd rather the team confirmed than guess.\n\nThen make the callback worth something: what the work is, the address, the timing, and the best number.",
+      "position": {
+        "x": 350,
+        "y": 800
+      },
+      "edge_order": [
+        "pricing_to_recap",
+        "pricing_to_message",
+        "residential_pricing",
+        "commercial_pricing"
+      ],
+      "type": "override_agent"
+    },
+    "message": {
+      "label": "Callback / Handoff",
+      "overrides": {
+        "stability": 0.44,
+        "speed": 0.98,
+        "turn_eagerness": "patient"
+      },
+      "prompt": "Make this feel like a real handoff, not a brush-off.\n\nElectricians are usually out on jobs — that's exactly why calls get missed. Say that warmly if it helps.\n\nTake their name, best callback number, one line on what it's about, and the best time to reach them — asking when suits them is the difference between a callback that connects and one that goes to voicemail. Confirm the number back once.\n\nBe clear this is a demo, so nothing is actually being sent.",
+      "position": {
+        "x": 700,
+        "y": 800
+      },
+      "edge_order": [
+        "message_to_recap"
+      ],
+      "type": "override_agent"
+    },
+    "recap": {
+      "label": "Recap & Confirm",
+      "overrides": {
+        "stability": 0.5,
+        "speed": 0.98,
+        "turn_eagerness": "patient"
+      },
+      "prompt": "Short, confident summary: the job, the address, timing if they gave it, and the callback number. A few seconds — don't recite everything back at them.\n\nFix anything they correct without explaining what you thought you heard.\n\nSay clearly that this was a demonstration and nothing was actually booked or sent. Then ask if there's anything else.\n\nClose with their name and mean it — you're glad they called.\n\nIf they came in on a safety call, skip the summary entirely — just check they're safe and let them go.",
+      "position": {
+        "x": 0,
+        "y": 1100
+      },
+      "edge_order": [
+        "recap_to_end",
+        "hazard_recap",
+        "residential_recap",
+        "commercial_recap"
+      ],
+      "type": "override_agent"
+    },
+    "end": {
+      "type": "end",
+      "position": {
+        "x": 0,
+        "y": 1400
+      },
+      "edge_order": []
+    }
+  },
+  "edges": {
+    "start_to_triage": {
+      "source": "start_node",
+      "target": "triage",
+      "type": "unconditional"
+    },
+    "triage_to_safety": {
+      "source": "triage",
+      "target": "safety",
+      "label": "Fire, smoke, shock",
+      "condition": "The caller reports smoke, flames, an electrical fire, a burning smell, an electric shock, or an injury happening now."
+    },
+    "triage_to_hazard": {
+      "source": "triage",
+      "target": "hazard",
+      "label": "Live hazard",
+      "condition": "The caller reports sparking, arcing, a hot or buzzing panel, water near electrical equipment, exposed live wiring, or a downed power line, but no fire or injury yet."
+    },
+    "triage_to_urgent": {
+      "source": "triage",
+      "target": "urgent",
+      "label": "Outage",
+      "condition": "The caller has lost power or has a disruptive but not dangerous problem and wants someone out soon."
+    },
+    "triage_to_existing": {
+      "source": "triage",
+      "target": "existing_job",
+      "label": "Existing job",
+      "condition": "The caller already has work booked or in progress and wants an update on it."
+    },
+    "triage_to_commercial": {
+      "source": "triage",
+      "target": "commercial",
+      "label": "Commercial",
+      "condition": "The caller is calling about a business, rental, or commercial property, or is a property manager or contractor calling on behalf of someone."
+    },
+    "triage_to_residential": {
+      "source": "triage",
+      "target": "residential",
+      "label": "Home work",
+      "condition": "The caller wants electrical work at a home — a repair, installation, upgrade or project."
+    },
+    "triage_to_pricing": {
+      "source": "triage",
+      "target": "pricing",
+      "label": "Cost or coverage",
+      "condition": "The caller's main question is cost, availability, or whether the business covers their area."
+    },
+    "triage_to_message": {
+      "source": "triage",
+      "target": "message",
+      "label": "Wants a person",
+      "condition": "The caller asks for a person, the owner, or a callback from a human."
+    },
+    "triage_to_recap": {
+      "source": "triage",
+      "target": "recap",
+      "label": "Wrong number or done",
+      "condition": "The caller says goodbye, has the wrong number, or wants to end the call."
+    },
+    "hazard_to_safety": {
+      "source": "hazard",
+      "target": "safety",
+      "label": "Escalates",
+      "condition": "The situation escalates to smoke, flames, a burning smell, or someone being injured."
+    },
+    "hazard_recap": {
+      "source": "hazard",
+      "target": "recap",
+      "label": "Captured",
+      "condition": "The essentials have been captured and the caller has nothing further.",
+      "backward_label": "New hazard",
+      "backward_condition": "The caller raises a hazard — sparking, a hot or buzzing panel, water near electrical equipment, or exposed wiring."
+    },
+    "hazard_to_message": {
+      "source": "hazard",
+      "target": "message",
+      "label": "Wants a person",
+      "condition": "The caller needs to speak with someone immediately."
+    },
+    "urgent_to_hazard": {
+      "source": "urgent",
+      "target": "hazard",
+      "label": "Hazard emerges",
+      "condition": "Signs of a real hazard emerge — burning smell, buzzing, heat or scorching at the panel."
+    },
+    "urgent_to_recap": {
+      "source": "urgent",
+      "target": "recap",
+      "label": "Captured",
+      "condition": "The request has been captured and the caller has nothing further."
+    },
+    "urgent_to_message": {
+      "source": "urgent",
+      "target": "message",
+      "label": "Wants a person",
+      "condition": "The caller wants to speak to a person now."
+    },
+    "residential_to_hazard": {
+      "source": "residential",
+      "target": "hazard",
+      "label": "Hazard emerges",
+      "condition": "The caller mentions sparking, a hot or buzzing panel, a burning smell, water near electrical equipment, or exposed wiring."
+    },
+    "residential_pricing": {
+      "source": "residential",
+      "target": "pricing",
+      "label": "Asks cost",
+      "condition": "The caller turns to cost, availability, or whether their area is covered.",
+      "backward_label": "Describes home job",
+      "backward_condition": "The caller describes a specific job at a home."
+    },
+    "residential_recap": {
+      "source": "residential",
+      "target": "recap",
+      "label": "Captured",
+      "condition": "The request has been captured and the caller has nothing further.",
+      "backward_label": "Another home job",
+      "backward_condition": "The caller raises another job at a home."
+    },
+    "residential_to_message": {
+      "source": "residential",
+      "target": "message",
+      "label": "Wants a person",
+      "condition": "The caller wants to speak to a person."
+    },
+    "commercial_to_hazard": {
+      "source": "commercial",
+      "target": "hazard",
+      "label": "Hazard emerges",
+      "condition": "The caller mentions sparking, a hot or buzzing panel, a burning smell, water near electrical equipment, or exposed wiring."
+    },
+    "commercial_pricing": {
+      "source": "commercial",
+      "target": "pricing",
+      "label": "Asks cost",
+      "condition": "The caller turns to cost, contracts, or coverage.",
+      "backward_label": "Describes commercial job",
+      "backward_condition": "The caller describes a commercial job or property."
+    },
+    "commercial_recap": {
+      "source": "commercial",
+      "target": "recap",
+      "label": "Captured",
+      "condition": "The request has been captured and the caller has nothing further.",
+      "backward_label": "Another commercial job",
+      "backward_condition": "The caller raises another commercial job."
+    },
+    "commercial_to_message": {
+      "source": "commercial",
+      "target": "message",
+      "label": "Wants a person",
+      "condition": "The caller wants to speak to a person."
+    },
+    "existing_to_message": {
+      "source": "existing_job",
+      "target": "message",
+      "label": "Unhappy or urgent",
+      "condition": "The caller is unhappy, urgent, or wants the owner now."
+    },
+    "existing_to_recap": {
+      "source": "existing_job",
+      "target": "recap",
+      "label": "Captured",
+      "condition": "The enquiry has been captured and the caller has nothing further."
+    },
+    "pricing_to_recap": {
+      "source": "pricing",
+      "target": "recap",
+      "label": "Captured",
+      "condition": "The details have been captured and the caller has nothing further."
+    },
+    "pricing_to_message": {
+      "source": "pricing",
+      "target": "message",
+      "label": "Wants a person",
+      "condition": "The caller wants to speak to a person."
+    },
+    "message_to_recap": {
+      "source": "message",
+      "target": "recap",
+      "label": "Message taken",
+      "condition": "The callback details have been taken and confirmed."
+    },
+    "safety_to_recap": {
+      "source": "safety",
+      "target": "recap",
+      "label": "Safe",
+      "condition": "Safety guidance has been given and the caller confirms they are moving away and calling 911."
+    },
+    "recap_to_end": {
+      "source": "recap",
+      "target": "end",
+      "label": "Done",
+      "condition": "The caller has nothing further and the call has been closed warmly."
+    }
+  }
+}
