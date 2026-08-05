@@ -85,10 +85,37 @@ export async function sendBatch(batchId: string) {
   return { sent: batch.previews.length };
 }
 
+let hasVoiceProviderColumns: boolean | null = null;
+
+/**
+ * Resolves a demo token to its lead.
+ *
+ * The voice-provider columns are read optionally so code and schema can deploy
+ * in either order. Without this, shipping ahead of the migration takes down
+ * every live demo link with a SQL error — and it stays silent until a prospect
+ * clicks.
+ */
 export async function resolveDemo(token: string) {
-  const rows = (await getSql()`SELECT l.business, l.owner, l.city, l.state, l.focus, l.advertises_24x7, l.retell_agent_id, l.elevenlabs_agent_id, l.voice_provider, l.niche, d.id FROM outreach_demos d JOIN outreach_leads l ON l.id = d.lead_id WHERE d.token_hash = ${tokenHash(token)} AND d.revoked_at IS NULL AND d.expires_at > now() LIMIT 1`) as Record<string, unknown>[];
+  const hash = tokenHash(token);
+
+  if (hasVoiceProviderColumns !== false) {
+    try {
+      const rows = (await getSql()`SELECT l.business, l.owner, l.city, l.state, l.focus, l.advertises_24x7, l.retell_agent_id, l.niche, l.elevenlabs_agent_id, l.voice_provider, d.id FROM outreach_demos d JOIN outreach_leads l ON l.id = d.lead_id WHERE d.token_hash = ${hash} AND d.revoked_at IS NULL AND d.expires_at > now() LIMIT 1`) as Record<string, unknown>[];
+      hasVoiceProviderColumns = true;
+      return rows[0] as Record<string, unknown> | undefined;
+    } catch (error) {
+      // 42703 = undefined_column. Anything else is a real fault worth surfacing.
+      if ((error as { code?: string })?.code !== "42703") throw error;
+      hasVoiceProviderColumns = false;
+      console.warn("[outreach] voice_provider columns absent — run the migration; serving Retell meanwhile");
+    }
+  }
+
+  const rows = (await getSql()`SELECT l.business, l.owner, l.city, l.state, l.focus, l.advertises_24x7, l.retell_agent_id, l.niche, d.id FROM outreach_demos d JOIN outreach_leads l ON l.id = d.lead_id WHERE d.token_hash = ${hash} AND d.revoked_at IS NULL AND d.expires_at > now() LIMIT 1`) as Record<string, unknown>[];
   return rows[0] as Record<string, unknown> | undefined;
 }
+
+
 
 export async function suppressDemo(token: string) {
   const rows = (await getSql()`SELECT l.email FROM outreach_demos d JOIN outreach_leads l ON l.id = d.lead_id WHERE d.token_hash = ${tokenHash(token)} LIMIT 1`) as Array<{ email?: string }>;
