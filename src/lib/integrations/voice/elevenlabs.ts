@@ -3,6 +3,11 @@ import type { VoiceSessionEvents, VoiceStartOptions } from "./types";
 /**
  * ElevenLabs Conversational AI.
  *
+ * Deliberately does not forward transcripts. The SDK exposes onMessage, but a
+ * live transcript on a sales demo shows the prospect their own words on screen
+ * — distracting, and it makes a voice product look like a chatbot. The Retell
+ * adapter has never surfaced them either; this keeps the two consistent.
+ *
  * Differs from Retell in one important way: the server mints a short-lived
  * signed URL rather than an access token, so the API key never reaches the
  * browser. The fetch lives in demo.ts — see connectRetell for the mirror.
@@ -35,8 +40,6 @@ export async function connectElevenLabs(
     },
     onModeChange: ({ mode }: { mode: string }) =>
       events.onStateChange(mode === "speaking" ? "speaking" : "listening"),
-    onMessage: ({ message, source }: { message: string; source: string }) =>
-      events.onTranscript?.({ speaker: source === "ai" ? "ai" : "caller", text: message }),
     onError: (message: unknown) => {
       events.onError?.(typeof message === "string" ? message : "Voice session error");
       events.onStateChange("error");
