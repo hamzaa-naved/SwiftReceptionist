@@ -6,7 +6,6 @@ import { Mic, PhoneOff } from "lucide-react";
 import { getNiche, niches } from "@/content/niches";
 import { getVoiceAdapter, type VoiceSessionState } from "@/lib/integrations/voice";
 import { DEMO_MAX_DURATION_SECONDS } from "@/lib/demo-limits";
-import type { ChatMessage } from "@/lib/demo-chat";
 import { track } from "@/lib/integrations/analytics";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -79,7 +78,6 @@ function VoicePanel({
   const adapter = getVoiceAdapter();
   const [state, setState] = useState<VoiceSessionState>("idle");
   const [error, setError] = useState("");
-  const [transcript, setTranscript] = useState<ChatMessage[]>([]);
 
   useEffect(() => {
     return () => adapter.stop();
@@ -108,7 +106,6 @@ function VoicePanel({
 
   const start = async () => {
     setError("");
-    setTranscript([]);
     track("demo_voice_started", { niche: nicheSlug });
     try {
       await adapter.start(
@@ -121,7 +118,6 @@ function VoicePanel({
             setState(s);
             if (s === "ended") track("demo_voice_ended", { niche: nicheSlug });
           },
-          onTranscript: (line) => setTranscript((t) => [...t, line]),
           onError: (message) => setError(message),
         },
       );
@@ -174,13 +170,6 @@ function VoicePanel({
           </>
         )}
       </div>
-      {transcript.length > 0 && (
-        <div className="max-h-64 space-y-2 overflow-y-auto border-t border-line p-5">
-          {transcript.map((line, i) => (
-            <Bubble key={i} message={line} />
-          ))}
-        </div>
-      )}
     </Card>
   );
 }
@@ -222,20 +211,4 @@ function Card({ children }: { children: React.ReactNode }) {
   );
 }
 
-function Bubble({ message }: { message: ChatMessage }) {
-  return (
-    <div className={cn("flex", message.speaker === "ai" ? "justify-start" : "justify-end")}>
-      <p
-        className={cn(
-          "max-w-[85%] rounded-[2px] px-4 py-2.5 text-sm leading-relaxed",
-          message.speaker === "ai"
-            ? "bg-cloud text-carbon-950"
-            : "bg-azure-600 text-white",
-        )}
-      >
-        {message.text}
-      </p>
-    </div>
-  );
-}
 
